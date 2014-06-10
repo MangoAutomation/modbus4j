@@ -1,0 +1,37 @@
+NOTE: March 4 2014 the Serotonin classes need to be updated to reflect new changes.
+
+Contributed by Richard Jayawant
+
+
+Changes to Modbus4J source to make it compilable under Java 1.4
+---------------------------------------------------------------
+
+Original sousrce code taken from modbus4j.cvs.sourceforge.net
+
+
+
+
+Annotations
+-----------
+
+	Removed all annotations outside of JavaDoc comments, mainly @Override and @SuppressWarnings
+
+
+Generics
+--------
+
+	Removed use of generics from all classes. Replaced generic return type <T> with java.lang.Object type.
+
+
+
+Autoboxing
+----------
+
+	Added cast expressions and new ObjType() wrapper expressions where neccesary to replace autoboxing behaviour not found in Java 1.4
+
+   
+
+Enhanced for-statement
+----------------------
+
+	Removed all instances of the enhanced for statement and replaced it with a conventional for statement and the use of an iterator object.

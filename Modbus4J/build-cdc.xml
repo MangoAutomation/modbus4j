@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<project name="Modbus4J CDC" basedir="." default="jar" xmlns:mvn="antlib:org.apache.maven.artifact.ant">
+	
+	<!-- This buildfile is broken due to maven and JSSC introduction, the source will need to be upgraded to use JSSC -->
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+	                    uri="antlib:org.apache.maven.artifact.ant"
+	                    classpath="lib-opt/maven-ant-tasks-2.1.3.jar" />
+	
+  <path id="master-classpath">
+    <fileset dir="lib">
+      <include name="RXTXcomm.jar"/>
+    </fileset>
+    <pathelement path="target"/>
+  </path>
+  
+  <target name="clean" description="Clean the target area">
+    <delete dir="target"/>
+  </target>
+  	
+  <target name="compile" description="Compile main source tree java files">
+    <mkdir dir="target"/>
+    <javac destdir="target" target="1.4" source="1.4" debug="true" debuglevel="lines,vars,source" 
+           nowarn="false" deprecation="true" optimize="false" failonerror="true">
+      <src path="src_cdc"/>
+      <classpath refid="master-classpath"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="clean,compile" description="Create a jar file of the compiled classes">
+    <delete file="modbus4J-cdc.jar"/>
+    <jar destfile="modbus4J-cdc.jar">
+      <fileset dir="target">
+        <include name="**/*.class"/>
+      </fileset>
+    </jar>
+  </target>
+  
+  <target name="src-zip" description="Create a jar file of the source">
+    <delete file="modbus4J-cdc-src.zip"/>
+    <zip destfile="modbus4J-cdc-src.zip">
+      <fileset dir="src">
+        <include name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_test">
+        <include name="**/*.java"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="doc-zip" description="Create a jar file of the javadocs">
+    <delete file="modbus4J-cdc-doc.zip"/>
+    <zip destfile="modbus4J-cdc-doc.zip">
+      <fileset dir="javadoc">
+        <include name="**/*"/>
+      </fileset>
+    </zip>
+  </target>
+</project>

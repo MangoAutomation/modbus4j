@@ -1,0 +1,13 @@
+*Release notes for version 2.0.2*
+* Build for Java 7
+* Upgraeded serotinin-utils to version 2.1.1
+* converted to use Maven for dependency management
+* CDC Broken due to JSSC Introduction and Maven, need code changes and build changes to fix
+
+*Release notes for version 2.0.1*
+* Upgraded serotonin-utils to version 2.0.1 to pickup changes in SerialPort proxy interface to improve robustness
+
+*Release notes for version 2.0.0*
+* Converted to jssc serial port library
+* Created new serotonin-utils serial port interface called SerialPortProxy to abstract Serial library and allow easier plug and play functionality to switch between serial libraries
+
