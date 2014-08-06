@@ -1,3 +1,7 @@
+*Release notes for version 2.0.3*
+* Added TcpListener to Modbus IP, thanks to Diego R. Ferreira
+* Added changes to allow rolling IO Logs
+
 *Release notes for version 2.0.2*
 * Build for Java 7
 * Upgraeded serotinin-utils to version 2.1.1

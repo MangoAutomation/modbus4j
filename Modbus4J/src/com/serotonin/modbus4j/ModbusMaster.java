@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.serotonin.epoll.InputStreamEPoll;
-import com.serotonin.log.IOLog;
+import com.serotonin.log.BaseIOLog;
 import com.serotonin.messaging.MessageControl;
 import com.serotonin.modbus4j.base.KeyedModbusLocator;
 import com.serotonin.modbus4j.base.ReadFunctionGroup;
@@ -68,7 +68,7 @@ abstract public class ModbusMaster extends Modbus {
     private boolean multipleWritesOnly;
 
     private int discardDataDelay = 0;
-    private IOLog ioLog;
+    private BaseIOLog ioLog;
 
     /**
      * An input stream ePoll will use a single thread to read all input streams. If multiple serial or TCP modbus
@@ -261,11 +261,11 @@ abstract public class ModbusMaster extends Modbus {
             this.discardDataDelay = discardDataDelay;
     }
 
-    public IOLog getIoLog() {
+    public BaseIOLog getIoLog() {
         return ioLog;
     }
 
-    public void setIoLog(IOLog ioLog) {
+    public void setIoLog(BaseIOLog ioLog) {
         this.ioLog = ioLog;
     }
 

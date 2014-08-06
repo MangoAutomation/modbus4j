@@ -13,90 +13,156 @@
 	<property name="fullName" value="${maven-pom.artifactId}-${maven-pom.version}" />
 
 
-	<path id="master-classpath">
-		<fileset refid="maven-deps" />
-	</path>
+    <path id="master-classpath">
+        <fileset refid="maven-deps" />
+        <fileset refid="maven-deps-runtime" />
+        <fileset dir="lib">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement path="target/java" />
+    </path>
 
-	<target name="clean" description="Clean the target area">
-		<delete dir="target" />
-	</target>
+    <target name="clean" description="Clean the target area">
+        <delete dir="target/java" />
+    </target>
 
-	<target name="compile" description="Compile main source tree java files">
-		<mkdir dir="target" />
-		<javac destdir="target" target="1.7" source="1.7" debug="true" debuglevel="lines,vars,source" nowarn="false" deprecation="true" optimize="false" failonerror="true">
-			<src path="src" />
-			<classpath refid="master-classpath" />
-			<compilerarg value="-Xlint" />
-		</javac>
-	</target>
+    <target name="compile" description="Compile main source tree java files">
+        <mkdir dir="target/java" />
 
-	<target name="jar" depends="clean,compile" description="Create a jar file of the compiled classes">
-		<delete file="release/${maven-pom.version}/${fullName}.jar" />
-		<delete file="target/MANIFEST.MF" />
-		<tstamp>
-			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
-		</tstamp>
+        <available property="lib.exists" file="lib" type="dir" />
+        <if>
+            <isset property="lib.exists" />
+            <then>
+            </then>
+            <else>
+                <mkdir dir="lib" />
+            </else>
+        </if>
 
-		<manifest file="target/MANIFEST.MF">
-			<attribute name="Built-By" value="Infinite Automation Software" />
-			<attribute name="Build-Date" value="${TODAY}" />
-			<attribute name="Version" value="${version}" />
-		</manifest>
+        <javac destdir="target/java"
+               target="1.7"
+               source="1.7"
+               debug="true"
+               debuglevel="lines,vars,source"
+               deprecation="false"
+               optimize="false"
+               failonerror="true"
+               includeantruntime="false">
+            <src path="src" />
+            <classpath refid="master-classpath" />
+        </javac>
+    </target>
 
-		<jar destfile="release/${maven-pom.version}/${fullName}.jar" manifest="target/MANIFEST.MF">
-			<fileset dir="target">
-				<include name="**/*.class" />
-				<exclude name="MANIFEST.MF" />
-			</fileset>
-		</jar>
-	</target>
+    <target name="jar"
+            depends="clean,compile"
+            description="Create a jar file of the compiled classes">
+        <delete file="target/release/${fullName}.jar" />
+        <delete file="target/java/MANIFEST.MF" />
+        <tstamp>
+            <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+        </tstamp>
 
-	<target name="src-zip" description="Create a jar file of the source">
-		<delete file="release/${maven-pom.version}/${fullName}-src.zip" />
-		<zip destfile="release/${maven-pom.version}/${fullName}-src.zip">
-			<fileset dir="src">
-				<include name="**/*.java" />
-			</fileset>
-			<fileset dir="src_test">
-				<include name="**/*.java" />
-			</fileset>
-		</zip>
-	</target>
+        <manifest file="target/java/MANIFEST.MF">
+            <attribute name="Built-By" value="${vendor}" />
+            <attribute name="Build-Date" value="${TODAY}" />
+            <attribute name="Version" value="${maven-pom.version}" />
+        </manifest>
 
-	<target name="doc-zip" description="Create a jar file of the javadocs">
-		<javadoc destdir="target/javadoc" author="true" version="true" use="true" windowtitle="Modbus4j">
-			<fileset dir="src" defaultexcludes="yes">
-			</fileset>
-			 <doctitle><![CDATA[<h1>Modbus4j</h1>]]></doctitle>
-			 <bottom><![CDATA[<i>Copyright &#169; 2014 Infinite Automation Systems. All Rights Reserved.</i>]]></bottom>
-	    </javadoc>
-		<delete file="release/${maven-pom.version}/${fullName}-doc.zip" />
-		<zip destfile="release/${maven-pom.version}/${fullName}-doc.zip">
-			<fileset dir="target/javadoc">
-				<include name="**/*" />
-			</fileset>
-		</zip>
-	</target>
+        <mkdir dir="target/java/lib" />
+        <mkdir dir="target/java/META-INF" />
 
-	<!-- override as necessary to install elsewhere 
-	    <property name="maven.local" value="~/maven-repo" /> 
-	    -->
+        <if>
+            <istrue value="${includeSource}" />
+            <then>
+                <copy todir="target/java/src" preservelastmodified="true">
+                    <fileset dir="src">
+                        <include name="**/*.*" />
+                    </fileset>
+                </copy>
+            </then>
+        </if>
 
-	<target name="maven-deploy" depends="jar" description="Install library to Maven repository located at ${maven.local} if defined and install in user's local Maven">
+        <available property="scripts.exists" file="scripts" type="dir" />
+        <if>
+            <isset property="scripts.exists" />
+            <then>
+                <copy todir="target/java/bin" preservelastmodified="true">
+                    <fileset dir="scripts">
+                        <include name="**/*" />
+                    </fileset>
+                </copy>
+            </then>
+        </if>
 
-		<if>
-			<isset property="maven.local" />
-			<then>
-				<mvn:deploy file="release/${maven-pom.version}/${fullName}.jar">
-					<remoterepository url="file://${maven.local}" />
-					<pom refid="maven-pom" />
-				</mvn:deploy>
-			</then>
-		</if>
+        <jar destfile="target/release/${fullName}.jar"
+             manifest="target/java/MANIFEST.MF">
+            <fileset dir="target/java">
+                <include name="**/*.class" />
+                <include name="**/*.java" />
+                <exclude name="MANIFEST.MF" />
+                <include name="META-INF/*.*" />
+            </fileset>
+        </jar>
+    </target>
 
-		<mvn:install file="release/${maven-pom.version}/${fullName}.jar">
-			<pom refid="maven-pom" />
-		</mvn:install>
-	</target>
+    <target name="docs" description="Generate Java Doc">
+        <mkdir dir="target/java/doc" />
+        <javadoc sourcepath="src"
+                 destdir="target/java/doc"
+                 classpathref="master-classpath" >
+            <doctitle><![CDATA[<h1>Modbus4j</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2014 Infinite Automation Systems. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+
+    <target name="jar-doc" depends="docs" description="Create a jar file of the javadocs">
+        <delete file="target/release/${fullName}-doc.jar" />
+        <jar destfile="target/release/${fullName}-doc.jar">
+            <fileset dir="target/java/doc">
+                <include name="**/*" />
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="jar-src" description="Create a jar file of the sources">
+        <delete file="target/release/${fullName}-src.jar" />
+        <jar destfile="target/release/${fullName}-src.jar">
+            <fileset dir="src">
+                <include name="**/*.java" />
+            </fileset>
+        </jar>
+    </target>
+
+
+    <target name="maven-deploy"
+            depends="jar,jar-src,jar-doc"
+            description="Install library to Maven repository located at ${maven.local}">
+
+        <if>
+            <isset property="maven.local" />
+            <then>
+                <mvn:deploy file="target/release/${fullName}.jar">
+                    <remoterepository url="file://${maven.local}" />
+                    <pom refid="maven-pom" />
+                    <attach file="target/release/${fullName}-src.jar"
+                            type="jar"
+                            classifier="sources" />
+                    <attach file="target/release/${fullName}-doc.jar"
+                            type="jar"
+                            classifier="javadoc" />
+                </mvn:deploy>
+            </then>
+        </if>
+
+        <mvn:install file="target/release/${fullName}.jar">
+            <pom refid="maven-pom" />
+            <attach file="target/release/${fullName}-src.jar"
+                                        type="jar"
+                                        classifier="sources" />
+            <attach file="target/release/${fullName}-doc.jar"
+                    type="jar"
+                    classifier="javadoc" />
+        </mvn:install>
+    </target>
 
 </project>
