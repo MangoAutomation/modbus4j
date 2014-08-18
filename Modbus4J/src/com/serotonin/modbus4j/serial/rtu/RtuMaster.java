@@ -22,7 +22,9 @@ package com.serotonin.modbus4j.serial.rtu;
 
 import java.io.IOException;
 
+import com.serotonin.ShouldNeverHappenException;
 import com.serotonin.io.serial.SerialParameters;
+import com.serotonin.io.serial.SerialPortProxy;
 import com.serotonin.messaging.MessageControl;
 import com.serotonin.messaging.StreamTransport;
 import com.serotonin.modbus4j.exception.ModbusInitException;
@@ -33,11 +35,50 @@ import com.serotonin.modbus4j.serial.SerialMaster;
 import com.serotonin.modbus4j.serial.SerialWaitingRoomKeyFactory;
 
 public class RtuMaster extends SerialMaster {
+	
+	
+	
     // Runtime fields.
     private MessageControl conn;
+    private long lastSendTime; //Last time sent (Nano-time, not wall clock time)
+    private long messageFrameSpacing; //Time in ns
 
     public RtuMaster(SerialParameters params) {
         super(params);
+        
+        //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
+        if(params.getBaudRate() > 19200){
+        	this.messageFrameSpacing = 1750000; //Nanoseconds
+        	this.characterSpacing = 750000; //Nanoseconds
+        }else{
+        
+	        //Compute the char size
+	        float charBits = params.getDataBits();
+	        switch(params.getStopBits()){
+	        case 1:
+	        	//Strangely this results in 0 stop bits.. in JSSC code
+	        	break;
+	        case 2:
+	        	charBits += 2f;
+	        	break;
+	        case 3:
+	        	//1.5 stop bits
+	        	charBits += 1.5f;
+	        	break;
+	        default:
+	        	throw new ShouldNeverHappenException("Unknown stop bit size: " + params.getStopBits());
+	        }
+	        
+	        if(params.getParity() > 0)
+	        	charBits += 1; //Add another if using parity
+        
+	        //Compute ns it takes to send one char
+	        // ((charSize/symbols per second) ) * ns per second
+	        float charTime = (charBits / (float)params.getBaudRate()) * 1000000000f;
+	        this.messageFrameSpacing = (long)(charTime * 3.5f);
+	        this.characterSpacing = (long)(charTime * 1.5f);
+        }
+        
     }
 
     @Override
@@ -71,6 +112,11 @@ public class RtuMaster extends SerialMaster {
         // Send the request to get the response.
         RtuMessageResponse rtuResponse;
         try {
+        	//Wait 3.5 char lengths
+        	long waited = System.nanoTime() - this.lastSendTime;
+        	if(waited < this.messageFrameSpacing){
+        			Thread.sleep(this.messageFrameSpacing / 1000000, (int)(this.messageFrameSpacing % 1000000));
+        	}
             rtuResponse = (RtuMessageResponse) conn.send(rtuRequest);
             if (rtuResponse == null)
                 return null;
@@ -78,6 +124,9 @@ public class RtuMaster extends SerialMaster {
         }
         catch (Exception e) {
             throw new ModbusTransportException(e, request.getSlaveId());
+        }finally{
+        	//Update our last send time
+        	this.lastSendTime = System.nanoTime();
         }
     }
 }

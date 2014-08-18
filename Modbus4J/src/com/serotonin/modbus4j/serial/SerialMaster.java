@@ -25,7 +25,9 @@ import com.serotonin.io.serial.SerialPortException;
 import com.serotonin.io.serial.SerialPortProxy;
 import com.serotonin.io.serial.SerialUtils;
 import com.serotonin.messaging.EpollStreamTransport;
+import com.serotonin.messaging.EpollStreamTransportCharSpaced;
 import com.serotonin.messaging.StreamTransport;
+import com.serotonin.messaging.StreamTransportCharSpaced;
 import com.serotonin.messaging.Transport;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
@@ -43,11 +45,14 @@ abstract public class SerialMaster extends ModbusMaster {
     //
     // Configuration fields.
     private final SerialParameters serialParameters;
-
+    protected long characterSpacing; //Time in ns
+    
     // Runtime fields.
     protected SerialPortProxy serialPort;
     protected Transport transport;
 
+    
+    
     public SerialMaster(SerialParameters params) {
         serialParameters = params;
     }
@@ -56,12 +61,13 @@ abstract public class SerialMaster extends ModbusMaster {
     public void init() throws ModbusInitException {
         try {
             serialPort = SerialUtils.openSerialPort(serialParameters);
-                        
+            
+            
             if (getePoll() != null)
-                transport = new EpollStreamTransport(serialPort.getInputStream(), serialPort.getOutputStream(),
-                        getePoll());
+                transport = new EpollStreamTransportCharSpaced(serialPort.getInputStream(), serialPort.getOutputStream(),
+                        getePoll(), this.characterSpacing);
             else
-                transport = new StreamTransport(serialPort.getInputStream(), serialPort.getOutputStream());
+                transport = new StreamTransportCharSpaced(serialPort.getInputStream(), serialPort.getOutputStream(), this.characterSpacing);
         }
         catch (Exception e) {
             throw new ModbusInitException(e);
@@ -72,7 +78,6 @@ abstract public class SerialMaster extends ModbusMaster {
         try {
 			SerialUtils.close(serialPort);
 		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

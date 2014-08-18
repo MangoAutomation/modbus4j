@@ -1,3 +1,6 @@
+*Release notes for version 2.0.4*
+* Added message frame spacing and character spacing for serial RTU Messaging, found to improve reliability
+
 *Release notes for version 2.0.3*
 * Added TcpListener to Modbus IP, thanks to Diego R. Ferreira
 * Added changes to allow rolling IO Logs

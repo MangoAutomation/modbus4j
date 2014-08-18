@@ -286,7 +286,7 @@ abstract public class ModbusMaster extends Modbus {
 
         BatchResults<K> results = new BatchResults<K>();
         List<ReadFunctionGroup<K>> functionGroups = batch.getReadFunctionGroups(this);
-
+        
         // Execute each read function and process the results.
         for (ReadFunctionGroup<K> functionGroup : functionGroups)
             sendFunctionGroup(functionGroup, results, batch.isErrorsInResults(), batch.isExceptionsInResults());
