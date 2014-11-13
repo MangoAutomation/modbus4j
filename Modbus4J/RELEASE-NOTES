@@ -1,3 +1,9 @@
+*Release notes for version 2.0.6*
+* Adding several more changes from Diego R. Ferreira to expose the TcpListener via the Modbus Factory
+* Adding some logging to the SerialMaster
+* Adding an additiona data type: FOUR_BYTE_FLOAT_SWAPPED_INVERTED
+* Adding additional Debug level logging to TcpMaster
+
 *Release notes for version 2.0.5*
 * Found bug when trying to read register 65535, validation of end offset was failing.
 

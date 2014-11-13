@@ -37,6 +37,7 @@ public class DataType {
     public static final int FOUR_BYTE_INT_SIGNED_SWAPPED = 7;
     public static final int FOUR_BYTE_FLOAT = 8;
     public static final int FOUR_BYTE_FLOAT_SWAPPED = 9;
+    public static final int FOUR_BYTE_FLOAT_SWAPPED_INVERTED = 21;
 
     public static final int EIGHT_BYTE_INT_UNSIGNED = 10;
     public static final int EIGHT_BYTE_INT_SIGNED = 11;
@@ -65,6 +66,7 @@ public class DataType {
         case FOUR_BYTE_INT_SIGNED_SWAPPED:
         case FOUR_BYTE_FLOAT:
         case FOUR_BYTE_FLOAT_SWAPPED:
+        case FOUR_BYTE_FLOAT_SWAPPED_INVERTED:
         case FOUR_BYTE_BCD:
         case FOUR_BYTE_BCD_SWAPPED:
             return 2;
@@ -98,6 +100,8 @@ public class DataType {
         case FOUR_BYTE_FLOAT:
             return Float.class;
         case FOUR_BYTE_FLOAT_SWAPPED:
+            return Float.class;
+        case FOUR_BYTE_FLOAT_SWAPPED_INVERTED:
             return Float.class;
         case EIGHT_BYTE_INT_UNSIGNED:
             return BigInteger.class;

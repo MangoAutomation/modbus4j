@@ -67,10 +67,8 @@ public class TcpListener extends ModbusMaster {
     private Socket socket;
     private ExecutorService executorService; 
     private ListenerConnectionHandler handler;
+
     
-    //Added by Terry Packer July 16, 2014 as this is not available in superclass
-    private boolean connected;
- 
     public TcpListener(IpParameters params) {
 		LOG.debug("Creating TcpListener in port " + params.getPort());
         ipParameters = params;

@@ -62,6 +62,19 @@ abstract public class ModbusMaster extends Modbus {
     private int retries = 2;
 
     /**
+     * If connection is established with slave/slaves
+     */
+    protected boolean connected = false;
+
+    public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
+	/**
      * If the slave equipment only supports multiple write commands, set this to true. Otherwise, and combination of
      * single or multiple write commands will be used as appropriate.
      */

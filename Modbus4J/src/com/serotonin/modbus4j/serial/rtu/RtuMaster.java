@@ -24,7 +24,6 @@ import java.io.IOException;
 
 import com.serotonin.ShouldNeverHappenException;
 import com.serotonin.io.serial.SerialParameters;
-import com.serotonin.io.serial.SerialPortProxy;
 import com.serotonin.messaging.MessageControl;
 import com.serotonin.messaging.StreamTransport;
 import com.serotonin.modbus4j.exception.ModbusInitException;

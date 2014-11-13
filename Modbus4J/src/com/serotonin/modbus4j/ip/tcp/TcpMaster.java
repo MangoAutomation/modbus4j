@@ -23,6 +23,10 @@ package com.serotonin.modbus4j.ip.tcp;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.serotonin.messaging.EpollStreamTransport;
 import com.serotonin.messaging.MessageControl;
@@ -50,6 +54,7 @@ public class TcpMaster extends ModbusMaster {
     private static final int RETRY_PAUSE_MAX = 1000;
 
     // Configuration fields.
+	private final Log LOG = LogFactory.getLog(TcpMaster.class);
     private short nextTransactionId = 0;
     private final IpParameters ipParameters;
     private final boolean keepAlive;
@@ -91,6 +96,13 @@ public class TcpMaster extends ModbusMaster {
             // Check if we need to open the connection.
             if (!keepAlive)
                 openConnection();
+
+            if(conn == null){
+            	LOG.debug("Connection null: " +  ipParameters.getPort());
+            	//throw new IOException("Connection not opened!");
+            	return null;
+        	}
+            
         }
         catch (Exception e) {
             closeConnection();
@@ -104,26 +116,58 @@ public class TcpMaster extends ModbusMaster {
         else
             ipRequest = new XaMessageRequest(request, getNextTransactionId());
 
-        // Send the request to get the response.
+        if(LOG.isDebugEnabled()){
+	    	StringBuilder sb = new StringBuilder();
+	        for (byte b : Arrays.copyOfRange(ipRequest.getMessageData(),0,ipRequest.getMessageData().length)) {
+	            sb.append(String.format("%02X ", b));
+	        }
+			LOG.debug("Encap Request: " + sb.toString());
+        }
+
+		// Send the request to get the response.
         IpMessageResponse ipResponse;
+    	LOG.debug("Sending on port: " +  ipParameters.getPort());
         try {
+        	if(conn == null){
+            	LOG.debug("Connection null: " +  ipParameters.getPort());
+            	//throw new IOException("Connection not opened!");
+            	return null;
+        	}
             ipResponse = (IpMessageResponse) conn.send(ipRequest);
             if (ipResponse == null)
                 return null;
+            
+            if(LOG.isDebugEnabled()){
+    	    	StringBuilder sb = new StringBuilder();
+	            for (byte b : Arrays.copyOfRange(ipResponse.getMessageData(),0,ipResponse.getMessageData().length)) {
+	                sb.append(String.format("%02X ", b));
+	            }
+				LOG.debug("Response: " + sb.toString());
+            }
             return ipResponse.getModbusResponse();
         }
         catch (Exception e) {
+			LOG.debug("Exception: " + e.getMessage() + " " + e.getLocalizedMessage());
             if (keepAlive) {
+    			LOG.debug("KeepAlive - reconnect!");
                 // The connection may have been reset, so try to reopen it and attempt the message again.
                 try {
-                    // System.out.println("Modbus4J: Keep-alive connection may have been reset. Attempting to re-open.");
+                	LOG.debug("Modbus4J: Keep-alive connection may have been reset. Attempting to re-open.");
                     openConnection();
                     ipResponse = (IpMessageResponse) conn.send(ipRequest);
                     if (ipResponse == null)
                         return null;
+                    if(LOG.isDebugEnabled()){
+            	    	StringBuilder sb = new StringBuilder();
+	                    for (byte b : Arrays.copyOfRange(ipResponse.getMessageData(),0,ipResponse.getMessageData().length)) {
+	                        sb.append(String.format("%02X ", b));
+	                    }
+	        			LOG.debug("Response: " + sb.toString());
+                    }
                     return ipResponse.getModbusResponse();
                 }
                 catch (Exception e2) {
+        			LOG.debug("Exception: " + e2.getMessage() + " " + e2.getLocalizedMessage());
                     throw new ModbusTransportException(e2, request.getSlaveId());
                 }
             }

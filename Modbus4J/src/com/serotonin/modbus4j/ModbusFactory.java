@@ -26,6 +26,7 @@ import com.serotonin.modbus4j.code.RegisterRange;
 import com.serotonin.modbus4j.exception.ModbusIdException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.ip.IpParameters;
+import com.serotonin.modbus4j.ip.listener.TcpListener;
 import com.serotonin.modbus4j.ip.tcp.TcpMaster;
 import com.serotonin.modbus4j.ip.tcp.TcpSlave;
 import com.serotonin.modbus4j.ip.udp.UdpMaster;
@@ -58,6 +59,10 @@ public class ModbusFactory {
 
     public ModbusMaster createUdpMaster(IpParameters params) {
         return new UdpMaster(params);
+    }
+
+    public ModbusMaster createTcpListener(IpParameters params) {
+        return new TcpListener(params);
     }
 
     //
