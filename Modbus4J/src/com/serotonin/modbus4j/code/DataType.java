@@ -30,11 +30,17 @@ public class DataType {
 
     public static final int TWO_BYTE_INT_UNSIGNED = 2;
     public static final int TWO_BYTE_INT_SIGNED = 3;
+    public static final int TWO_BYTE_INT_UNSIGNED_SWAPPED = 22;
+    public static final int TWO_BYTE_INT_SIGNED_SWAPPED = 23;
 
     public static final int FOUR_BYTE_INT_UNSIGNED = 4;
     public static final int FOUR_BYTE_INT_SIGNED = 5;
     public static final int FOUR_BYTE_INT_UNSIGNED_SWAPPED = 6;
     public static final int FOUR_BYTE_INT_SIGNED_SWAPPED = 7;
+    /* 0xAABBCCDD is transmitted as 0xDDCCBBAA */
+    public static final int FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED = 24;
+    public static final int FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED = 25;
+    
     public static final int FOUR_BYTE_FLOAT = 8;
     public static final int FOUR_BYTE_FLOAT_SWAPPED = 9;
     public static final int FOUR_BYTE_FLOAT_SWAPPED_INVERTED = 21;
@@ -58,12 +64,16 @@ public class DataType {
         case BINARY:
         case TWO_BYTE_INT_UNSIGNED:
         case TWO_BYTE_INT_SIGNED:
+        case TWO_BYTE_INT_UNSIGNED_SWAPPED:
+        case TWO_BYTE_INT_SIGNED_SWAPPED:
         case TWO_BYTE_BCD:
             return 1;
         case FOUR_BYTE_INT_UNSIGNED:
         case FOUR_BYTE_INT_SIGNED:
         case FOUR_BYTE_INT_UNSIGNED_SWAPPED:
         case FOUR_BYTE_INT_SIGNED_SWAPPED:
+        case FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED:
+        case FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED:
         case FOUR_BYTE_FLOAT:
         case FOUR_BYTE_FLOAT_SWAPPED:
         case FOUR_BYTE_FLOAT_SWAPPED_INVERTED:
@@ -86,16 +96,20 @@ public class DataType {
         case BINARY:
             return Boolean.class;
         case TWO_BYTE_INT_UNSIGNED:
+        case TWO_BYTE_INT_UNSIGNED_SWAPPED:
             return Integer.class;
         case TWO_BYTE_INT_SIGNED:
+        case TWO_BYTE_INT_SIGNED_SWAPPED:
             return Short.class;
         case FOUR_BYTE_INT_UNSIGNED:
             return Long.class;
         case FOUR_BYTE_INT_SIGNED:
             return Integer.class;
         case FOUR_BYTE_INT_UNSIGNED_SWAPPED:
-            return Long.class;
+        case FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED:
+        	return Long.class;
         case FOUR_BYTE_INT_SIGNED_SWAPPED:
+        case FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED:
             return Integer.class;
         case FOUR_BYTE_FLOAT:
             return Float.class;

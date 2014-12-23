@@ -1,3 +1,9 @@
+*Release notes for version 2.0.8*
+*  Adding new data type: TWO_BYTE_INT_UNSIGNED_SWAPPED with swapped bytes
+*  Adding new data type: TWO_BYTE_INT_SIGNED_SWAPPED with swapped bytes
+*  Adding new data type: FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED with swapped bytes and words
+*  Adding new data type: FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED with swapped bytes and words;
+
 *Release notes for version 2.0.7*
 * Upgrading to Serotonin Utils 2.1.7
 

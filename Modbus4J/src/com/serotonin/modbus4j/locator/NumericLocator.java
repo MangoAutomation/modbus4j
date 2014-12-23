@@ -12,12 +12,16 @@ import com.serotonin.modbus4j.exception.IllegalDataTypeException;
 
 public class NumericLocator extends BaseLocator<Number> {
     private static final int[] DATA_TYPES = { //
-    DataType.TWO_BYTE_INT_UNSIGNED, //
+    		DataType.TWO_BYTE_INT_UNSIGNED, //
             DataType.TWO_BYTE_INT_SIGNED, //
+    		DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED, //
+            DataType.TWO_BYTE_INT_SIGNED_SWAPPED, //
             DataType.FOUR_BYTE_INT_UNSIGNED, //
             DataType.FOUR_BYTE_INT_SIGNED, //
             DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED, //
             DataType.FOUR_BYTE_INT_SIGNED_SWAPPED, //
+            DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED, //
+            DataType.FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED, //
             DataType.FOUR_BYTE_FLOAT, //
             DataType.FOUR_BYTE_FLOAT_SWAPPED, //
             DataType.EIGHT_BYTE_INT_UNSIGNED, //
@@ -74,12 +78,16 @@ public class NumericLocator extends BaseLocator<Number> {
         switch (dataType) {
         case DataType.TWO_BYTE_INT_UNSIGNED:
         case DataType.TWO_BYTE_INT_SIGNED:
+        case DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED:
+        case DataType.TWO_BYTE_INT_SIGNED_SWAPPED:
         case DataType.TWO_BYTE_BCD:
             return 1;
         case DataType.FOUR_BYTE_INT_UNSIGNED:
         case DataType.FOUR_BYTE_INT_SIGNED:
         case DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED:
         case DataType.FOUR_BYTE_INT_SIGNED_SWAPPED:
+        case DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED:
+        case DataType.FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED:
         case DataType.FOUR_BYTE_FLOAT:
         case DataType.FOUR_BYTE_FLOAT_SWAPPED:
         case DataType.FOUR_BYTE_BCD:
@@ -108,6 +116,12 @@ public class NumericLocator extends BaseLocator<Number> {
         if (dataType == DataType.TWO_BYTE_INT_SIGNED)
             return new Short((short) (((data[offset] & 0xff) << 8) | (data[offset + 1] & 0xff)));
 
+        if (dataType == DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED)
+            return new Integer(((data[offset + 1] & 0xff) << 8) | (data[offset] & 0xff));
+
+        if (dataType == DataType.TWO_BYTE_INT_SIGNED_SWAPPED)
+        	return new Short((short) (((data[offset + 1] & 0xff) << 8) | (data[offset] & 0xff)));
+        
         if (dataType == DataType.TWO_BYTE_BCD) {
             StringBuilder sb = new StringBuilder();
             appendBCD(sb, data[offset]);
@@ -131,7 +145,18 @@ public class NumericLocator extends BaseLocator<Number> {
         if (dataType == DataType.FOUR_BYTE_INT_SIGNED_SWAPPED)
             return new Integer(((data[offset + 2] & 0xff) << 24) | ((data[offset + 3] & 0xff) << 16)
                     | ((data[offset] & 0xff) << 8) | (data[offset + 1] & 0xff));
+        
+        
+        if (dataType == DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED)
+        	return new Long( ((long) ((data[offset + 3] & 0xff)) << 24) | (((data[offset + 2] & 0xff) << 16))
+                | ((long) ((data[offset + 1] & 0xff)) << 8) | ((long) ((data[offset] & 0xff))));
+        
+        if (dataType == DataType.FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED)
+            return new Integer( ((data[offset + 3] & 0xff) << 24) | ((data[offset + 2] & 0xff) << 16)
+                    | ((data[offset + 1] & 0xff) << 8) | ((data[offset] & 0xff)));
+        
 
+        
         if (dataType == DataType.FOUR_BYTE_FLOAT)
             return Float.intBitsToFloat(((data[offset] & 0xff) << 24) | ((data[offset + 1] & 0xff) << 16)
                     | ((data[offset + 2] & 0xff) << 8) | (data[offset + 3] & 0xff));
@@ -226,9 +251,16 @@ public class NumericLocator extends BaseLocator<Number> {
     @Override
     public short[] valueToShorts(Number value) {
         // 2 bytes
-        if (dataType == DataType.TWO_BYTE_INT_UNSIGNED || dataType == DataType.TWO_BYTE_INT_SIGNED)
+        if (dataType == DataType.TWO_BYTE_INT_UNSIGNED || dataType == DataType.TWO_BYTE_INT_SIGNED )
             return new short[] { toShort(value) };
 
+        if (dataType == DataType.TWO_BYTE_INT_SIGNED_SWAPPED || dataType == DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED ){
+        	short sval = toShort(value);
+        	//0x1100
+        	return new short[] { (short) (((sval&0xFF00)>>8) | ((sval&0x00FF)<<8)) };
+        }
+
+        
         if (dataType == DataType.TWO_BYTE_BCD) {
             short s = toShort(value);
             return new short[] { (short) ((((s / 1000) % 10) << 12) | (((s / 100) % 10) << 8) | (((s / 10) % 10) << 4) | (s % 10)) };
@@ -245,6 +277,15 @@ public class NumericLocator extends BaseLocator<Number> {
             return new short[] { (short) i, (short) (i >> 16) };
         }
 
+        if (dataType == DataType.FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED || dataType == DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED) {
+            int i = toInt(value);
+            short topWord = (short) (((i&0xFF) << 8) | ((i>>8) & 0xFF));
+            short bottomWord = (short) (((i >> 24)&0x000000FF) | ((i>>8) & 0x0000FF00));
+            return new short[] { topWord, bottomWord};
+        }
+        
+        
+        
         if (dataType == DataType.FOUR_BYTE_FLOAT) {
             int i = Float.floatToIntBits(value.floatValue());
             return new short[] { (short) (i >> 16), (short) i };
