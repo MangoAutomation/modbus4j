@@ -1,3 +1,7 @@
+*Release notes for version 2.0.9*
+* Fixed bug in TCPMaster when no connection existed a NPE would be thrown on sending a request
+* Fixed bugs in TCPMaster that would cause the Keep alive function to not work properly 
+
 *Release notes for version 2.0.8*
 *  Adding new data type: TWO_BYTE_INT_UNSIGNED_SWAPPED with swapped bytes
 *  Adding new data type: TWO_BYTE_INT_SIGNED_SWAPPED with swapped bytes

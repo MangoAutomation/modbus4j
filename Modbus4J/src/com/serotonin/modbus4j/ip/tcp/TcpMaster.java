@@ -99,8 +99,6 @@ public class TcpMaster extends ModbusMaster {
 
             if(conn == null){
             	LOG.debug("Connection null: " +  ipParameters.getPort());
-            	//throw new IOException("Connection not opened!");
-            	return null;
         	}
             
         }
@@ -130,8 +128,6 @@ public class TcpMaster extends ModbusMaster {
         try {
         	if(conn == null){
             	LOG.debug("Connection null: " +  ipParameters.getPort());
-            	//throw new IOException("Connection not opened!");
-            	return null;
         	}
             ipResponse = (IpMessageResponse) conn.send(ipRequest);
             if (ipResponse == null)

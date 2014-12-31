@@ -29,6 +29,13 @@ import com.serotonin.modbus4j.ip.tcp.TcpSlave;
 public class Test4 {
     static Random random = new Random();
     static float ir1Value = -100;
+    
+    //TEST VALUES
+    private static Integer twoByteIntUnsignedSwapped = new Integer(29187); //Register 16
+    private static Integer twoByteIntSignedSwapped = new Integer(-257); //Register 17
+    private static Long fourByteIntUnsignedSwappedSwapped = new Long(16777216); //Register 18
+    private static Long fourByteIntSignedSwappedSwapped = new Long(-16777217); //Register 20
+    private static Long register22 = new Long(2369850368L); ////Register 22
 
     public static void main(String[] args) throws Exception {
         // SerialParameters params = new SerialParameters();
@@ -81,28 +88,28 @@ public class Test4 {
     static void updateProcessImage(BasicProcessImage processImage) throws IllegalDataAddressException {
 
         int hr16Value = processImage.getNumeric(RegisterRange.HOLDING_REGISTER, 16, DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED).intValue();
-        if(hr16Value != 256){
-        	throw new RuntimeException("Test failed on TWO_BYTE_INT_UNSIGNED_SWAPPED. Expected 256 but was: " + hr16Value);
+        if(hr16Value != twoByteIntUnsignedSwapped){
+        	throw new RuntimeException("Test failed on TWO_BYTE_INT_UNSIGNED_SWAPPED. Expected " + twoByteIntUnsignedSwapped + " but was: " + hr16Value);
         }
         
         short hr17Value = processImage.getNumeric(RegisterRange.HOLDING_REGISTER, 17, DataType.TWO_BYTE_INT_SIGNED_SWAPPED).shortValue();
-        if(hr17Value != -257){
-        	throw new RuntimeException("Test failed on TWO_BYTE_INT_SIGNED_SWAPPED. Expected -257 but was: " + hr17Value);
+        if(hr17Value != twoByteIntSignedSwapped){
+        	throw new RuntimeException("Test failed on TWO_BYTE_INT_SIGNED_SWAPPED. Expected " + twoByteIntSignedSwapped + " but was: " + hr17Value);
         }
         
         long hr18Value = processImage.getNumeric(RegisterRange.HOLDING_REGISTER, 18, DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED).longValue();
-        if(hr18Value != 16777216){
-        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_UNSIGNED_SWAPPED_INVERTED. Expected 16777216 but was: " + hr18Value);
+        if(hr18Value != fourByteIntUnsignedSwappedSwapped){
+        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_UNSIGNED_SWAPPED_INVERTED. Expected " + fourByteIntUnsignedSwappedSwapped + "  but was: " + hr18Value);
         }
         
         int hr20Value = processImage.getNumeric(RegisterRange.HOLDING_REGISTER, 20, DataType.FOUR_BYTE_INT_SIGNED_SWAPPED_SWAPPED).intValue();
-        if(hr20Value != -16777217){
-        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_SIGNED_SWAPPED_INVERTED. Expected -16777217 but was: " + hr20Value);
+        if(hr20Value != fourByteIntSignedSwappedSwapped){
+        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_SIGNED_SWAPPED_INVERTED. Expected  " +  fourByteIntSignedSwappedSwapped + "  but was: " + hr20Value);
         }
 
         long hr22Value = processImage.getNumeric(RegisterRange.HOLDING_REGISTER, 22, DataType.FOUR_BYTE_INT_UNSIGNED_SWAPPED_SWAPPED).longValue();
-        if(hr22Value != 2369850368L){
-        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_UNSIGNED_SWAPPED_INVERTED. Expected 2369850368 but was: " + hr22Value);
+        if(hr22Value != register22){
+        	throw new RuntimeException("Test failed on FOUR_BYTE_INT_UNSIGNED_SWAPPED_INVERTED. Expected " + register22 + " but was: " + hr22Value);
         }
         
     }
@@ -132,8 +139,8 @@ public class Test4 {
         processImage.setInvalidAddressValue(Short.MIN_VALUE);
         
         //Register 16 Holds 1 and the data is transmitted as 0b00000001 00000000 which is 256
-        processImage.setNumeric(RegisterRange.HOLDING_REGISTER, 16, DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED, new Integer(256));
-        
+        //processImage.setNumeric(RegisterRange.HOLDING_REGISTER, 16, DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED, new Integer(256));
+        processImage.setNumeric(RegisterRange.HOLDING_REGISTER, 16, DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED, new Integer(29187));
         //Registery 16 Holds -2 and the data is transmitted as 0b1111110 11111111 which is -257
         processImage.setNumeric(RegisterRange.HOLDING_REGISTER, 17, DataType.TWO_BYTE_INT_SIGNED_SWAPPED, new Integer(-257));
 
