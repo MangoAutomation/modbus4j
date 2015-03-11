@@ -1,3 +1,6 @@
+*Release notes for version 2.1.0*
+* Added cancel value to BatchRead. Incremented minor number since this is an API change, albeit a backward-compatible one.
+
 *Release notes for version 2.0.9*
 * Fixed bug in TCPMaster when no connection existed a NPE would be thrown on sending a request
 * Fixed bugs in TCPMaster that would cause the Keep alive function to not work properly 

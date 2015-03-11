@@ -50,7 +50,7 @@ import com.serotonin.modbus4j.locator.BaseLocator;
  * @param <K>
  */
 public class BatchRead<K> {
-    private final List<KeyedModbusLocator<K>> requestValues = new ArrayList<KeyedModbusLocator<K>>();
+    private final List<KeyedModbusLocator<K>> requestValues = new ArrayList<>();
 
     /**
      * See documentation above.
@@ -70,6 +70,12 @@ public class BatchRead<K> {
      * exceptions thrown.
      */
     private boolean exceptionsInResults = false;
+
+    /**
+     * A batch may be split into an arbitrary number of individual Modbus requests, and so a given batch may take
+     * an arbitrary amount of time to complete. The cancel field is provided to allow the batch to be cancelled.
+     */
+    private boolean cancel;
 
     /**
      * This is what the data looks like after partitioning.
@@ -108,7 +114,7 @@ public class BatchRead<K> {
     }
 
     public void addLocator(K id, BaseLocator<?> locator) {
-        addLocator(new KeyedModbusLocator<K>(id, locator));
+        addLocator(new KeyedModbusLocator<>(id, locator));
     }
 
     private void addLocator(KeyedModbusLocator<K> locator) {
@@ -116,13 +122,20 @@ public class BatchRead<K> {
         functionGroups = null;
     }
 
+    public boolean isCancel() {
+        return cancel;
+    }
+
+    public void setCancel(boolean cancel) {
+        this.cancel = cancel;
+    }
+
     //
-    // /
-    // / Private stuff
-    // /
+    //
+    // Private stuff
     //
     private void doPartition(ModbusMaster master) {
-        Map<SlaveAndRange, List<KeyedModbusLocator<K>>> slaveRangeBatch = new HashMap<SlaveAndRange, List<KeyedModbusLocator<K>>>();
+        Map<SlaveAndRange, List<KeyedModbusLocator<K>>> slaveRangeBatch = new HashMap<>();
 
         // Separate the batch into slave ids and read functions.
         List<KeyedModbusLocator<K>> functionList;
@@ -130,7 +143,7 @@ public class BatchRead<K> {
             // Find the function list for this slave and range. Create it if necessary.
             functionList = slaveRangeBatch.get(locator.getSlaveAndRange());
             if (functionList == null) {
-                functionList = new ArrayList<KeyedModbusLocator<K>>();
+                functionList = new ArrayList<>();
                 slaveRangeBatch.put(locator.getSlaveAndRange(), functionList);
             }
 
@@ -142,7 +155,7 @@ public class BatchRead<K> {
         // parts as necessary.
         Collection<List<KeyedModbusLocator<K>>> functionLocatorLists = slaveRangeBatch.values();
         FunctionLocatorComparator comparator = new FunctionLocatorComparator();
-        functionGroups = new ArrayList<ReadFunctionGroup<K>>();
+        functionGroups = new ArrayList<>();
         for (List<KeyedModbusLocator<K>> functionLocatorList : functionLocatorLists) {
             // Sort the list by offset.
             Collections.sort(functionLocatorList, comparator);
@@ -172,7 +185,7 @@ public class BatchRead<K> {
         int endOffset;
         // Loop for creation of groups.
         while (locators.size() > 0) {
-            functionGroup = new ReadFunctionGroup<K>(locators.remove(0));
+            functionGroup = new ReadFunctionGroup<>(locators.remove(0));
             functionGroups.add(functionGroup);
             endOffset = functionGroup.getStartOffset() + maxCount - 1;
 
@@ -210,6 +223,7 @@ public class BatchRead<K> {
     }
 
     class FunctionLocatorComparator implements Comparator<KeyedModbusLocator<K>> {
+        @Override
         public int compare(KeyedModbusLocator<K> ml1, KeyedModbusLocator<K> ml2) {
             return ml1.getOffset() - ml2.getOffset();
         }

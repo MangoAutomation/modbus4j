@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 
 abstract public class ModbusSlaveSet extends Modbus {
-    protected LinkedHashMap<Integer, ProcessImage> processImages = new LinkedHashMap<Integer, ProcessImage>();
+    protected LinkedHashMap<Integer, ProcessImage> processImages = new LinkedHashMap<>();
 
     public void addProcessImage(ProcessImage processImage) {
         processImages.put(processImage.getSlaveId(), processImage);

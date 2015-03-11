@@ -40,11 +40,11 @@ public class BasicProcessImage implements ProcessImage {
     private boolean allowInvalidAddress = false;
     private short invalidAddressValue = 0;
 
-    private final Map<Integer, Boolean> coils = new HashMap<Integer, Boolean>();
-    private final Map<Integer, Boolean> inputs = new HashMap<Integer, Boolean>();
-    private final Map<Integer, Short> holdingRegisters = new HashMap<Integer, Short>();
-    private final Map<Integer, Short> inputRegisters = new HashMap<Integer, Short>();
-    private final List<ProcessImageListener> writeListeners = new ArrayList<ProcessImageListener>();
+    private final Map<Integer, Boolean> coils = new HashMap<>();
+    private final Map<Integer, Boolean> inputs = new HashMap<>();
+    private final Map<Integer, Short> holdingRegisters = new HashMap<>();
+    private final Map<Integer, Short> inputRegisters = new HashMap<>();
+    private final List<ProcessImageListener> writeListeners = new ArrayList<>();
     private byte exceptionStatus;
 
     public BasicProcessImage(int slaveId) {
@@ -249,15 +249,18 @@ public class BasicProcessImage implements ProcessImage {
 
     //
     // Coils
+    @Override
     public synchronized boolean getCoil(int offset) throws IllegalDataAddressException {
         return getBoolean(offset, coils);
     }
 
+    @Override
     public synchronized void setCoil(int offset, boolean value) {
         validateOffset(offset);
         coils.put(offset, value);
     }
 
+    @Override
     public synchronized void writeCoil(int offset, boolean value) throws IllegalDataAddressException {
         boolean old = getBoolean(offset, coils);
         setCoil(offset, value);
@@ -268,10 +271,12 @@ public class BasicProcessImage implements ProcessImage {
 
     //
     // Inputs
+    @Override
     public synchronized boolean getInput(int offset) throws IllegalDataAddressException {
         return getBoolean(offset, inputs);
     }
 
+    @Override
     public synchronized void setInput(int offset, boolean value) {
         validateOffset(offset);
         inputs.put(offset, value);
@@ -279,15 +284,18 @@ public class BasicProcessImage implements ProcessImage {
 
     //
     // Holding registers
+    @Override
     public synchronized short getHoldingRegister(int offset) throws IllegalDataAddressException {
         return getShort(offset, holdingRegisters);
     }
 
+    @Override
     public synchronized void setHoldingRegister(int offset, short value) {
         validateOffset(offset);
         holdingRegisters.put(offset, value);
     }
 
+    @Override
     public synchronized void writeHoldingRegister(int offset, short value) throws IllegalDataAddressException {
         short old = getShort(offset, holdingRegisters);
         setHoldingRegister(offset, value);
@@ -298,10 +306,12 @@ public class BasicProcessImage implements ProcessImage {
 
     //
     // Input registers
+    @Override
     public synchronized short getInputRegister(int offset) throws IllegalDataAddressException {
         return getShort(offset, inputRegisters);
     }
 
+    @Override
     public synchronized void setInputRegister(int offset, short value) {
         validateOffset(offset);
         inputRegisters.put(offset, value);
@@ -309,12 +319,14 @@ public class BasicProcessImage implements ProcessImage {
 
     //
     // Exception status
+    @Override
     public byte getExceptionStatus() {
         return exceptionStatus;
     }
 
     //
     // Report slave id
+    @Override
     public byte[] getReportSlaveIdData() {
         return new byte[0];
     }

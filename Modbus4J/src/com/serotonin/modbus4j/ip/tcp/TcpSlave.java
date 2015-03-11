@@ -50,7 +50,7 @@ public class TcpSlave extends ModbusSlaveSet {
     // Runtime fields.
     private ServerSocket serverSocket;
     final ExecutorService executorService;
-    final List<TcpConnectionHandler> listConnections = new ArrayList<TcpConnectionHandler>();
+    final List<TcpConnectionHandler> listConnections = new ArrayList<>();
 
     public TcpSlave(boolean encapsulated) {
         this(ModbusUtils.TCP_PORT, encapsulated);

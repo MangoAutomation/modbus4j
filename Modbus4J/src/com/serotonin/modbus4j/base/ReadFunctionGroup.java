@@ -28,7 +28,7 @@ import com.serotonin.modbus4j.code.RegisterRange;
 public class ReadFunctionGroup<K> {
     private final SlaveAndRange slaveAndRange;
     private final int functionCode;
-    private final List<KeyedModbusLocator<K>> locators = new ArrayList<KeyedModbusLocator<K>>();
+    private final List<KeyedModbusLocator<K>> locators = new ArrayList<>();
     private int startOffset = 65536;
     private int length = 0;
 

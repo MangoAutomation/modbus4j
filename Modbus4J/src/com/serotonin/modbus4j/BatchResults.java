@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BatchResults<K> {
-    private final Map<K, Object> data = new HashMap<K, Object>();
+    private final Map<K, Object> data = new HashMap<>();
 
     public void addResult(K key, Object value) {
         data.put(key, value);

@@ -67,14 +67,14 @@ abstract public class ModbusMaster extends Modbus {
     protected boolean connected = false;
 
     public boolean isConnected() {
-		return connected;
-	}
+        return connected;
+    }
 
-	public void setConnected(boolean connected) {
-		this.connected = connected;
-	}
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
 
-	/**
+    /**
      * If the slave equipment only supports multiple write commands, set this to true. Otherwise, and combination of
      * single or multiple write commands will be used as appropriate.
      */
@@ -89,7 +89,7 @@ abstract public class ModbusMaster extends Modbus {
      */
     private InputStreamEPoll ePoll;
 
-    private final Map<Integer, SlaveProfile> slaveProfiles = new HashMap<Integer, SlaveProfile>();
+    private final Map<Integer, SlaveProfile> slaveProfiles = new HashMap<>();
     protected boolean initialized;
 
     abstract public void init() throws ModbusInitException;
@@ -123,7 +123,7 @@ abstract public class ModbusMaster extends Modbus {
      */
     @SuppressWarnings("unchecked")
     public <T> T getValue(BaseLocator<T> locator) throws ModbusTransportException, ErrorResponseException {
-        BatchRead<String> batch = new BatchRead<String>();
+        BatchRead<String> batch = new BatchRead<>();
         batch.addLocator("", locator);
         BatchResults<String> result = send(batch);
         return (T) result.getValue("");
@@ -191,7 +191,7 @@ abstract public class ModbusMaster extends Modbus {
      * results.
      */
     public List<Integer> scanForSlaveNodes() {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
         for (int i = 1; i <= 240; i++) {
             if (testSlaveNode(i))
                 result.add(i);
@@ -297,12 +297,15 @@ abstract public class ModbusMaster extends Modbus {
         if (!initialized)
             throw new ModbusTransportException("not initialized");
 
-        BatchResults<K> results = new BatchResults<K>();
+        BatchResults<K> results = new BatchResults<>();
         List<ReadFunctionGroup<K>> functionGroups = batch.getReadFunctionGroups(this);
-        
+
         // Execute each read function and process the results.
-        for (ReadFunctionGroup<K> functionGroup : functionGroups)
+        for (ReadFunctionGroup<K> functionGroup : functionGroups) {
             sendFunctionGroup(functionGroup, results, batch.isErrorsInResults(), batch.isExceptionsInResults());
+            if (batch.isCancel())
+                break;
+        }
 
         return results;
     }
