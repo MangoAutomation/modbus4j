@@ -1,3 +1,6 @@
+*Release notes for version 2.1.1*
+* Modified RtuMaster to allow custom character and frame spacing
+
 *Release notes for version 2.1.0*
 * Added cancel value to BatchRead. Incremented minor number since this is an API change, albeit a backward-compatible one.
 

@@ -49,6 +49,18 @@ public class ModbusFactory {
         return new RtuMaster(params);
     }
 
+    /**
+     * Create an RTU Master with specific message frame timing
+     * 
+     * @param params
+     * @param characterSpacingNs
+     * @param messageFrameSpacingNs
+     * @return
+     */
+    public ModbusMaster createRtuMaster(SerialParameters params, long characterSpacingNs, long messageFrameSpacingNs) {
+        return new RtuMaster(params, characterSpacingNs, messageFrameSpacingNs);
+    }
+    
     public ModbusMaster createAsciiMaster(SerialParameters params) {
         return new AsciiMaster(params);
     }

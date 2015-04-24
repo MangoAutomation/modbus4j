@@ -34,47 +34,49 @@ import com.serotonin.modbus4j.serial.SerialMaster;
 import com.serotonin.modbus4j.serial.SerialWaitingRoomKeyFactory;
 
 public class RtuMaster extends SerialMaster {
-
+	
     // Runtime fields.
     private MessageControl conn;
     private long lastSendTime; //Last time sent (Nano-time, not wall clock time)
     private long messageFrameSpacing; //Time in ns
+    
+    /**
+     * For legacy purposes, create RTU Master and
+     * compute the character and message frame spacing
+     * @param params
+     */
+    public RtuMaster(SerialParameters params){
+    	this(params, true);
+    }
 
-    public RtuMaster(SerialParameters params) {
+    /**
+     * Create an RTU Master with specified frame and character spacing times
+     * 
+     * @param params
+     * @param characterSpacingNs
+     * @param messageFrameSpacingNs
+     */
+    public RtuMaster(SerialParameters params, long characterSpacingNs, long messageFrameSpacingNs) {
+        super(params);
+        this.characterSpacing = characterSpacingNs;
+        this.messageFrameSpacing = messageFrameSpacingNs;
+    }
+    
+    /**
+     * Create an RTU Master with the option of computing the default spacing based on
+     * the SerialParameters or use 0 spacing.
+     * @param params
+     * @param useDefaultSpacing - true to compute spacing, false to use no spacing.
+     */
+    public RtuMaster(SerialParameters params, boolean useDefaultSpacing) {
         super(params);
 
-        //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
-        if (params.getBaudRate() > 19200) {
-            this.messageFrameSpacing = 1750000; //Nanoseconds
-            this.characterSpacing = 750000; //Nanoseconds
-        }
-        else {
-
-            //Compute the char size
-            float charBits = params.getDataBits();
-            switch (params.getStopBits()) {
-            case 1:
-                //Strangely this results in 0 stop bits.. in JSSC code
-                break;
-            case 2:
-                charBits += 2f;
-                break;
-            case 3:
-                //1.5 stop bits
-                charBits += 1.5f;
-                break;
-            default:
-                throw new ShouldNeverHappenException("Unknown stop bit size: " + params.getStopBits());
-            }
-
-            if (params.getParity() > 0)
-                charBits += 1; //Add another if using parity
-
-            //Compute ns it takes to send one char
-            // ((charSize/symbols per second) ) * ns per second
-            float charTime = (charBits / params.getBaudRate()) * 1000000000f;
-            this.messageFrameSpacing = (long) (charTime * 3.5f);
-            this.characterSpacing = (long) (charTime * 1.5f);
+        if(useDefaultSpacing){
+        	this.messageFrameSpacing = computeMessageFrameSpacing(params);
+        	this.characterSpacing = computeCharacterSpacing(params);
+        }else{
+        	this.messageFrameSpacing = 0l;
+        	this.characterSpacing = 0l;
         }
 
     }
@@ -110,7 +112,7 @@ public class RtuMaster extends SerialMaster {
         // Send the request to get the response.
         RtuMessageResponse rtuResponse;
         try {
-            //Wait 3.5 char lengths
+            //Wait frame spacing time
             long waited = System.nanoTime() - this.lastSendTime;
             if (waited < this.messageFrameSpacing) {
                 Thread.sleep(this.messageFrameSpacing / 1000000, (int) (this.messageFrameSpacing % 1000000));
@@ -127,5 +129,92 @@ public class RtuMaster extends SerialMaster {
             //Update our last send time
             this.lastSendTime = System.nanoTime();
         }
+    }
+    
+    /**
+     * RTU Spec: 
+     * For baud > 19200 
+     * Message Spacing: 1.750uS
+     * 
+     * For baud < 19200
+     * Message Spacing: 3.5 * char time
+     * 
+     * @param params
+     * @return
+     */
+    public static long computeMessageFrameSpacing(SerialParameters params){
+        //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
+        if (params.getBaudRate() > 19200) {
+            return 1750000l; //Nanoseconds
+        }
+        else {
+        	float charTime = computeCharacterTime(params);
+            return (long) (charTime * 3.5f);
+        }
+    }
+
+    /**
+     * RTU Spec: 
+     * For baud > 19200 
+     * Char Spacing: 750uS 
+     * 
+     * For baud < 19200
+     * Char Spacing: 1.5 * char time
+     * 
+     * @param params
+     * @return
+     */
+    public static long computeCharacterSpacing(SerialParameters params){
+        //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
+        if (params.getBaudRate() > 19200) {
+            return 750000l; //Nanoseconds
+        }
+        else {
+        	float charTime = computeCharacterTime(params);
+            return (long) (charTime * 1.5f);
+        }
+    }
+
+    
+    /**
+     * Compute the time it takes to transmit 1 character with 
+     * the provided Serial Parameters.
+     * 
+     * RTU Spec: 
+     * For baud > 19200 
+     * Char Spacing: 750uS 
+     * Message Spacing: 1.750uS
+     * 
+     * For baud < 19200
+     * Char Spacing: 1.5 * char time
+     * Message Spacing: 3.5 * char time
+     * 
+     * @param params
+     * @return time in nanoseconds
+     */
+    public static float computeCharacterTime(SerialParameters params){
+        //Compute the char size
+        float charBits = params.getDataBits();
+        switch (params.getStopBits()) {
+        case 1:
+            //Strangely this results in 0 stop bits.. in JSSC code
+            break;
+        case 2:
+            charBits += 2f;
+            break;
+        case 3:
+            //1.5 stop bits
+            charBits += 1.5f;
+            break;
+        default:
+            throw new ShouldNeverHappenException("Unknown stop bit size: " + params.getStopBits());
+        }
+
+        if (params.getParity() > 0)
+            charBits += 1; //Add another if using parity
+
+        //Compute ns it takes to send one char
+        // ((charSize/symbols per second) ) * ns per second
+        return (charBits / params.getBaudRate()) * 1000000000f;
     }
 }
