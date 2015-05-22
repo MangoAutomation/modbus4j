@@ -26,7 +26,8 @@ import com.serotonin.util.queue.ByteQueue;
 
 abstract public class ModbusMessage {
     protected int slaveId;
-
+    protected int numberBytesDeclare=0;
+    
     public ModbusMessage(int slaveId) throws ModbusTransportException {
         // Validate the node id. Note that a 0 slave id is a broadcast message.
         if (slaveId < 0 /* || slaveId > 247 */)
@@ -38,7 +39,11 @@ abstract public class ModbusMessage {
     public int getSlaveId() {
         return slaveId;
     }
-
+    
+    public int getNumberBytesDeclare() {
+		return numberBytesDeclare;
+	}
+	
     abstract public byte getFunctionCode();
 
     final public void write(ByteQueue queue) {
