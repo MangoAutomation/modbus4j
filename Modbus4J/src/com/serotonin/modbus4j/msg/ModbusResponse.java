@@ -122,6 +122,16 @@ abstract public class ModbusResponse extends ModbusMessage {
         int i2 = b2 & 0xff;
         return i1 > i2;
     }
+    
+    /**
+     * check the Response . slaveid if equal request. slaveid
+     * @param request
+     * @throws ModbusTransportException
+     */
+    public void  validateResponse(ModbusRequest request) throws ModbusTransportException {
+        if(getSlaveId()!=request.slaveId)
+        	throw new ModbusTransportException("Response SlaveId not equal", request.getSlaveId());         	
+    }
 
     public static void main(String[] args) throws Exception {
         ByteQueue queue = new ByteQueue(new byte[] { 3, 2 });
