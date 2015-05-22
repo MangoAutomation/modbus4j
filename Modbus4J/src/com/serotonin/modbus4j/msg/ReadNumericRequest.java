@@ -34,6 +34,7 @@ abstract public class ReadNumericRequest extends ModbusRequest {
         super(slaveId);
         this.startOffset = startOffset;
         this.numberOfRegisters = numberOfRegisters;
+        numberBytesDeclare=numberOfRegisters;
     }
 
     @Override
