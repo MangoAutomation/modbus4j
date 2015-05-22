@@ -52,6 +52,16 @@ abstract public class ReadResponse extends ModbusResponse {
         ModbusUtils.pushByte(queue, data.length);
         queue.push(data);
     }
+    
+    /**
+     * check the Response's numberBytesDeclare if equal  request's numberBytesDeclare
+     */
+    @Override
+    public void  validateResponse(ModbusRequest request) throws ModbusTransportException {
+    	super.validateResponse(request);
+        if(numberBytesDeclare!=request.getNumberBytesDeclare()*2)
+        	throw new ModbusTransportException("Response NumberByte not expect request", request.getSlaveId());         	
+    }
 
     public byte[] getData() {
         return data;
