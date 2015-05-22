@@ -40,6 +40,7 @@ abstract public class ReadResponse extends ModbusResponse {
     @Override
     protected void readResponse(ByteQueue queue) {
         int numberOfBytes = ModbusUtils.popUnsignedByte(queue);
+        numberBytesDeclare=numberOfBytes;
         if (queue.size() < numberOfBytes)
             throw new ArrayIndexOutOfBoundsException();
 
