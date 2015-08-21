@@ -23,7 +23,7 @@ package com.serotonin.modbus4j.serial.rtu;
 import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.serial.SerialMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
  * Convenience superclass primarily for calculating CRC values.

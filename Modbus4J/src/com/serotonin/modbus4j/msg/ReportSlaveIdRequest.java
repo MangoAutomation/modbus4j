@@ -24,7 +24,7 @@ import com.serotonin.modbus4j.Modbus;
 import com.serotonin.modbus4j.ProcessImage;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class ReportSlaveIdRequest extends ModbusRequest {
     public ReportSlaveIdRequest(int slaveId) throws ModbusTransportException {

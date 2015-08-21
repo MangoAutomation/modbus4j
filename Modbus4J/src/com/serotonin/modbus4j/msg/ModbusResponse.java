@@ -26,7 +26,7 @@ import com.serotonin.modbus4j.code.ExceptionCode;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.IllegalFunctionException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 abstract public class ModbusResponse extends ModbusMessage {
     protected static final byte MAX_FUNCTION_CODE = (byte) 0x80;

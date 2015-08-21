@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import com.serotonin.modbus4j.sero.io.StreamUtils;
 import com.serotonin.modbus4j.sero.log.BaseIOLog;
-import com.serotonin.timer.SystemTimeSource;
-import com.serotonin.timer.TimeSource;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.timer.SystemTimeSource;
+import com.serotonin.modbus4j.sero.timer.TimeSource;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
  * In general there are three messaging activities:

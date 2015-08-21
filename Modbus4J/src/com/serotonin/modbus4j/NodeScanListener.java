@@ -20,7 +20,7 @@
  */
 package com.serotonin.modbus4j;
 
-import com.serotonin.util.ProgressiveTaskListener;
+import com.serotonin.modbus4j.sero.util.ProgressiveTaskListener;
 
 /**
  * @author Matthew Lohbihler

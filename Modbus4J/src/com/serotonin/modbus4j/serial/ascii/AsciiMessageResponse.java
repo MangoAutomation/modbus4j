@@ -25,7 +25,7 @@ import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class AsciiMessageResponse extends AsciiMessage implements OutgoingResponseMessage, IncomingResponseMessage {
     static AsciiMessageResponse createAsciiMessageResponse(ByteQueue queue) throws ModbusTransportException {

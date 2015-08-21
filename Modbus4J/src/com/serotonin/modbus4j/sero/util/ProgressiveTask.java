@@ -1,4 +1,5 @@
-package com.serotonin.util;
+package com.serotonin.modbus4j.sero.util;
+
 
 /**
  * @author Matthew Lohbihler

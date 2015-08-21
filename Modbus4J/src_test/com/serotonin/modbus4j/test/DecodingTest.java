@@ -1,7 +1,7 @@
 package com.serotonin.modbus4j.test;
 
 import com.serotonin.modbus4j.serial.rtu.RtuMessageParser;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class DecodingTest {
     public static void main(String[] args) throws Exception {

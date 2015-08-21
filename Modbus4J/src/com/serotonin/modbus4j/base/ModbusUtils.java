@@ -25,7 +25,7 @@ import com.serotonin.modbus4j.exception.IllegalSlaveIdException;
 import com.serotonin.modbus4j.exception.ModbusIdException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class ModbusUtils {
     public static final int TCP_PORT = 502;

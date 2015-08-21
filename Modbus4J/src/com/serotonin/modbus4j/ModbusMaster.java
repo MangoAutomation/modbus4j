@@ -54,8 +54,8 @@ import com.serotonin.modbus4j.msg.WriteRegistersRequest;
 import com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper;
 import com.serotonin.modbus4j.sero.log.BaseIOLog;
 import com.serotonin.modbus4j.sero.messaging.MessageControl;
-import com.serotonin.util.ArrayUtils;
-import com.serotonin.util.ProgressiveTask;
+import com.serotonin.modbus4j.sero.util.ArrayUtils;
+import com.serotonin.modbus4j.sero.util.ProgressiveTask;
 
 abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;

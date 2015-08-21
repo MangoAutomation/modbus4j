@@ -26,7 +26,7 @@
  * 
  * @author Matthew Lohbihler
  */
-package com.serotonin.util.queue;
+package com.serotonin.modbus4j.sero.util.queue;
 
 import java.io.IOException;
 import java.io.InputStream;

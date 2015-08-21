@@ -22,7 +22,7 @@ package com.serotonin.modbus4j.ip.encap;
 
 import com.serotonin.modbus4j.base.BaseMessageParser;
 import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class EncapMessageParser extends BaseMessageParser {
     public EncapMessageParser(boolean master) {

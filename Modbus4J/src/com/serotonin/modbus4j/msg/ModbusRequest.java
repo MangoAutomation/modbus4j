@@ -28,7 +28,7 @@ import com.serotonin.modbus4j.code.ExceptionCode;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.IllegalDataAddressException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 abstract public class ModbusRequest extends ModbusMessage {
     public static ModbusRequest createModbusRequest(ByteQueue queue) throws ModbusTransportException {

@@ -23,7 +23,7 @@ package com.serotonin.modbus4j.ip.xa;
 import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.ip.IpMessage;
 import com.serotonin.modbus4j.msg.ModbusMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class XaMessage extends IpMessage {
     protected final int transactionId;

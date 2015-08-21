@@ -23,7 +23,7 @@ package com.serotonin.modbus4j.serial.ascii;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.serial.SerialMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 abstract public class AsciiMessage extends SerialMessage {
     private static final byte START = ':';

@@ -1,6 +1,6 @@
 package com.serotonin.modbus4j.sero.messaging;
 
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
  * Interface defining methods that are called when data arrives in the connection.

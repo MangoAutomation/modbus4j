@@ -9,7 +9,7 @@ import com.serotonin.modbus4j.serial.rtu.RtuMessageParser;
 import com.serotonin.modbus4j.sero.io.LineHandler;
 import com.serotonin.modbus4j.sero.io.StreamUtils;
 import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class LogReader {
     //    static String filename = "logs/anders.txt";

@@ -24,7 +24,7 @@ import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.ip.IpMessageResponse;
 import com.serotonin.modbus4j.msg.ModbusResponse;
-import com.serotonin.util.queue.ByteQueue;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 public class XaMessageResponse extends XaMessage implements IpMessageResponse {
     static XaMessageResponse createXaMessageResponse(ByteQueue queue) throws ModbusTransportException {
