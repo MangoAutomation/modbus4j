@@ -20,7 +20,6 @@
  */
 package com.serotonin.modbus4j;
 
-import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.code.RegisterRange;
 import com.serotonin.modbus4j.exception.ModbusIdException;
@@ -36,6 +35,7 @@ import com.serotonin.modbus4j.msg.ReadCoilsRequest;
 import com.serotonin.modbus4j.msg.ReadDiscreteInputsRequest;
 import com.serotonin.modbus4j.msg.ReadHoldingRegistersRequest;
 import com.serotonin.modbus4j.msg.ReadInputRegistersRequest;
+import com.serotonin.modbus4j.serial.SerialPortWrapper;
 import com.serotonin.modbus4j.serial.ascii.AsciiMaster;
 import com.serotonin.modbus4j.serial.ascii.AsciiSlave;
 import com.serotonin.modbus4j.serial.rtu.RtuMaster;
@@ -45,8 +45,8 @@ public class ModbusFactory {
     //
     // Modbus masters
     //
-    public ModbusMaster createRtuMaster(SerialParameters params) {
-        return new RtuMaster(params);
+    public ModbusMaster createRtuMaster(SerialPortWrapper wrapper) {
+        return new RtuMaster(wrapper);
     }
 
     /**
@@ -57,12 +57,12 @@ public class ModbusFactory {
      * @param messageFrameSpacingNs
      * @return
      */
-    public ModbusMaster createRtuMaster(SerialParameters params, long characterSpacingNs, long messageFrameSpacingNs) {
-        return new RtuMaster(params, characterSpacingNs, messageFrameSpacingNs);
+    public ModbusMaster createRtuMaster(SerialPortWrapper wrapper, long characterSpacingNs, long messageFrameSpacingNs) {
+        return new RtuMaster(wrapper, characterSpacingNs, messageFrameSpacingNs);
     }
     
-    public ModbusMaster createAsciiMaster(SerialParameters params) {
-        return new AsciiMaster(params);
+    public ModbusMaster createAsciiMaster(SerialPortWrapper wrapper) {
+        return new AsciiMaster(wrapper);
     }
 
     public ModbusMaster createTcpMaster(IpParameters params, boolean keepAlive) {
@@ -80,12 +80,12 @@ public class ModbusFactory {
     //
     // Modbus slaves
     //
-    public ModbusSlaveSet createRtuSlave(SerialParameters params) {
-        return new RtuSlave(params);
+    public ModbusSlaveSet createRtuSlave(SerialPortWrapper wrapper) {
+        return new RtuSlave(wrapper);
     }
 
-    public ModbusSlaveSet createAsciiSlave(SerialParameters params) {
-        return new AsciiSlave(params);
+    public ModbusSlaveSet createAsciiSlave(SerialPortWrapper wrapper) {
+        return new AsciiSlave(wrapper);
     }
 
     public ModbusSlaveSet createTcpSlave(boolean encapsulated) {

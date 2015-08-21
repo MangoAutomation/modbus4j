@@ -25,9 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.serotonin.epoll.InputStreamEPoll;
-import com.serotonin.log.BaseIOLog;
-import com.serotonin.messaging.MessageControl;
 import com.serotonin.modbus4j.base.KeyedModbusLocator;
 import com.serotonin.modbus4j.base.ReadFunctionGroup;
 import com.serotonin.modbus4j.base.SlaveProfile;
@@ -54,6 +51,9 @@ import com.serotonin.modbus4j.msg.WriteCoilsRequest;
 import com.serotonin.modbus4j.msg.WriteMaskRegisterRequest;
 import com.serotonin.modbus4j.msg.WriteRegisterRequest;
 import com.serotonin.modbus4j.msg.WriteRegistersRequest;
+import com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper;
+import com.serotonin.modbus4j.sero.log.BaseIOLog;
+import com.serotonin.modbus4j.sero.messaging.MessageControl;
 import com.serotonin.util.ArrayUtils;
 import com.serotonin.util.ProgressiveTask;
 
@@ -87,7 +87,7 @@ abstract public class ModbusMaster extends Modbus {
      * An input stream ePoll will use a single thread to read all input streams. If multiple serial or TCP modbus
      * connections are to be made, an ePoll can be much more efficient.
      */
-    private InputStreamEPoll ePoll;
+    private InputStreamEPollWrapper ePoll;
 
     private final Map<Integer, SlaveProfile> slaveProfiles = new HashMap<>();
     protected boolean initialized;
@@ -282,11 +282,11 @@ abstract public class ModbusMaster extends Modbus {
         this.ioLog = ioLog;
     }
 
-    public InputStreamEPoll getePoll() {
+    public InputStreamEPollWrapper getePoll() {
         return ePoll;
     }
 
-    public void setePoll(InputStreamEPoll ePoll) {
+    public void setePoll(InputStreamEPollWrapper ePoll) {
         this.ePoll = ePoll;
     }
 

@@ -4,7 +4,6 @@
  */
 package com.serotonin.modbus4j.test;
 
-import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.modbus4j.ModbusFactory;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.code.DataType;
@@ -15,10 +14,17 @@ import com.serotonin.modbus4j.locator.BaseLocator;
  */
 public class Test3 {
     public static void main(String[] args) throws Exception {
-        SerialParameters params = new SerialParameters();
-        params.setCommPortId("COM1");
+    	String commPortId = "COM1";
+    	int baudRate = 9600;
+    	int flowControlIn = 0;
+		int flowControlOut = 0; 
+		int dataBits = 8;
+		int stopBits = 2;
+		int parity = 0;
+    	
+    	TestSerialPortWrapper wrapper = new TestSerialPortWrapper(commPortId, baudRate, flowControlIn, flowControlOut, dataBits, stopBits, parity);
 
-        ModbusMaster master = new ModbusFactory().createRtuMaster(params);
+        ModbusMaster master = new ModbusFactory().createRtuMaster(wrapper);
         master.init();
 
         System.out.println(master.testSlaveNode(5));

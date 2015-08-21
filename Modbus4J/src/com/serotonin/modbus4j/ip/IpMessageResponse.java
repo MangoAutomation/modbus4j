@@ -20,9 +20,9 @@
  */
 package com.serotonin.modbus4j.ip;
 
-import com.serotonin.messaging.IncomingResponseMessage;
-import com.serotonin.messaging.OutgoingResponseMessage;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
 public interface IpMessageResponse extends OutgoingResponseMessage, IncomingResponseMessage {
     ModbusResponse getModbusResponse();

@@ -22,16 +22,16 @@ package com.serotonin.modbus4j.serial.rtu;
 
 import java.io.IOException;
 
-import com.serotonin.ShouldNeverHappenException;
-import com.serotonin.io.serial.SerialParameters;
-import com.serotonin.messaging.MessageControl;
-import com.serotonin.messaging.StreamTransport;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.serial.SerialMaster;
+import com.serotonin.modbus4j.serial.SerialPortWrapper;
 import com.serotonin.modbus4j.serial.SerialWaitingRoomKeyFactory;
+import com.serotonin.modbus4j.sero.ShouldNeverHappenException;
+import com.serotonin.modbus4j.sero.messaging.MessageControl;
+import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 
 public class RtuMaster extends SerialMaster {
 	
@@ -45,8 +45,8 @@ public class RtuMaster extends SerialMaster {
      * compute the character and message frame spacing
      * @param params
      */
-    public RtuMaster(SerialParameters params){
-    	this(params, true);
+    public RtuMaster(SerialPortWrapper wrapper){
+    	this(wrapper, true);
     }
 
     /**
@@ -56,8 +56,8 @@ public class RtuMaster extends SerialMaster {
      * @param characterSpacingNs
      * @param messageFrameSpacingNs
      */
-    public RtuMaster(SerialParameters params, long characterSpacingNs, long messageFrameSpacingNs) {
-        super(params);
+    public RtuMaster(SerialPortWrapper wrapper, long characterSpacingNs, long messageFrameSpacingNs) {
+        super(wrapper);
         this.characterSpacing = characterSpacingNs;
         this.messageFrameSpacing = messageFrameSpacingNs;
     }
@@ -68,12 +68,12 @@ public class RtuMaster extends SerialMaster {
      * @param params
      * @param useDefaultSpacing - true to compute spacing, false to use no spacing.
      */
-    public RtuMaster(SerialParameters params, boolean useDefaultSpacing) {
-        super(params);
+    public RtuMaster(SerialPortWrapper wrapper, boolean useDefaultSpacing) {
+        super(wrapper);
 
         if(useDefaultSpacing){
-        	this.messageFrameSpacing = computeMessageFrameSpacing(params);
-        	this.characterSpacing = computeCharacterSpacing(params);
+        	this.messageFrameSpacing = computeMessageFrameSpacing(wrapper);
+        	this.characterSpacing = computeCharacterSpacing(wrapper);
         }else{
         	this.messageFrameSpacing = 0l;
         	this.characterSpacing = 0l;
@@ -142,13 +142,13 @@ public class RtuMaster extends SerialMaster {
      * @param params
      * @return
      */
-    public static long computeMessageFrameSpacing(SerialParameters params){
+    public static long computeMessageFrameSpacing(SerialPortWrapper wrapper){
         //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
-        if (params.getBaudRate() > 19200) {
+        if (wrapper.getBaudRate() > 19200) {
             return 1750000l; //Nanoseconds
         }
         else {
-        	float charTime = computeCharacterTime(params);
+        	float charTime = computeCharacterTime(wrapper);
             return (long) (charTime * 3.5f);
         }
     }
@@ -164,13 +164,13 @@ public class RtuMaster extends SerialMaster {
      * @param params
      * @return
      */
-    public static long computeCharacterSpacing(SerialParameters params){
+    public static long computeCharacterSpacing(SerialPortWrapper wrapper){
         //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
-        if (params.getBaudRate() > 19200) {
+        if (wrapper.getBaudRate() > 19200) {
             return 750000l; //Nanoseconds
         }
         else {
-        	float charTime = computeCharacterTime(params);
+        	float charTime = computeCharacterTime(wrapper);
             return (long) (charTime * 1.5f);
         }
     }
@@ -192,10 +192,10 @@ public class RtuMaster extends SerialMaster {
      * @param params
      * @return time in nanoseconds
      */
-    public static float computeCharacterTime(SerialParameters params){
+    public static float computeCharacterTime(SerialPortWrapper wrapper){
         //Compute the char size
-        float charBits = params.getDataBits();
-        switch (params.getStopBits()) {
+        float charBits = wrapper.getDataBits();
+        switch (wrapper.getStopBits()) {
         case 1:
             //Strangely this results in 0 stop bits.. in JSSC code
             break;
@@ -207,14 +207,14 @@ public class RtuMaster extends SerialMaster {
             charBits += 1.5f;
             break;
         default:
-            throw new ShouldNeverHappenException("Unknown stop bit size: " + params.getStopBits());
+            throw new ShouldNeverHappenException("Unknown stop bit size: " + wrapper.getStopBits());
         }
 
-        if (params.getParity() > 0)
+        if (wrapper.getParity() > 0)
             charBits += 1; //Add another if using parity
 
         //Compute ns it takes to send one char
         // ((charSize/symbols per second) ) * ns per second
-        return (charBits / params.getBaudRate()) * 1000000000f;
+        return (charBits / wrapper.getBaudRate()) * 1000000000f;
     }
 }

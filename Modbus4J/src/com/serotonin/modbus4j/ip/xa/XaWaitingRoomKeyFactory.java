@@ -1,10 +1,10 @@
 package com.serotonin.modbus4j.ip.xa;
 
-import com.serotonin.messaging.IncomingResponseMessage;
-import com.serotonin.messaging.OutgoingRequestMessage;
-import com.serotonin.messaging.WaitingRoomKey;
-import com.serotonin.messaging.WaitingRoomKeyFactory;
 import com.serotonin.modbus4j.msg.ModbusMessage;
+import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
+import com.serotonin.modbus4j.sero.messaging.WaitingRoomKey;
+import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
 public class XaWaitingRoomKeyFactory implements WaitingRoomKeyFactory {
     @Override

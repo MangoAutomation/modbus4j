@@ -23,15 +23,11 @@ package com.serotonin.modbus4j.serial;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.serotonin.io.serial.SerialParameters;
-import com.serotonin.io.serial.SerialPortException;
-import com.serotonin.io.serial.SerialPortProxy;
-import com.serotonin.io.serial.SerialUtils;
-import com.serotonin.messaging.EpollStreamTransportCharSpaced;
-import com.serotonin.messaging.StreamTransportCharSpaced;
-import com.serotonin.messaging.Transport;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
+import com.serotonin.modbus4j.sero.messaging.EpollStreamTransportCharSpaced;
+import com.serotonin.modbus4j.sero.messaging.StreamTransportCharSpaced;
+import com.serotonin.modbus4j.sero.messaging.Transport;
 
 abstract public class SerialMaster extends ModbusMaster {
 	
@@ -47,30 +43,29 @@ abstract public class SerialMaster extends ModbusMaster {
 
     //
     // Configuration fields.
-    private final SerialParameters serialParameters;
     protected long characterSpacing; //Time in ns
     
     // Runtime fields.
-    protected SerialPortProxy serialPort;
+    protected SerialPortWrapper wrapper;
     protected Transport transport;
 
     
     
-    public SerialMaster(SerialParameters params) {
-        serialParameters = params;
+    public SerialMaster(SerialPortWrapper wrapper) {
+        this.wrapper = wrapper;
     }
 
     @Override
     public void init() throws ModbusInitException {
         try {
-            serialPort = SerialUtils.openSerialPort(serialParameters);
             
+        	this.wrapper.open();
             
             if (getePoll() != null)
-                transport = new EpollStreamTransportCharSpaced(serialPort.getInputStream(), serialPort.getOutputStream(),
+                transport = new EpollStreamTransportCharSpaced(wrapper.getInputStream(), wrapper.getOutputStream(),
                         getePoll(), this.characterSpacing);
             else
-                transport = new StreamTransportCharSpaced(serialPort.getInputStream(), serialPort.getOutputStream(), this.characterSpacing);
+                transport = new StreamTransportCharSpaced(wrapper.getInputStream(), wrapper.getOutputStream(), this.characterSpacing);
         }
         catch (Exception e) {
             throw new ModbusInitException(e);
@@ -79,8 +74,8 @@ abstract public class SerialMaster extends ModbusMaster {
 
     public void close() {
         try {
-			SerialUtils.close(serialPort);
-		} catch (SerialPortException e) {
+			wrapper.close();
+		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}
     }

@@ -27,7 +27,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import com.serotonin.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.base.BaseMessageParser;
 import com.serotonin.modbus4j.exception.ModbusInitException;
@@ -40,6 +39,7 @@ import com.serotonin.modbus4j.ip.xa.XaMessageParser;
 import com.serotonin.modbus4j.ip.xa.XaMessageRequest;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.util.queue.ByteQueue;
 
 public class UdpMaster extends ModbusMaster {

@@ -20,33 +20,32 @@
  */
 package com.serotonin.modbus4j.serial;
 
-import com.serotonin.io.serial.SerialParameters;
-import com.serotonin.io.serial.SerialPortException;
-import com.serotonin.io.serial.SerialPortProxy;
-import com.serotonin.io.serial.SerialUtils;
-import com.serotonin.messaging.StreamTransport;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.serotonin.modbus4j.ModbusSlaveSet;
 import com.serotonin.modbus4j.exception.ModbusInitException;
+import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 
 abstract public class SerialSlave extends ModbusSlaveSet {
-    // Configuration fields.
-    private final SerialParameters serialParameters;
 
+	private final Log LOG = LogFactory.getLog(SerialSlave.class);
+	
     // Runtime fields
-    private SerialPortProxy serialPort;
+    private SerialPortWrapper wrapper;
     protected StreamTransport transport;
 
-    public SerialSlave(SerialParameters params) {
-        serialParameters = params;
+    public SerialSlave(SerialPortWrapper wrapper) {
+    	this.wrapper = wrapper;
     }
 
     @Override
     public void start() throws ModbusInitException {
         try {
         	
-            serialPort = SerialUtils.openSerialPort(serialParameters);
+        	wrapper.open();
 
-            transport = new StreamTransport(serialPort.getInputStream(), serialPort.getOutputStream());
+            transport = new StreamTransport(wrapper.getInputStream(), wrapper.getOutputStream());
         }
         catch (Exception e) {
             throw new ModbusInitException(e);
@@ -56,10 +55,9 @@ abstract public class SerialSlave extends ModbusSlaveSet {
     @Override
     public void stop() {
         try {
-			SerialUtils.close(serialPort);
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			wrapper.close();
+		} catch (Exception e) {
+			LOG.error(e.getMessage(),e);
 		}
     }
 }

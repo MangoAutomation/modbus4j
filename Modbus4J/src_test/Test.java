@@ -1,5 +1,5 @@
-import com.serotonin.messaging.IncomingMessage;
 import com.serotonin.modbus4j.ip.encap.EncapMessageParser;
+import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Test {

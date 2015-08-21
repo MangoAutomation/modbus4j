@@ -20,10 +20,10 @@
  */
 package com.serotonin.modbus4j.msg;
 
-import com.serotonin.ShouldNeverHappenException;
 import com.serotonin.modbus4j.Modbus;
 import com.serotonin.modbus4j.ProcessImage;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
+import com.serotonin.modbus4j.sero.ShouldNeverHappenException;
 import com.serotonin.util.queue.ByteQueue;
 
 /**

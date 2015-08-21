@@ -20,8 +20,8 @@
  */
 package com.serotonin.modbus4j.base;
 
-import com.serotonin.messaging.IncomingMessage;
-import com.serotonin.messaging.MessageParser;
+import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
+import com.serotonin.modbus4j.sero.messaging.MessageParser;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class BaseMessageParser implements MessageParser {

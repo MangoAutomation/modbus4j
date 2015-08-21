@@ -1,9 +1,9 @@
 package com.serotonin.modbus4j.serial;
 
-import com.serotonin.messaging.IncomingResponseMessage;
-import com.serotonin.messaging.OutgoingRequestMessage;
-import com.serotonin.messaging.WaitingRoomKey;
-import com.serotonin.messaging.WaitingRoomKeyFactory;
+import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
+import com.serotonin.modbus4j.sero.messaging.WaitingRoomKey;
+import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
 public class SerialWaitingRoomKeyFactory implements WaitingRoomKeyFactory {
     private static final Sync sync = new Sync();

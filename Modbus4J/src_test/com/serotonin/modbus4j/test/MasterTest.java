@@ -2,7 +2,6 @@ package com.serotonin.modbus4j.test;
 
 import java.util.Arrays;
 
-import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.modbus4j.ModbusFactory;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.code.DataType;
@@ -34,18 +33,24 @@ import com.serotonin.modbus4j.msg.WriteRegistersResponse;
 
 public class MasterTest {
     public static void main(String[] args) throws Exception {
-        SerialParameters serialParameters = new SerialParameters();
-        serialParameters.setCommPortId("COM1");
-        serialParameters.setPortOwnerName("Numb nuts");
-        serialParameters.setBaudRate(9600);
 
+    	String commPortId = "COM1";
+    	int baudRate = 9600;
+    	int flowControlIn = 0;
+		int flowControlOut = 0; 
+		int dataBits = 8;
+		int stopBits = 2;
+		int parity = 0;
+    	
+    	TestSerialPortWrapper wrapper = new TestSerialPortWrapper(commPortId, baudRate, flowControlIn, flowControlOut, dataBits, stopBits, parity);
+        
         IpParameters ipParameters = new IpParameters();
         ipParameters.setHost("localhost");
 
         ModbusFactory modbusFactory = new ModbusFactory();
 
-        // ModbusMaster master = modbusFactory.createRtuMaster(serialParameters, false);
-        // ModbusMaster master = modbusFactory.createAsciiMaster(serialParameters);
+        // ModbusMaster master = modbusFactory.createRtuMaster(wrapper, false);
+        // ModbusMaster master = modbusFactory.createAsciiMaster(wrapper);
         ModbusMaster master = modbusFactory.createTcpMaster(ipParameters, false);
         // ModbusMaster master = modbusFactory.createUdpMaster(ipParameters);
 

@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.serotonin.io.LineHandler;
-import com.serotonin.io.StreamUtils;
-import com.serotonin.messaging.IncomingMessage;
 import com.serotonin.modbus4j.base.BaseMessageParser;
 import com.serotonin.modbus4j.serial.rtu.RtuMessageParser;
+import com.serotonin.modbus4j.sero.io.LineHandler;
+import com.serotonin.modbus4j.sero.io.StreamUtils;
+import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
 import com.serotonin.util.queue.ByteQueue;
 
 public class LogReader {

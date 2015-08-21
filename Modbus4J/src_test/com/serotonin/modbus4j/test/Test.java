@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.serotonin.io.StreamUtils;
+import com.serotonin.modbus4j.sero.io.StreamUtils;
 
 public class Test {
     public static void main(String[] args) throws Exception {

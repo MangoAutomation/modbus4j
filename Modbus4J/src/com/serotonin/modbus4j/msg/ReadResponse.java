@@ -20,9 +20,9 @@
  */
 package com.serotonin.modbus4j.msg;
 
-import com.serotonin.io.StreamUtils;
 import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
+import com.serotonin.modbus4j.sero.io.StreamUtils;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class ReadResponse extends ModbusResponse {

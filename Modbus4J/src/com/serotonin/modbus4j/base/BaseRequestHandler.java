@@ -20,12 +20,12 @@
  */
 package com.serotonin.modbus4j.base;
 
-import com.serotonin.messaging.RequestHandler;
 import com.serotonin.modbus4j.ModbusSlaveSet;
 import com.serotonin.modbus4j.ProcessImage;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.sero.messaging.RequestHandler;
 
 abstract public class BaseRequestHandler implements RequestHandler {
     protected ModbusSlaveSet slave;

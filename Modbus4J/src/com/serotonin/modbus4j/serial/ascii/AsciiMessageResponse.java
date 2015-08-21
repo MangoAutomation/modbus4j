@@ -20,11 +20,11 @@
  */
 package com.serotonin.modbus4j.serial.ascii;
 
-import com.serotonin.messaging.IncomingResponseMessage;
-import com.serotonin.messaging.OutgoingResponseMessage;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 import com.serotonin.util.queue.ByteQueue;
 
 public class AsciiMessageResponse extends AsciiMessage implements OutgoingResponseMessage, IncomingResponseMessage {

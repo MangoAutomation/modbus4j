@@ -27,9 +27,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import com.serotonin.messaging.IncomingMessage;
-import com.serotonin.messaging.IncomingRequestMessage;
-import com.serotonin.messaging.OutgoingResponseMessage;
 import com.serotonin.modbus4j.ModbusSlaveSet;
 import com.serotonin.modbus4j.base.BaseMessageParser;
 import com.serotonin.modbus4j.base.BaseRequestHandler;
@@ -39,6 +36,9 @@ import com.serotonin.modbus4j.ip.encap.EncapMessageParser;
 import com.serotonin.modbus4j.ip.encap.EncapRequestHandler;
 import com.serotonin.modbus4j.ip.xa.XaMessageParser;
 import com.serotonin.modbus4j.ip.xa.XaRequestHandler;
+import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
+import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 import com.serotonin.util.queue.ByteQueue;
 
 public class UdpSlave extends ModbusSlaveSet {

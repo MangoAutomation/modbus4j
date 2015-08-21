@@ -1,10 +1,10 @@
 package com.serotonin.modbus4j.locator;
 
-import com.serotonin.NotImplementedException;
 import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.code.RegisterRange;
 import com.serotonin.modbus4j.exception.ModbusIdException;
+import com.serotonin.modbus4j.sero.NotImplementedException;
 
 public class BinaryLocator extends BaseLocator<Boolean> {
     private int bit = -1;

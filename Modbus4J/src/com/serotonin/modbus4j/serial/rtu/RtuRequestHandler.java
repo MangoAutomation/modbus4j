@@ -20,12 +20,12 @@
  */
 package com.serotonin.modbus4j.serial.rtu;
 
-import com.serotonin.messaging.IncomingRequestMessage;
-import com.serotonin.messaging.OutgoingResponseMessage;
 import com.serotonin.modbus4j.ModbusSlaveSet;
 import com.serotonin.modbus4j.base.BaseRequestHandler;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
+import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
 public class RtuRequestHandler extends BaseRequestHandler {
     public RtuRequestHandler(ModbusSlaveSet slave) {
