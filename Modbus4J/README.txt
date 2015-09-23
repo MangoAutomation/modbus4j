@@ -8,8 +8,6 @@ There is a public maven repository for downloading Modbus4J as a dependency in y
 
     <repositories>
         <repository>
-            <id>modbus4j-local</id>
-            <name>Modbus4j Local Dependencies</name>
             <releases>
                 <enabled>true</enabled>
                 <checksumPolicy>ignore</checksumPolicy>
@@ -17,7 +15,9 @@ There is a public maven repository for downloading Modbus4J as a dependency in y
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <url>file://${project.basedir}/modbus4j-maven-local</url>
+            <id>modbus-data-source</id>
+            <name>Modbus Dependencies</name>
+            <url>http://mangoautomation.net:9902/maven-repo/</url>
         </repository>
     </repositories>
     
