@@ -34,6 +34,22 @@ public class BatchResults<K> {
         return data.get(key);
     }
 
+    public Integer getIntValue(K key) {
+        return (Integer) getValue(key);
+    }
+
+    public Long getLongValue(K key) {
+        return (Long) getValue(key);
+    }
+
+    public Double getDoubleValue(K key) {
+        return (Double) getValue(key);
+    }
+
+    public Float getFloatValue(K key) {
+        return (Float) getValue(key);
+    }
+
     @Override
     public String toString() {
         return data.toString();
