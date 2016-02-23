@@ -31,6 +31,10 @@ abstract public class ModbusSlaveSet extends Modbus {
     public void addProcessImage(ProcessImage processImage) {
         processImages.put(processImage.getSlaveId(), processImage);
     }
+    
+    public boolean removeProcessImage(int slaveId){
+    	return (processImages.remove(slaveId) != null);
+    }
 
     public ProcessImage getProcessImage(int slaveId) {
         return processImages.get(slaveId);

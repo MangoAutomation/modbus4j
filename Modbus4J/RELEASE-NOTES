@@ -1,3 +1,6 @@
+*Release notes for version 3.0.1*
+* added ability to remove a process image for a given slave ID
+
 *Release notes for version 3.0.0*
 * Removed dependency on Serotonin Utils
 * Removed dependency on Serotonin Timer
