@@ -21,27 +21,66 @@
 package com.serotonin.modbus4j;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.serotonin.modbus4j.exception.ModbusInitException;
 
 abstract public class ModbusSlaveSet extends Modbus {
-    protected LinkedHashMap<Integer, ProcessImage> processImages = new LinkedHashMap<>();
+	
+    private LinkedHashMap<Integer, ProcessImage> processImages = new LinkedHashMap<>();
+    private ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public void addProcessImage(ProcessImage processImage) {
-        processImages.put(processImage.getSlaveId(), processImage);
+    	lock.writeLock().lock();
+    	try{
+    		processImages.put(processImage.getSlaveId(), processImage);
+    	}finally{
+    		lock.writeLock().unlock();
+    	}
     }
     
     public boolean removeProcessImage(int slaveId){
-    	return (processImages.remove(slaveId) != null);
+    	lock.writeLock().lock();
+    	try{
+    		return (processImages.remove(slaveId) != null);
+    	}finally{
+    		lock.writeLock().unlock();
+    	}
     }
+
+    public boolean removeProcessImage(ProcessImage processImage){
+    	lock.writeLock().lock();
+    	try{
+    		return (processImages.remove(processImage.getSlaveId()) != null);
+    	}finally{
+    		lock.writeLock().unlock();
+    	}
+    }
+
 
     public ProcessImage getProcessImage(int slaveId) {
-        return processImages.get(slaveId);
+    	lock.readLock().lock();
+    	try{
+    		return processImages.get(slaveId);
+    	}finally{
+    		lock.readLock().unlock();
+    	}
     }
 
+    /**
+     * Get a copy of the current process images
+     * @return
+     */
     public Collection<ProcessImage> getProcessImages() {
-        return processImages.values();
+    	lock.readLock().lock();
+    	try{
+    		return new HashSet<>(processImages.values());
+    	}finally{
+    		lock.readLock().unlock();
+    	}
     }
 
     /**
