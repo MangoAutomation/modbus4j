@@ -37,8 +37,6 @@ public class RtuMaster extends SerialMaster {
 	
     // Runtime fields.
     private MessageControl conn;
-    private long lastSendTime; //Last time sent (Nano-time, not wall clock time)
-    private long messageFrameSpacing; //Time in ns
     
     /**
      * For legacy purposes, create RTU Master and
@@ -46,39 +44,7 @@ public class RtuMaster extends SerialMaster {
      * @param params
      */
     public RtuMaster(SerialPortWrapper wrapper){
-    	this(wrapper, true);
-    }
-
-    /**
-     * Create an RTU Master with specified frame and character spacing times
-     * 
-     * @param params
-     * @param characterSpacingNs
-     * @param messageFrameSpacingNs
-     */
-    public RtuMaster(SerialPortWrapper wrapper, long characterSpacingNs, long messageFrameSpacingNs) {
-        super(wrapper);
-        this.characterSpacing = characterSpacingNs;
-        this.messageFrameSpacing = messageFrameSpacingNs;
-    }
-    
-    /**
-     * Create an RTU Master with the option of computing the default spacing based on
-     * the SerialParameters or use 0 spacing.
-     * @param params
-     * @param useDefaultSpacing - true to compute spacing, false to use no spacing.
-     */
-    public RtuMaster(SerialPortWrapper wrapper, boolean useDefaultSpacing) {
-        super(wrapper);
-
-        if(useDefaultSpacing){
-        	this.messageFrameSpacing = computeMessageFrameSpacing(wrapper);
-        	this.characterSpacing = computeCharacterSpacing(wrapper);
-        }else{
-        	this.messageFrameSpacing = 0l;
-        	this.characterSpacing = 0l;
-        }
-
+    	super(wrapper);
     }
 
     @Override
@@ -112,11 +78,6 @@ public class RtuMaster extends SerialMaster {
         // Send the request to get the response.
         RtuMessageResponse rtuResponse;
         try {
-            //Wait frame spacing time
-            long waited = System.nanoTime() - this.lastSendTime;
-            if (waited < this.messageFrameSpacing) {
-                Thread.sleep(this.messageFrameSpacing / 1000000, (int) (this.messageFrameSpacing % 1000000));
-            }
             rtuResponse = (RtuMessageResponse) conn.send(rtuRequest);
             if (rtuResponse == null)
                 return null;
@@ -126,8 +87,7 @@ public class RtuMaster extends SerialMaster {
             throw new ModbusTransportException(e, request.getSlaveId());
         }
         finally {
-            //Update our last send time
-            this.lastSendTime = System.nanoTime();
+            
         }
     }
     

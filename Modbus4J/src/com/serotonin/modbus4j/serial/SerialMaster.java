@@ -25,8 +25,8 @@ import org.apache.commons.logging.LogFactory;
 
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
-import com.serotonin.modbus4j.sero.messaging.EpollStreamTransportCharSpaced;
-import com.serotonin.modbus4j.sero.messaging.StreamTransportCharSpaced;
+import com.serotonin.modbus4j.sero.messaging.EpollStreamTransport;
+import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 import com.serotonin.modbus4j.sero.messaging.Transport;
 
 abstract public class SerialMaster extends ModbusMaster {
@@ -40,10 +40,6 @@ abstract public class SerialMaster extends ModbusMaster {
     public static final int SYNC_SLAVE = 2;
 	@Deprecated
     public static final int SYNC_FUNCTION = 3;
-
-    //
-    // Configuration fields.
-    protected long characterSpacing; //Time in ns
     
     // Runtime fields.
     protected SerialPortWrapper wrapper;
@@ -62,10 +58,10 @@ abstract public class SerialMaster extends ModbusMaster {
         	this.wrapper.open();
             
             if (getePoll() != null)
-                transport = new EpollStreamTransportCharSpaced(wrapper.getInputStream(), wrapper.getOutputStream(),
-                        getePoll(), this.characterSpacing);
+                transport = new EpollStreamTransport(wrapper.getInputStream(), wrapper.getOutputStream(),
+                        getePoll());
             else
-                transport = new StreamTransportCharSpaced(wrapper.getInputStream(), wrapper.getOutputStream(), this.characterSpacing);
+                transport = new StreamTransport(wrapper.getInputStream(), wrapper.getOutputStream());
         }
         catch (Exception e) {
             throw new ModbusInitException(e);

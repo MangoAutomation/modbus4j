@@ -1,3 +1,6 @@
+*Release notes for version 3.0.2*
+* Remove message and character space timing for RTU Master
+
 *Release notes for version 3.0.1*
 * Added ability to remove a process image for a given slave ID
 * Added synchronization support for ModbusSlaveSet
