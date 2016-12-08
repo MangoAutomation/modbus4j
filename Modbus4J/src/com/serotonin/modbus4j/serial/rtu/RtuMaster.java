@@ -68,6 +68,7 @@ public class RtuMaster extends SerialMaster {
     public void destroy() {
         closeMessageControl(conn);
         super.close();
+        initialized = false;
     }
 
     @Override

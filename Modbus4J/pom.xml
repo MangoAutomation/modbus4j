@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.infiniteautomation</groupId>
     <artifactId>modbus4j</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <name>Modbus4j Library</name>
     <build>
         <sourceDirectory>src</sourceDirectory>

@@ -60,6 +60,7 @@ public class AsciiMaster extends SerialMaster {
     public void destroy() {
         closeMessageControl(conn);
         super.close();
+        initialized = false;
     }
 
     @Override

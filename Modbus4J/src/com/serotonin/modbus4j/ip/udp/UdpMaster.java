@@ -80,6 +80,7 @@ public class UdpMaster extends ModbusMaster {
     @Override
     public void destroy() {
         socket.close();
+        initialized = false;
     }
 
     @Override
