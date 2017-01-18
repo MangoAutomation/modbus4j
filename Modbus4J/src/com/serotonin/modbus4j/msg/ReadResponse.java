@@ -40,6 +40,7 @@ abstract public class ReadResponse extends ModbusResponse {
     @Override
     protected void readResponse(ByteQueue queue) {
         int numberOfBytes = ModbusUtils.popUnsignedByte(queue);
+        numberBytesDeclare=numberOfBytes;
         if (queue.size() < numberOfBytes)
             throw new ArrayIndexOutOfBoundsException();
 
@@ -51,6 +52,16 @@ abstract public class ReadResponse extends ModbusResponse {
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushByte(queue, data.length);
         queue.push(data);
+    }
+    
+    /**
+     * check the Response's numberBytesDeclare if equal  request's numberBytesDeclare
+     */
+    @Override
+    public void  validateResponse(ModbusRequest request) throws ModbusTransportException {
+    	super.validateResponse(request);
+        if(numberBytesDeclare!=request.getNumberBytesDeclare()*2)
+        	throw new ModbusTransportException("Response NumberByte not expect request", request.getSlaveId());         	
     }
 
     public byte[] getData() {

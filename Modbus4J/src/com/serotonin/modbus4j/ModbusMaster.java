@@ -102,7 +102,10 @@ abstract public class ModbusMaster extends Modbus {
 
     public final ModbusResponse send(ModbusRequest request) throws ModbusTransportException {
         request.validate(this);
-        return sendImpl(request);
+        ModbusResponse modbusResponse = sendImpl(request);
+		modbusResponse.validateResponse(request);
+
+		return modbusResponse;
     }
 
     abstract public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException;
