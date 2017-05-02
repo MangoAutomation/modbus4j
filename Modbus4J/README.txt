@@ -17,7 +17,7 @@ There is a public maven repository for downloading Modbus4J as a dependency in y
             </snapshots>
             <id>modbus-data-source</id>
             <name>Modbus Dependencies</name>
-            <url>http://mangoautomation.net:9902/maven-repo/</url>
+            <url>https://maven.mangoautomation.net/repository/ias-release/</url>
         </repository>
     </repositories>
     
@@ -25,5 +25,5 @@ There is a public maven repository for downloading Modbus4J as a dependency in y
 	<dependency>
 		<groupId>com.infiniteautomation</groupId>
  		<artifactId>modbus4j</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.3</version>
     </dependency>

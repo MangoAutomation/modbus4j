@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.infiniteautomation</groupId>
     <artifactId>modbus4j</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4-SNAPSHOT</version>
     <name>Modbus4j Library</name>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -17,6 +17,33 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <plugin>
+			   <groupId>org.apache.maven.plugins</groupId>
+			   <artifactId>maven-deploy-plugin</artifactId>
+			   <version>2.8.1</version>
+			   <configuration>
+			      <skip>true</skip>
+			   </configuration>
+			</plugin>
+			<plugin>
+			   <groupId>org.sonatype.plugins</groupId>
+			   <artifactId>nexus-staging-maven-plugin</artifactId>
+			   <version>1.5.1</version>
+			   <executions>
+			      <execution>
+			         <id>default-deploy</id>
+			         <phase>deploy</phase>
+			         <goals>
+			            <goal>deploy</goal>
+			         </goals>
+			      </execution>
+			   </executions>
+			   <configuration>
+			      <serverId>ias-releases</serverId>
+			      <nexusUrl>https://maven.mangoautomation.net/</nexusUrl>
+			      <skipStaging>true</skipStaging>
+			   </configuration>
+			</plugin>
         </plugins>
     </build>
     <dependencies>
@@ -25,12 +52,20 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
         </dependency>
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
     </dependencies>
-
+	<distributionManagement>
+	   <snapshotRepository>
+	      <id>ias-snapshots</id>
+	      <url>https://maven.mangoautomation.net/repository/ias-snapshot/</url>
+	   </snapshotRepository>
+	   <repository>
+	      <id>ias-release</id>
+	   	  <url>https://maven.mangoautomation.net/repository/ias-release/</url>
+	   </repository>
+	</distributionManagement>
 </project>
