@@ -64,7 +64,7 @@
 	      <url>https://maven.mangoautomation.net/repository/ias-snapshot/</url>
 	   </snapshotRepository>
 	   <repository>
-	      <id>ias-release</id>
+	      <id>ias-releases</id>
 	   	  <url>https://maven.mangoautomation.net/repository/ias-release/</url>
 	   </repository>
 	</distributionManagement>
