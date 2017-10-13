@@ -164,6 +164,7 @@ public class TcpMaster extends ModbusMaster {
                     return ipResponse.getModbusResponse();
                 }
                 catch (Exception e2) {
+                    closeConnection();
         			LOG.debug("Exception: " + e2.getMessage() + " " + e2.getLocalizedMessage());
                     throw new ModbusTransportException(e2, request.getSlaveId());
                 }
