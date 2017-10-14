@@ -70,9 +70,13 @@ public class TcpMaster extends ModbusMaster {
     }
 
     protected short getNextTransactionId() {
-        return nextTransactionId++;
+        return nextTransactionId;
     }
 
+    public void setNextTransactionId(short nextTransactionId){
+    	this.nextTransactionId=nextTransactionId;
+    }
+	
     @Override
     synchronized public void init() throws ModbusInitException {
         try {
