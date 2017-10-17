@@ -1,3 +1,6 @@
+*Release notes for 3.0.4*
+* TcpMaster now allows optionally controlling transaction id.
+
 *Release notes for version 3.0.2*
 * Remove message and character space timing for RTU Master
 
