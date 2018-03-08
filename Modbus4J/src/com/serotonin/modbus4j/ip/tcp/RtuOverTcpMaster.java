@@ -5,21 +5,19 @@ import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
-import com.serotonin.modbus4j.msg.ReadHoldingRegistersResponse;
 import com.serotonin.modbus4j.serial.rtu.RtuMessageRequest;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
 
 public class RtuOverTcpMaster extends ModbusMaster {
 
-    private InetSocketAddress inetSocketAddress;
-    private final Options options;
+    private final InetSocketAddress inetSocketAddress;
     private final Socket tcpClient;
+    private final Options options;
 
     public RtuOverTcpMaster(final InetSocketAddress inetSocketAddress){
         this(inetSocketAddress,new Options());
@@ -27,10 +25,10 @@ public class RtuOverTcpMaster extends ModbusMaster {
 
     public RtuOverTcpMaster(final InetSocketAddress inetSocketAddress, final Options options){
         this.inetSocketAddress = inetSocketAddress;
-        this.options=new Options();
+        this.options=options;
         this.tcpClient=new Socket();
         try {
-            this.tcpClient.setKeepAlive(options.keepAlive);
+            this.tcpClient.setKeepAlive(this.options.keepAlive);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -65,17 +63,20 @@ public class RtuOverTcpMaster extends ModbusMaster {
             outputStream.write(rtuMessageRequest.getMessageData());
 
             final InputStream inputStream=this.tcpClient.getInputStream();
+            Thread.sleep(this.options.waitTime);
             final ByteQueue byteQueue=new ByteQueue();
             byteQueue.read(inputStream,inputStream.available());
             return ModbusResponse.createModbusResponse(byteQueue);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static class Options{
 
-        public boolean keepAlive=true;
+        public boolean keepAlive=false;
+
+        public int waitTime=100;
 
     }
 
