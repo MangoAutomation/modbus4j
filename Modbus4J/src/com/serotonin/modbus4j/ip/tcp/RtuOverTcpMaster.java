@@ -5,13 +5,19 @@ import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
+import com.serotonin.modbus4j.msg.ReadHoldingRegistersResponse;
+import com.serotonin.modbus4j.serial.rtu.RtuMessageRequest;
+import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.*;
 
 public class RtuOverTcpMaster extends ModbusMaster {
 
-    private final InetSocketAddress inetSocketAddress;
+    private InetSocketAddress inetSocketAddress;
     private final Options options;
     private final Socket tcpClient;
 
@@ -19,8 +25,8 @@ public class RtuOverTcpMaster extends ModbusMaster {
         this(inetSocketAddress,new Options());
     }
 
-    public RtuOverTcpMaster(final InetSocketAddress inetSocketAddress,final Options options){
-        this.inetSocketAddress=inetSocketAddress;
+    public RtuOverTcpMaster(final InetSocketAddress inetSocketAddress, final Options options){
+        this.inetSocketAddress = inetSocketAddress;
         this.options=new Options();
         this.tcpClient=new Socket();
         try {
@@ -33,7 +39,8 @@ public class RtuOverTcpMaster extends ModbusMaster {
     @Override
     public synchronized void init() throws ModbusInitException {
         try {
-            this.tcpClient.connect(inetSocketAddress);
+            this.tcpClient.connect(this.inetSocketAddress);
+            this.initialized=true;
         } catch (IOException e) {
             throw new ModbusInitException(e);
         }
@@ -52,7 +59,18 @@ public class RtuOverTcpMaster extends ModbusMaster {
 
     @Override
     public synchronized ModbusResponse sendImpl(final ModbusRequest request) throws ModbusTransportException {
-        return null;
+        final RtuMessageRequest rtuMessageRequest=new RtuMessageRequest(request);
+        try {
+            final OutputStream outputStream=this.tcpClient.getOutputStream();
+            outputStream.write(rtuMessageRequest.getMessageData());
+
+            final InputStream inputStream=this.tcpClient.getInputStream();
+            final ByteQueue byteQueue=new ByteQueue();
+            byteQueue.read(inputStream,inputStream.available());
+            return ModbusResponse.createModbusResponse(byteQueue);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static class Options{
