@@ -58,6 +58,14 @@ public class DataType {
 
     public static final int CHAR = 18;
     public static final int VARCHAR = 19;
+    
+    //MOD10K two, three and four register types
+    public static final int FOUR_BYTE_MOD_10K = 26;
+    public static final int SIX_BYTE_MOD_10K = 27;
+    public static final int EIGHT_BYTE_MOD_10K = 28;
+    public static final int FOUR_BYTE_MOD_10K_SWAPPED = 29;
+    public static final int SIX_BYTE_MOD_10K_SWAPPED = 30;
+    public static final int EIGHT_BYTE_MOD_10K_SWAPPED = 31;
 
     public static int getRegisterCount(int id) {
         switch (id) {
@@ -79,13 +87,20 @@ public class DataType {
         case FOUR_BYTE_FLOAT_SWAPPED_INVERTED:
         case FOUR_BYTE_BCD:
         case FOUR_BYTE_BCD_SWAPPED:
+        case FOUR_BYTE_MOD_10K:
+        case FOUR_BYTE_MOD_10K_SWAPPED:
             return 2;
+        case SIX_BYTE_MOD_10K:
+        case SIX_BYTE_MOD_10K_SWAPPED:
+            return 3;
         case EIGHT_BYTE_INT_UNSIGNED:
         case EIGHT_BYTE_INT_SIGNED:
         case EIGHT_BYTE_INT_UNSIGNED_SWAPPED:
         case EIGHT_BYTE_INT_SIGNED_SWAPPED:
         case EIGHT_BYTE_FLOAT:
         case EIGHT_BYTE_FLOAT_SWAPPED:
+        case EIGHT_BYTE_MOD_10K:
+        case EIGHT_BYTE_MOD_10K_SWAPPED:
             return 4;
         }
         return 0;
@@ -137,6 +152,13 @@ public class DataType {
         case CHAR:
         case VARCHAR:
             return String.class;
+        case FOUR_BYTE_MOD_10K :
+        case SIX_BYTE_MOD_10K :
+        case EIGHT_BYTE_MOD_10K :
+        case FOUR_BYTE_MOD_10K_SWAPPED :
+        case SIX_BYTE_MOD_10K_SWAPPED :
+        case EIGHT_BYTE_MOD_10K_SWAPPED :
+            return BigInteger.class;
         }
         return null;
     }
