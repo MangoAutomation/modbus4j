@@ -195,25 +195,29 @@ public class NumericLocator extends BaseLocator<Number> {
         
         //MOD10K types
         if (dataType == DataType.FOUR_BYTE_MOD_10K)
-            return BigInteger.valueOf((((data[offset+2] & 0xff) << 8) + (data[offset + 3]& 0xff)) )
-                    .multiply(BigInteger.valueOf(10000L)).add(BigInteger.valueOf((((data[offset]& 0xff) << 8) + (data[offset+1]& 0xff))));
+                return   BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))).multiply(BigInteger.valueOf(10000L))
+                    .add(BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))));
         if (dataType == DataType.FOUR_BYTE_MOD_10K_SWAPPED)
-            return BigInteger.valueOf((((data[offset]& 0xff) << 8) + (data[offset+1]& 0xff)))
-                    .multiply(BigInteger.valueOf(10000L)).add(BigInteger.valueOf((((data[offset+2]& 0xff) << 8) + (data[offset+3]& 0xff))));
+                return   BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))).multiply(BigInteger.valueOf(10000L))
+                    .add(BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))));
         if (dataType == DataType.SIX_BYTE_MOD_10K)
-            return BigInteger.valueOf((((data[offset+4] & 0xff) << 8) + (data[offset + 5]& 0xff))).multiply(BigInteger.valueOf(100000000L)).add(BigInteger.valueOf((((data[offset+2] & 0xff) << 8) + (data[offset + 3]& 0xff)))
-                    .multiply(BigInteger.valueOf(10000L))).add(BigInteger.valueOf((((data[offset] & 0xff) << 8) + (data[offset + 1]& 0xff))));
+                return   BigInteger.valueOf((((data[offset + 4] & 0xff) << 8) + (data[offset + 5] & 0xff))).multiply(BigInteger.valueOf(100000000L))
+                    .add(BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))).multiply(BigInteger.valueOf(10000L)))
+                    .add(BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))));
         if (dataType == DataType.SIX_BYTE_MOD_10K_SWAPPED)
-            return BigInteger.valueOf((((data[offset] & 0xff) << 8) + (data[offset + 1]& 0xff))).multiply(BigInteger.valueOf(100000000L)).add(BigInteger.valueOf((((data[offset+2] & 0xff) << 8) + (data[offset + 3]& 0xff)))
-                    .multiply(BigInteger.valueOf(10000L))).add(BigInteger.valueOf((((data[offset] & 0xff) << 8) + (data[offset + 1]& 0xff))));
+                return   BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))).multiply(BigInteger.valueOf(100000000L))
+                    .add(BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))).multiply(BigInteger.valueOf(10000L)))
+                    .add(BigInteger.valueOf((((data[offset + 4] & 0xff) << 8) + (data[offset + 5] & 0xff))));
         if (dataType == DataType.EIGHT_BYTE_MOD_10K)
-            return BigInteger.valueOf((((data[offset+6] & 0xff) << 8) + (data[offset + 7]& 0xff))).multiply(BigInteger.valueOf(1000000000000L)).add(BigInteger.valueOf((((data[offset+4] & 0xff) << 8) + (data[offset + 5]& 0xff)))
-                    .multiply(BigInteger.valueOf(100000000L))).add(BigInteger.valueOf((((data[offset+2] & 0xff) << 8) + (data[offset + 3]& 0xff))).multiply(BigInteger.valueOf(10000L)))
-                    .add(BigInteger.valueOf((((data[offset] & 0xff) << 8) + (data[offset + 1]& 0xff))));
+                return   BigInteger.valueOf((((data[offset + 6] & 0xff) << 8) + (data[offset + 7] & 0xff))).multiply(BigInteger.valueOf(1000000000000L))
+                    .add(BigInteger.valueOf((((data[offset + 4] & 0xff) << 8) + (data[offset + 5] & 0xff))).multiply(BigInteger.valueOf(100000000L)))
+                    .add(BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))).multiply(BigInteger.valueOf(10000L)))
+                    .add(BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))));
         if (dataType == DataType.EIGHT_BYTE_MOD_10K_SWAPPED)
-            return BigInteger.valueOf((((data[offset] & 0xff) << 8) + (data[offset + 1]& 0xff))).multiply(BigInteger.valueOf(1000000000000L)).add(BigInteger.valueOf((((data[offset+2] & 0xff) << 8) + (data[offset + 3]& 0xff)))
-                    .multiply(BigInteger.valueOf(100000000L))).add(BigInteger.valueOf((((data[offset+4] & 0xff) << 8) + (data[offset + 5]& 0xff))).multiply(BigInteger.valueOf(10000L)))
-                    .add(BigInteger.valueOf((((data[offset+6] & 0xff) << 8) + (data[offset + 7]& 0xff))));
+                return   BigInteger.valueOf((((data[offset    ] & 0xff) << 8) + (data[offset + 1] & 0xff))).multiply(BigInteger.valueOf(1000000000000L))
+                    .add(BigInteger.valueOf((((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff))).multiply(BigInteger.valueOf(100000000L)))
+                    .add(BigInteger.valueOf((((data[offset + 4] & 0xff) << 8) + (data[offset + 5] & 0xff))).multiply(BigInteger.valueOf(10000L)))
+                    .add(BigInteger.valueOf((((data[offset + 6] & 0xff) << 8) + (data[offset + 7] & 0xff))));
 
         // 8 bytes
         if (dataType == DataType.EIGHT_BYTE_INT_UNSIGNED) {
@@ -342,19 +346,19 @@ public class NumericLocator extends BaseLocator<Number> {
             long l = value.longValue();
             return new short[] { (short) (l%10000), (short) ((l/10000)%10000)};
         }
-        if (dataType == DataType.SIX_BYTE_MOD_10K) {
+        if (dataType == DataType.SIX_BYTE_MOD_10K_SWAPPED) {
             long l = value.longValue();
             return new short[] { (short) ((l/100000000L)%10000), (short) ((l/10000)%10000), (short) (l%10000) };
         }
-        if (dataType == DataType.SIX_BYTE_MOD_10K_SWAPPED) {
+        if (dataType == DataType.SIX_BYTE_MOD_10K) {
             long l = value.longValue();
             return new short[] { (short) (l%10000), (short) ((l/10000)%10000), (short)((l/100000000L)%10000)};
         }
-        if (dataType == DataType.EIGHT_BYTE_MOD_10K) {
+        if (dataType == DataType.EIGHT_BYTE_MOD_10K_SWAPPED) {
             long l = value.longValue();
             return new short[] { (short)((l/1000000000000L)%10000), (short) ((l/100000000L)%10000), (short) ((l/10000)%10000), (short) (l%10000) };
         }
-        if (dataType == DataType.EIGHT_BYTE_MOD_10K_SWAPPED) {
+        if (dataType == DataType.EIGHT_BYTE_MOD_10K) {
             long l = value.longValue();
             return new short[] { (short) (l%10000), (short) ((l/10000)%10000), (short)((l/100000000L)%10000), (short)((l/1000000000000L)%10000)};
         }
