@@ -39,6 +39,8 @@ public class NumericLocator extends BaseLocator<Number> {
             DataType.SIX_BYTE_MOD_10K_SWAPPED,
             DataType.EIGHT_BYTE_MOD_10K, //
             DataType.EIGHT_BYTE_MOD_10K_SWAPPED, //
+            DataType.ONE_BYTE_INT_UNSIGNED_LOWER, //
+            DataType.ONE_BYTE_INT_UNSIGNED_UPPER
     };
 
     private final int dataType;
@@ -87,6 +89,8 @@ public class NumericLocator extends BaseLocator<Number> {
         case DataType.TWO_BYTE_INT_UNSIGNED_SWAPPED:
         case DataType.TWO_BYTE_INT_SIGNED_SWAPPED:
         case DataType.TWO_BYTE_BCD:
+        case DataType.ONE_BYTE_INT_UNSIGNED_LOWER:
+        case DataType.ONE_BYTE_INT_UNSIGNED_UPPER:
             return 1;
         case DataType.FOUR_BYTE_INT_UNSIGNED:
         case DataType.FOUR_BYTE_INT_SIGNED:
@@ -141,6 +145,12 @@ public class NumericLocator extends BaseLocator<Number> {
             appendBCD(sb, data[offset + 1]);
             return Short.parseShort(sb.toString());
         }
+        
+        // 1 byte
+        if (dataType == DataType.ONE_BYTE_INT_UNSIGNED_LOWER)
+            return new Integer(data[offset+1] & 0xff);
+        if (dataType == DataType.ONE_BYTE_INT_UNSIGNED_UPPER)
+            return new Integer(data[offset] & 0xff);
 
         // 4 bytes
         if (dataType == DataType.FOUR_BYTE_INT_UNSIGNED)
@@ -299,6 +309,13 @@ public class NumericLocator extends BaseLocator<Number> {
         if (dataType == DataType.TWO_BYTE_BCD) {
             short s = toShort(value);
             return new short[] { (short) ((((s / 1000) % 10) << 12) | (((s / 100) % 10) << 8) | (((s / 10) % 10) << 4) | (s % 10)) };
+        }
+        
+        if (dataType == DataType.ONE_BYTE_INT_UNSIGNED_LOWER) {
+            return new short[] { (short)(toShort(value) & 0x00FF) };
+        }
+        if (dataType == DataType.ONE_BYTE_INT_UNSIGNED_UPPER) {
+            return new short[] { (short)((toShort(value) << 8) & 0xFF00) };
         }
 
         // 4 bytes

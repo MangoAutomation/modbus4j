@@ -66,6 +66,10 @@ public class DataType {
     public static final int FOUR_BYTE_MOD_10K_SWAPPED = 29;
     public static final int SIX_BYTE_MOD_10K_SWAPPED = 30;
     public static final int EIGHT_BYTE_MOD_10K_SWAPPED = 31;
+    
+    //One byte unsigned integer types
+    public static final int ONE_BYTE_INT_UNSIGNED_LOWER = 32;
+    public static final int ONE_BYTE_INT_UNSIGNED_UPPER = 33;
 
     public static int getRegisterCount(int id) {
         switch (id) {
@@ -75,6 +79,8 @@ public class DataType {
         case TWO_BYTE_INT_UNSIGNED_SWAPPED:
         case TWO_BYTE_INT_SIGNED_SWAPPED:
         case TWO_BYTE_BCD:
+        case ONE_BYTE_INT_UNSIGNED_LOWER:
+        case ONE_BYTE_INT_UNSIGNED_UPPER:
             return 1;
         case FOUR_BYTE_INT_UNSIGNED:
         case FOUR_BYTE_INT_SIGNED:
