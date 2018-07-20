@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.infiniteautomation</groupId>
     <artifactId>modbus4j</artifactId>
-    <version>3.0.4-SNAPSHOT</version>
+    <version>3.0.4</version>
     <name>Modbus4j Library</name>
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,7 +96,7 @@
         <url>https://github.com/infiniteautomation/modbus4j</url>
         <connection>scm:git:https://github.com/infiniteautomation/modbus4j.git</connection>
         <developerConnection>scm:git:[push=]https://github.com/infiniteautomation/modbus4j.git[fetch=]https://github.com/infiniteautomation/modbus4j.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v3.0.4</tag>
     </scm>
 	<distributionManagement>
 	   <snapshotRepository>
