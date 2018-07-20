@@ -1,5 +1,8 @@
 *Release notes for 3.0.4*
 * TcpMaster now allows optionally controlling transaction id.
+* Adding single byte low and high types to read from registers
+* Adding Mod10k swapped and not swapped data types
+* Adding maven release plugin to configuration
 
 *Release notes for version 3.0.2*
 * Remove message and character space timing for RTU Master

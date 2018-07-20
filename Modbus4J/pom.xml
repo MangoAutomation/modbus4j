@@ -5,18 +5,34 @@
     <artifactId>modbus4j</artifactId>
     <version>3.0.4-SNAPSHOT</version>
     <name>Modbus4j Library</name>
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <testSourceDirectory>src_test</testSourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.7.0</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-source-plugin</artifactId>
+			  <version>3.0.1</version>
+			  <executions>
+			    <execution>
+			      <id>attach-sources</id>
+			      <goals>
+			        <goal>jar</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
             <plugin>
 			   <groupId>org.apache.maven.plugins</groupId>
 			   <artifactId>maven-deploy-plugin</artifactId>
@@ -44,13 +60,28 @@
 			      <skipStaging>true</skipStaging>
 			   </configuration>
 			</plugin>
+		    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <dependencies>
+                  <dependency>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>1.9.5</version>
+                  </dependency>
+                </dependencies>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                 </configuration>
+              </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
+            <version>3.7</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -58,6 +89,16 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
+    <issueManagement>
+        <url>https://github.com/infiniteautomation/modbus4j/issues</url>
+        <system>github</system>
+    </issueManagement>
+    <scm>
+        <url>https://github.com/infiniteautomation/modbus4j</url>
+        <connection>scm:git:https://github.com/infiniteautomation/modbus4j.git</connection>
+        <developerConnection>scm:git:[push=]https://github.com/infiniteautomation/modbus4j.git[fetch=]https://github.com/infiniteautomation/modbus4j.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 	<distributionManagement>
 	   <snapshotRepository>
 	      <id>ias-snapshots</id>

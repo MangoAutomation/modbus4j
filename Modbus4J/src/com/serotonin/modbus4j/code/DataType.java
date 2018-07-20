@@ -114,6 +114,9 @@ public class DataType {
 
     public static Class<?> getJavaType(int id) {
         switch (id) {
+        case ONE_BYTE_INT_UNSIGNED_LOWER:
+        case ONE_BYTE_INT_UNSIGNED_UPPER:
+            return Integer.class;
         case BINARY:
             return Boolean.class;
         case TWO_BYTE_INT_UNSIGNED:
