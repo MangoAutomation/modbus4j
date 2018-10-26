@@ -5,7 +5,7 @@ A high-performance and ease-of-use implementation of the Modbus protocol written
 
 For support and general help please see our [Forum](https://forum.infiniteautomation.com/category/11/modbus4j-general-discussion)
 
-Commercial licenses are available from www.InfiniteAutomation.com
+Commercial licenses are available from https://infiniteautomation.com/modbus4j-open-source-modbus-library/
 
 A public Maven Repository is now available with the latest builds add this to your pom.xml
 
