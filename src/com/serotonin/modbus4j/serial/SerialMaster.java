@@ -33,15 +33,8 @@ abstract public class SerialMaster extends ModbusMaster {
 	
 	
 	private final Log LOG = LogFactory.getLog(SerialMaster.class);
-	//These options are no longer supported as they were originally a hack that didn't work right anyway
-	@Deprecated
-    public static final int SYNC_TRANSPORT = 1;
-	@Deprecated
-    public static final int SYNC_SLAVE = 2;
-	@Deprecated
-    public static final int SYNC_FUNCTION = 3;
-    
-    // Runtime fields.
+
+	// Runtime fields.
     protected SerialPortWrapper wrapper;
     protected Transport transport;
 

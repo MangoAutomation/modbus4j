@@ -42,18 +42,6 @@ public interface SerialPortWrapper {
 	 * @return
 	 */
 	int getBaudRate();
-
-	/**
-	 * 
-	 * @return
-	 */
-	int getFlowControlIn();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	int getFlowControlOut();
 	
 	/**
 	 * @return

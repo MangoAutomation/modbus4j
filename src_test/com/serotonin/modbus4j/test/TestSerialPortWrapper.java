@@ -101,27 +101,6 @@ public class TestSerialPortWrapper implements SerialPortWrapper{
 		return 0;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.serotonin.modbus4j.serial.SerialPortWrapper#getFlowControlIn()
-	 */
-	@Override
-	public int getFlowControlIn() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.serotonin.modbus4j.serial.SerialPortWrapper#getFlowControlOut()
-	 */
-	@Override
-	public int getFlowControlOut() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 	/* (non-Javadoc)
 	 * @see com.serotonin.modbus4j.serial.SerialPortWrapper#getDataBits()
 	 */
