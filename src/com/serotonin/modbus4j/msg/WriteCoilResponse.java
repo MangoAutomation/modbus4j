@@ -25,10 +25,17 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteCoilResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteCoilResponse extends ModbusResponse {
     private int writeOffset;
     private boolean writeValue;
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_COIL;
@@ -44,22 +51,34 @@ public class WriteCoilResponse extends ModbusResponse {
         this.writeValue = writeValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushShort(queue, writeOffset);
         ModbusUtils.pushShort(queue, writeValue ? 0xff00 : 0);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         writeOffset = ModbusUtils.popUnsignedShort(queue);
         writeValue = ModbusUtils.popUnsignedShort(queue) == 0xff00;
     }
 
+    /**
+     * <p>Getter for the field <code>writeOffset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getWriteOffset() {
         return writeOffset;
     }
 
+    /**
+     * <p>isWriteValue.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isWriteValue() {
         return writeValue;
     }

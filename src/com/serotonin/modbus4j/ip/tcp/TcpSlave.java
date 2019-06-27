@@ -42,6 +42,12 @@ import com.serotonin.modbus4j.ip.xa.XaRequestHandler;
 import com.serotonin.modbus4j.sero.messaging.MessageControl;
 import com.serotonin.modbus4j.sero.messaging.TestableTransport;
 
+/**
+ * <p>TcpSlave class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class TcpSlave extends ModbusSlaveSet {
     // Configuration fields
     private final int port;
@@ -52,16 +58,28 @@ public class TcpSlave extends ModbusSlaveSet {
     final ExecutorService executorService;
     final List<TcpConnectionHandler> listConnections = new ArrayList<>();
 
+    /**
+     * <p>Constructor for TcpSlave.</p>
+     *
+     * @param encapsulated a boolean.
+     */
     public TcpSlave(boolean encapsulated) {
         this(ModbusUtils.TCP_PORT, encapsulated);
     }
 
+    /**
+     * <p>Constructor for TcpSlave.</p>
+     *
+     * @param port a int.
+     * @param encapsulated a boolean.
+     */
     public TcpSlave(int port, boolean encapsulated) {
         this.port = port;
         this.encapsulated = encapsulated;
         executorService = Executors.newCachedThreadPool();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws ModbusInitException {
         try {
@@ -82,6 +100,7 @@ public class TcpSlave extends ModbusSlaveSet {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
         // Close the socket first to prevent new messages.

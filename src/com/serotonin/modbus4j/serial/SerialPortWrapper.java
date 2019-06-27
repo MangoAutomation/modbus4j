@@ -9,52 +9,66 @@ import java.io.OutputStream;
 
 /**
  * Wrapper to further aid in abstracting Modbus4J from a serial port implementation
- * 
- * @author Terry Packer
  *
+ * @author Terry Packer
+ * @version 5.0.0
  */
 public interface SerialPortWrapper {
 
 	/**
 	 * Close the Serial Port
+	 *
+	 * @throws java.lang.Exception if any.
 	 */
 	void close() throws Exception;
 
 	/**
-	 * 
+	 * <p>open.</p>
+	 *
+	 * @throws java.lang.Exception if any.
 	 */
 	void open() throws Exception;
 
 	/**
-	 * 
+	 *
 	 * Return the input stream for an open port
-	 * @return
+	 *
+	 * @return a {@link java.io.InputStream} object.
 	 */
 	InputStream getInputStream();
 
 	/**
 	 * Return the output stream for an open port
-	 * @return
+	 *
+	 * @return a {@link java.io.OutputStream} object.
 	 */
 	OutputStream getOutputStream();
 
 	/**
-	 * @return
+	 * <p>getBaudRate.</p>
+	 *
+	 * @return a int.
 	 */
 	int getBaudRate();
 	
 	/**
-	 * @return
+	 * <p>getDataBits.</p>
+	 *
+	 * @return a int.
 	 */
 	int getDataBits();
 
 	/**
-	 * @return
+	 * <p>getStopBits.</p>
+	 *
+	 * @return a int.
 	 */
 	int getStopBits();
 
 	/**
-	 * @return
+	 * <p>getParity.</p>
+	 *
+	 * @return a int.
 	 */
 	int getParity();
 	

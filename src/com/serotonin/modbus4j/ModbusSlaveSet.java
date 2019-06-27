@@ -28,11 +28,22 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.serotonin.modbus4j.exception.ModbusInitException;
 
+/**
+ * <p>Abstract ModbusSlaveSet class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ModbusSlaveSet extends Modbus {
 	
     private LinkedHashMap<Integer, ProcessImage> processImages = new LinkedHashMap<>();
     private ReadWriteLock lock = new ReentrantReadWriteLock();
 
+    /**
+     * <p>addProcessImage.</p>
+     *
+     * @param processImage a {@link com.serotonin.modbus4j.ProcessImage} object.
+     */
     public void addProcessImage(ProcessImage processImage) {
     	lock.writeLock().lock();
     	try{
@@ -42,6 +53,12 @@ abstract public class ModbusSlaveSet extends Modbus {
     	}
     }
     
+    /**
+     * <p>removeProcessImage.</p>
+     *
+     * @param slaveId a int.
+     * @return a boolean.
+     */
     public boolean removeProcessImage(int slaveId){
     	lock.writeLock().lock();
     	try{
@@ -51,6 +68,12 @@ abstract public class ModbusSlaveSet extends Modbus {
     	}
     }
 
+    /**
+     * <p>removeProcessImage.</p>
+     *
+     * @param processImage a {@link com.serotonin.modbus4j.ProcessImage} object.
+     * @return a boolean.
+     */
     public boolean removeProcessImage(ProcessImage processImage){
     	lock.writeLock().lock();
     	try{
@@ -61,6 +84,12 @@ abstract public class ModbusSlaveSet extends Modbus {
     }
 
 
+    /**
+     * <p>getProcessImage.</p>
+     *
+     * @param slaveId a int.
+     * @return a {@link com.serotonin.modbus4j.ProcessImage} object.
+     */
     public ProcessImage getProcessImage(int slaveId) {
     	lock.readLock().lock();
     	try{
@@ -72,7 +101,8 @@ abstract public class ModbusSlaveSet extends Modbus {
 
     /**
      * Get a copy of the current process images
-     * @return
+     *
+     * @return a {@link java.util.Collection} object.
      */
     public Collection<ProcessImage> getProcessImages() {
     	lock.readLock().lock();
@@ -86,10 +116,13 @@ abstract public class ModbusSlaveSet extends Modbus {
     /**
      * Starts the slave. If an exception is not thrown, this method does not return, but uses the thread to execute the
      * listening.
-     * 
-     * @throws ModbusInitException
+     *
+     * @throws com.serotonin.modbus4j.exception.ModbusInitException if necessary
      */
     abstract public void start() throws ModbusInitException;
 
+    /**
+     * <p>stop.</p>
+     */
     abstract public void stop();
 }

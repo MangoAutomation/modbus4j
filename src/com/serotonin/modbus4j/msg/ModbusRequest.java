@@ -30,7 +30,20 @@ import com.serotonin.modbus4j.exception.IllegalDataAddressException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract ModbusRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ModbusRequest extends ModbusMessage {
+    /**
+     * <p>createModbusRequest.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public static ModbusRequest createModbusRequest(ByteQueue queue) throws ModbusTransportException {
         int slaveId = ModbusUtils.popUnsignedByte(queue);
         byte functionCode = queue.pop();
@@ -70,8 +83,21 @@ abstract public class ModbusRequest extends ModbusMessage {
         super(slaveId);
     }
 
+    /**
+     * <p>validate.</p>
+     *
+     * @param modbus a {@link com.serotonin.modbus4j.Modbus} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     abstract public void validate(Modbus modbus) throws ModbusTransportException;
 
+    /**
+     * <p>handle.</p>
+     *
+     * @param processImage a {@link com.serotonin.modbus4j.ProcessImage} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ModbusResponse handle(ProcessImage processImage) throws ModbusTransportException {
         try {
             try {
@@ -88,6 +114,11 @@ abstract public class ModbusRequest extends ModbusMessage {
 
     abstract ModbusResponse handleImpl(ProcessImage processImage) throws ModbusTransportException;
 
+    /**
+     * <p>readRequest.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     */
     abstract protected void readRequest(ByteQueue queue);
 
     ModbusResponse handleException(byte exceptionCode) throws ModbusTransportException {
@@ -98,11 +129,17 @@ abstract public class ModbusRequest extends ModbusMessage {
 
     abstract ModbusResponse getResponseInstance(int slaveId) throws ModbusTransportException;
 
+    /** {@inheritDoc} */
     @Override
     final protected void writeImpl(ByteQueue queue) {
         queue.push(getFunctionCode());
         writeRequest(queue);
     }
 
+    /**
+     * <p>writeRequest.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     */
     abstract protected void writeRequest(ByteQueue queue);
 }

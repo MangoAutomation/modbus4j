@@ -23,6 +23,12 @@ package com.serotonin.modbus4j.msg;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 
+/**
+ * <p>ReadHoldingRegistersResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadHoldingRegistersResponse extends ReadResponse {
     ReadHoldingRegistersResponse(int slaveId, byte[] data) throws ModbusTransportException {
         super(slaveId, data);
@@ -32,11 +38,13 @@ public class ReadHoldingRegistersResponse extends ReadResponse {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.READ_HOLDING_REGISTERS;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ReadHoldingRegistersResponse [exceptionCode=" + exceptionCode + ", slaveId=" + slaveId

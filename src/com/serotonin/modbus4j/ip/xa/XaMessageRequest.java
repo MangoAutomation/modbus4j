@@ -27,6 +27,12 @@ import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>XaMessageRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class XaMessageRequest extends XaMessage implements OutgoingRequestMessage, IncomingRequestMessage {
     static XaMessageRequest createXaMessageRequest(ByteQueue queue) throws ModbusTransportException {
         // Remove the XA header
@@ -41,15 +47,27 @@ public class XaMessageRequest extends XaMessage implements OutgoingRequestMessag
         return new XaMessageRequest(request, transactionId);
     }
 
+    /**
+     * <p>Constructor for XaMessageRequest.</p>
+     *
+     * @param modbusRequest a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @param transactionId a int.
+     */
     public XaMessageRequest(ModbusRequest modbusRequest, int transactionId) {
         super(modbusRequest, transactionId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean expectsResponse() {
         return modbusMessage.getSlaveId() != 0;
     }
 
+    /**
+     * <p>getModbusRequest.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     */
     public ModbusRequest getModbusRequest() {
         return (ModbusRequest) modbusMessage;
     }

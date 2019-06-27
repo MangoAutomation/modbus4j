@@ -22,31 +22,67 @@ package com.serotonin.modbus4j.ip;
 
 import com.serotonin.modbus4j.base.ModbusUtils;
 
+/**
+ * <p>IpParameters class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class IpParameters {
     private String host;
     private int port = ModbusUtils.TCP_PORT;
     private boolean encapsulated;
 
+    /**
+     * <p>Getter for the field <code>host</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getHost() {
         return host;
     }
 
+    /**
+     * <p>Setter for the field <code>host</code>.</p>
+     *
+     * @param host a {@link java.lang.String} object.
+     */
     public void setHost(String host) {
         this.host = host;
     }
 
+    /**
+     * <p>Getter for the field <code>port</code>.</p>
+     *
+     * @return a int.
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * <p>Setter for the field <code>port</code>.</p>
+     *
+     * @param port a int.
+     */
     public void setPort(int port) {
         this.port = port;
     }
 
+    /**
+     * <p>isEncapsulated.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isEncapsulated() {
         return encapsulated;
     }
 
+    /**
+     * <p>Setter for the field <code>encapsulated</code>.</p>
+     *
+     * @param encapsulated a boolean.
+     */
     public void setEncapsulated(boolean encapsulated) {
         this.encapsulated = encapsulated;
     }

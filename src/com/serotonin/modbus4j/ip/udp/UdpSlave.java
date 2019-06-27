@@ -41,6 +41,12 @@ import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>UdpSlave class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class UdpSlave extends ModbusSlaveSet {
     // Configuration fields
     private final int port;
@@ -51,10 +57,21 @@ public class UdpSlave extends ModbusSlaveSet {
     final BaseMessageParser messageParser;
     final BaseRequestHandler requestHandler;
 
+    /**
+     * <p>Constructor for UdpSlave.</p>
+     *
+     * @param encapsulated a boolean.
+     */
     public UdpSlave(boolean encapsulated) {
         this(ModbusUtils.TCP_PORT, encapsulated);
     }
 
+    /**
+     * <p>Constructor for UdpSlave.</p>
+     *
+     * @param port a int.
+     * @param encapsulated a boolean.
+     */
     public UdpSlave(int port, boolean encapsulated) {
         this.port = port;
 
@@ -70,6 +87,7 @@ public class UdpSlave extends ModbusSlaveSet {
         executorService = Executors.newCachedThreadPool();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws ModbusInitException {
         try {
@@ -89,6 +107,7 @@ public class UdpSlave extends ModbusSlaveSet {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
         // Close the socket first to prevent new messages.

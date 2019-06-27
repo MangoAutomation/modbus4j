@@ -24,7 +24,21 @@ import com.serotonin.modbus4j.ProcessImage;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 
+/**
+ * <p>ReadHoldingRegistersRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadHoldingRegistersRequest extends ReadNumericRequest {
+    /**
+     * <p>Constructor for ReadHoldingRegistersRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param startOffset a int.
+     * @param numberOfRegisters a int.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ReadHoldingRegistersRequest(int slaveId, int startOffset, int numberOfRegisters)
             throws ModbusTransportException {
         super(slaveId, startOffset, numberOfRegisters);
@@ -34,6 +48,7 @@ public class ReadHoldingRegistersRequest extends ReadNumericRequest {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.READ_HOLDING_REGISTERS;
@@ -44,6 +59,7 @@ public class ReadHoldingRegistersRequest extends ReadNumericRequest {
         return new ReadHoldingRegistersResponse(slaveId, getData(processImage));
     }
 
+    /** {@inheritDoc} */
     @Override
     protected short getNumeric(ProcessImage processImage, int index) throws ModbusTransportException {
         return processImage.getHoldingRegister(index);
@@ -54,6 +70,7 @@ public class ReadHoldingRegistersRequest extends ReadNumericRequest {
         return new ReadHoldingRegistersResponse(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ReadHoldingRegistersRequest [slaveId=" + slaveId + ", getFunctionCode()=" + getFunctionCode()

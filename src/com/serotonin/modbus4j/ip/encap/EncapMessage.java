@@ -25,11 +25,27 @@ import com.serotonin.modbus4j.ip.IpMessage;
 import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>EncapMessage class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class EncapMessage extends IpMessage {
+    /**
+     * <p>Constructor for EncapMessage.</p>
+     *
+     * @param modbusMessage a {@link com.serotonin.modbus4j.msg.ModbusMessage} object.
+     */
     public EncapMessage(ModbusMessage modbusMessage) {
         super(modbusMessage);
     }
 
+    /**
+     * <p>getMessageData.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] getMessageData() {
         ByteQueue msgQueue = new ByteQueue();
 

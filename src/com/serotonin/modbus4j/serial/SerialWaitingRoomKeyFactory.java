@@ -5,14 +5,22 @@ import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKey;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
+/**
+ * <p>SerialWaitingRoomKeyFactory class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class SerialWaitingRoomKeyFactory implements WaitingRoomKeyFactory {
     private static final Sync sync = new Sync();
 
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(OutgoingRequestMessage request) {
         return sync;
     }
 
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(IncomingResponseMessage response) {
         return sync;

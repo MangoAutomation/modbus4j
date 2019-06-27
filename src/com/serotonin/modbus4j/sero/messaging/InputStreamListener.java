@@ -9,8 +9,9 @@ import org.apache.commons.lang3.StringUtils;
  * This class provides a stoppable listener for an input stream that sends arbitrary information. A read() call to an
  * input stream will typically not return as long as the stream is not sending any data. This class provides a way for
  * stream listeners to safely listen and still respond when they are told to stop.
- * 
+ *
  * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public class InputStreamListener implements Runnable {
     private static final int DEFAULT_READ_DELAY = 50;
@@ -26,27 +27,51 @@ public class InputStreamListener implements Runnable {
      */
     private int readDelay = DEFAULT_READ_DELAY;
 
+    /**
+     * <p>Constructor for InputStreamListener.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param consumer a {@link com.serotonin.modbus4j.sero.messaging.DataConsumer} object.
+     */
     public InputStreamListener(InputStream in, DataConsumer consumer) {
         this.in = in;
         this.consumer = consumer;
     }
 
+    /**
+     * <p>Getter for the field <code>readDelay</code>.</p>
+     *
+     * @return a int.
+     */
     public int getReadDelay() {
         return readDelay;
     }
 
+    /**
+     * <p>Setter for the field <code>readDelay</code>.</p>
+     *
+     * @param readDelay a int.
+     */
     public void setReadDelay(int readDelay) {
         if (readDelay < 1)
             throw new IllegalArgumentException("readDelay cannot be less than one");
         this.readDelay = readDelay;
     }
 
+    /**
+     * <p>start.</p>
+     *
+     * @param threadName a {@link java.lang.String} object.
+     */
     public void start(String threadName) {
         Thread thread = new Thread(this, threadName);
         thread.setDaemon(true);
         thread.start();
     }
 
+    /**
+     * <p>stop.</p>
+     */
     public void stop() {
         running = false;
         synchronized (this) {
@@ -54,6 +79,9 @@ public class InputStreamListener implements Runnable {
         }
     }
 
+    /**
+     * <p>run.</p>
+     */
     public void run() {
         byte[] buf = new byte[1024];
         int readcount;

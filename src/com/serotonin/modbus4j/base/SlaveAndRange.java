@@ -20,10 +20,22 @@
  */
 package com.serotonin.modbus4j.base;
 
+/**
+ * <p>SlaveAndRange class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class SlaveAndRange {
     private final int slaveId;
     private final int range;
 
+    /**
+     * <p>Constructor for SlaveAndRange.</p>
+     *
+     * @param slaveId a int.
+     * @param range a int.
+     */
     public SlaveAndRange(int slaveId, int range) {
         ModbusUtils.validateSlaveId(slaveId, true);
 
@@ -31,14 +43,25 @@ public class SlaveAndRange {
         this.range = range;
     }
 
+    /**
+     * <p>Getter for the field <code>range</code>.</p>
+     *
+     * @return a int.
+     */
     public int getRange() {
         return range;
     }
 
+    /**
+     * <p>Getter for the field <code>slaveId</code>.</p>
+     *
+     * @return a int.
+     */
     public int getSlaveId() {
         return slaveId;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -48,6 +71,7 @@ public class SlaveAndRange {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

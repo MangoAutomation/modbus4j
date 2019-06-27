@@ -24,11 +24,23 @@ import com.serotonin.modbus4j.base.BaseMessageParser;
 import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>XaMessageParser class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class XaMessageParser extends BaseMessageParser {
+    /**
+     * <p>Constructor for XaMessageParser.</p>
+     *
+     * @param master a boolean.
+     */
     public XaMessageParser(boolean master) {
         super(master);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected IncomingMessage parseMessageImpl(ByteQueue queue) throws Exception {
         if (master)

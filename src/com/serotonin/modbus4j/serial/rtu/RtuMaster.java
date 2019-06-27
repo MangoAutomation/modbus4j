@@ -33,6 +33,12 @@ import com.serotonin.modbus4j.sero.ShouldNeverHappenException;
 import com.serotonin.modbus4j.sero.messaging.MessageControl;
 import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 
+/**
+ * <p>RtuMaster class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class RtuMaster extends SerialMaster {
 	
     // Runtime fields.
@@ -41,12 +47,14 @@ public class RtuMaster extends SerialMaster {
     /**
      * For legacy purposes, create RTU Master and
      * compute the character and message frame spacing
-     * @param params
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
     public RtuMaster(SerialPortWrapper wrapper){
     	super(wrapper);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void init() throws ModbusInitException {
         super.init();
@@ -64,6 +72,7 @@ public class RtuMaster extends SerialMaster {
         initialized = true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void destroy() {
         closeMessageControl(conn);
@@ -71,6 +80,7 @@ public class RtuMaster extends SerialMaster {
         initialized = false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException {
         // Wrap the modbus request in an rtu request.
@@ -93,15 +103,15 @@ public class RtuMaster extends SerialMaster {
     }
     
     /**
-     * RTU Spec: 
-     * For baud > 19200 
+     * RTU Spec:
+     * For baud greater than 19200
      * Message Spacing: 1.750uS
-     * 
-     * For baud < 19200
+     *
+     * For baud less than 19200
      * Message Spacing: 3.5 * char time
-     * 
-     * @param params
-     * @return
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a long.
      */
     public static long computeMessageFrameSpacing(SerialPortWrapper wrapper){
         //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
@@ -115,15 +125,15 @@ public class RtuMaster extends SerialMaster {
     }
 
     /**
-     * RTU Spec: 
-     * For baud > 19200 
-     * Char Spacing: 750uS 
-     * 
-     * For baud < 19200
+     * RTU Spec:
+     * For baud greater than 19200
+     * Char Spacing: 750uS
+     *
+     * For baud less than 19200
      * Char Spacing: 1.5 * char time
-     * 
-     * @param params
-     * @return
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a long.
      */
     public static long computeCharacterSpacing(SerialPortWrapper wrapper){
         //For Modbus Serial Spec, Message Framing rates at 19200 Baud are fixed
@@ -138,20 +148,20 @@ public class RtuMaster extends SerialMaster {
 
     
     /**
-     * Compute the time it takes to transmit 1 character with 
+     * Compute the time it takes to transmit 1 character with
      * the provided Serial Parameters.
-     * 
-     * RTU Spec: 
-     * For baud > 19200 
-     * Char Spacing: 750uS 
+     *
+     * RTU Spec:
+     * For baud greater than 19200
+     * Char Spacing: 750uS
      * Message Spacing: 1.750uS
-     * 
-     * For baud < 19200
+     *
+     * For baud less than 19200
      * Char Spacing: 1.5 * char time
      * Message Spacing: 3.5 * char time
-     * 
-     * @param params
+     *
      * @return time in nanoseconds
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
     public static float computeCharacterTime(SerialPortWrapper wrapper){
         //Compute the char size

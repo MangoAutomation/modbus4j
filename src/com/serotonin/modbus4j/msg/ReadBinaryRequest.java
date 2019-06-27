@@ -26,16 +26,31 @@ import com.serotonin.modbus4j.base.ModbusUtils;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract ReadBinaryRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ReadBinaryRequest extends ModbusRequest {
     private int startOffset;
     private int numberOfBits;
 
+    /**
+     * <p>Constructor for ReadBinaryRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param startOffset a int.
+     * @param numberOfBits a int.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ReadBinaryRequest(int slaveId, int startOffset, int numberOfBits) throws ModbusTransportException {
         super(slaveId);
         this.startOffset = startOffset;
         this.numberOfBits = numberOfBits;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void validate(Modbus modbus) throws ModbusTransportException {
         ModbusUtils.validateOffset(startOffset);
@@ -47,18 +62,27 @@ abstract public class ReadBinaryRequest extends ModbusRequest {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeRequest(ByteQueue queue) {
         ModbusUtils.pushShort(queue, startOffset);
         ModbusUtils.pushShort(queue, numberOfBits);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readRequest(ByteQueue queue) {
         startOffset = ModbusUtils.popUnsignedShort(queue);
         numberOfBits = ModbusUtils.popUnsignedShort(queue);
     }
 
+    /**
+     * <p>getData.</p>
+     *
+     * @param processImage a {@link com.serotonin.modbus4j.ProcessImage} object.
+     * @return an array of {@link byte} objects.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     protected byte[] getData(ProcessImage processImage) throws ModbusTransportException {
         boolean[] data = new boolean[numberOfBits];
 
@@ -70,8 +94,17 @@ abstract public class ReadBinaryRequest extends ModbusRequest {
         return convertToBytes(data);
     }
 
+    /**
+     * <p>getBinary.</p>
+     *
+     * @param processImage a {@link com.serotonin.modbus4j.ProcessImage} object.
+     * @param index a int.
+     * @return a boolean.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     abstract protected boolean getBinary(ProcessImage processImage, int index) throws ModbusTransportException;
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ReadBinaryRequest [startOffset=" + startOffset + ", numberOfBits=" + numberOfBits + "]";

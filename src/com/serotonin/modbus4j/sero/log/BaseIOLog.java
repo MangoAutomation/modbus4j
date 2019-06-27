@@ -18,13 +18,16 @@ import com.serotonin.modbus4j.sero.io.NullWriter;
 import com.serotonin.modbus4j.sero.io.StreamUtils;
 
 /**
- * @author Terry Packer
+ * <p>Abstract BaseIOLog class.</p>
  *
+ * @author Terry Packer
+ * @version 5.0.0
  */
 public abstract class BaseIOLog {
     
 	private static final Log LOG = LogFactory.getLog(BaseIOLog.class);
 	
+	/** Constant <code>DATE_FORMAT="yyyy/MM/dd-HH:mm:ss,SSS"</code> */
 	protected static final String DATE_FORMAT = "yyyy/MM/dd-HH:mm:ss,SSS";
     protected final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
     protected PrintWriter out;
@@ -32,6 +35,11 @@ public abstract class BaseIOLog {
     protected final StringBuilder sb = new StringBuilder();
     protected final Date date = new Date();
     
+    /**
+     * <p>Constructor for BaseIOLog.</p>
+     *
+     * @param logFile a {@link java.io.File} object.
+     */
     public BaseIOLog(File logFile){
     	this.file = logFile;
         createOut();
@@ -50,30 +58,71 @@ public abstract class BaseIOLog {
         }
     }
 	
+    /**
+     * <p>close.</p>
+     */
     public void close() {
         out.close();
     }
 
+    /**
+     * <p>input.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     */
     public void input(byte[] b) {
         log(true, b, 0, b.length);
     }
 
+    /**
+     * <p>input.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     */
     public void input(byte[] b, int pos, int len) {
         log(true, b, pos, len);
     }
 
+    /**
+     * <p>output.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     */
     public void output(byte[] b) {
         log(false, b, 0, b.length);
     }
 
+    /**
+     * <p>output.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     */
     public void output(byte[] b, int pos, int len) {
         log(false, b, pos, len);
     }
 
+    /**
+     * <p>log.</p>
+     *
+     * @param input a boolean.
+     * @param b an array of {@link byte} objects.
+     */
     public void log(boolean input, byte[] b) {
         log(input, b, 0, b.length);
     }
 
+    /**
+     * <p>log.</p>
+     *
+     * @param input a boolean.
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     */
     public synchronized void log(boolean input, byte[] b, int pos, int len) {
         sizeCheck();
 
@@ -86,6 +135,11 @@ public abstract class BaseIOLog {
         out.flush();
     }
 
+    /**
+     * <p>log.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public synchronized void log(String message) {
         sizeCheck();
 

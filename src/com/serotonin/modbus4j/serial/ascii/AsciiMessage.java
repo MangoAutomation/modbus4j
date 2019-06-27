@@ -25,6 +25,12 @@ import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.serial.SerialMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract AsciiMessage class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class AsciiMessage extends SerialMessage {
     private static final byte START = ':';
     private static final byte[] END = { '\r', '\n' };
@@ -33,6 +39,13 @@ abstract public class AsciiMessage extends SerialMessage {
         super(modbusMessage);
     }
 
+    /**
+     * <p>getUnasciiMessage.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     protected static ByteQueue getUnasciiMessage(ByteQueue queue) throws ModbusTransportException {
         // Validate that the message starts with the required indicator
         byte b = queue.pop();
@@ -67,6 +80,12 @@ abstract public class AsciiMessage extends SerialMessage {
         return msgQueue;
     }
 
+    /**
+     * <p>getAsciiData.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return an array of {@link byte} objects.
+     */
     protected byte[] getAsciiData(ByteQueue queue) {
         int unasciiLen = queue.size();
 
@@ -81,6 +100,11 @@ abstract public class AsciiMessage extends SerialMessage {
         return queue.popAll();
     }
 
+    /**
+     * <p>getMessageData.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] getMessageData() {
         ByteQueue queue = new ByteQueue();
         modbusMessage.write(queue);

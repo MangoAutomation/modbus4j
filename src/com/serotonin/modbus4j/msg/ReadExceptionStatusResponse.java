@@ -24,6 +24,12 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>ReadExceptionStatusResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadExceptionStatusResponse extends ModbusResponse {
     private byte exceptionStatus;
 
@@ -36,21 +42,29 @@ public class ReadExceptionStatusResponse extends ModbusResponse {
         this.exceptionStatus = exceptionStatus;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.READ_EXCEPTION_STATUS;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         exceptionStatus = queue.pop();
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         queue.push(exceptionStatus);
     }
 
+    /**
+     * <p>Getter for the field <code>exceptionStatus</code>.</p>
+     *
+     * @return a byte.
+     */
     public byte getExceptionStatus() {
         return exceptionStatus;
     }

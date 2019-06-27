@@ -25,6 +25,12 @@ import java.util.List;
 
 import com.serotonin.modbus4j.code.RegisterRange;
 
+/**
+ * <p>ReadFunctionGroup class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadFunctionGroup<K> {
     private final SlaveAndRange slaveAndRange;
     private final int functionCode;
@@ -32,12 +38,22 @@ public class ReadFunctionGroup<K> {
     private int startOffset = 65536;
     private int length = 0;
 
+    /**
+     * <p>Constructor for ReadFunctionGroup.</p>
+     *
+     * @param locator a {@link com.serotonin.modbus4j.base.KeyedModbusLocator} object.
+     */
     public ReadFunctionGroup(KeyedModbusLocator<K> locator) {
         slaveAndRange = locator.getSlaveAndRange();
         functionCode = RegisterRange.getReadFunctionCode(slaveAndRange.getRange());
         add(locator);
     }
 
+    /**
+     * <p>add.</p>
+     *
+     * @param locator a {@link com.serotonin.modbus4j.base.KeyedModbusLocator} object.
+     */
     public void add(KeyedModbusLocator<K> locator) {
         if (startOffset > locator.getOffset())
             startOffset = locator.getOffset();
@@ -46,26 +62,56 @@ public class ReadFunctionGroup<K> {
         locators.add(locator);
     }
 
+    /**
+     * <p>Getter for the field <code>startOffset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getStartOffset() {
         return startOffset;
     }
 
+    /**
+     * <p>getEndOffset.</p>
+     *
+     * @return a int.
+     */
     public int getEndOffset() {
         return startOffset + length - 1;
     }
 
+    /**
+     * <p>Getter for the field <code>slaveAndRange</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.base.SlaveAndRange} object.
+     */
     public SlaveAndRange getSlaveAndRange() {
         return slaveAndRange;
     }
 
+    /**
+     * <p>Getter for the field <code>length</code>.</p>
+     *
+     * @return a int.
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * <p>Getter for the field <code>functionCode</code>.</p>
+     *
+     * @return a int.
+     */
     public int getFunctionCode() {
         return functionCode;
     }
 
+    /**
+     * <p>Getter for the field <code>locators</code>.</p>
+     *
+     * @return a {@link java.util.List} object.
+     */
     public List<KeyedModbusLocator<K>> getLocators() {
         return locators;
     }

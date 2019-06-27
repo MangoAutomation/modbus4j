@@ -42,6 +42,12 @@ import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>UdpMaster class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class UdpMaster extends ModbusMaster {
     private static final int MESSAGE_LENGTH = 1024;
 
@@ -52,14 +58,25 @@ public class UdpMaster extends ModbusMaster {
     private BaseMessageParser messageParser;
     private DatagramSocket socket;
 
+    /**
+     * <p>Constructor for UdpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     */
     public UdpMaster(IpParameters params) {
         ipParameters = params;
     }
 
+    /**
+     * <p>Getter for the field <code>nextTransactionId</code>.</p>
+     *
+     * @return a short.
+     */
     protected short getNextTransactionId() {
         return nextTransactionId++;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void init() throws ModbusInitException {
         if (ipParameters.isEncapsulated())
@@ -77,12 +94,14 @@ public class UdpMaster extends ModbusMaster {
         initialized = true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void destroy() {
         socket.close();
         initialized = false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException {
         // Wrap the modbus request in an ip request.

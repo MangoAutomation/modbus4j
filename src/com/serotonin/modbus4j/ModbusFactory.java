@@ -41,26 +41,63 @@ import com.serotonin.modbus4j.serial.ascii.AsciiSlave;
 import com.serotonin.modbus4j.serial.rtu.RtuMaster;
 import com.serotonin.modbus4j.serial.rtu.RtuSlave;
 
+/**
+ * <p>ModbusFactory class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ModbusFactory {
     //
     // Modbus masters
     //
+    /**
+     * <p>createRtuMaster.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
     public ModbusMaster createRtuMaster(SerialPortWrapper wrapper) {
         return new RtuMaster(wrapper);
     }
     
+    /**
+     * <p>createAsciiMaster.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
     public ModbusMaster createAsciiMaster(SerialPortWrapper wrapper) {
         return new AsciiMaster(wrapper);
     }
 
+    /**
+     * <p>createTcpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
     public ModbusMaster createTcpMaster(IpParameters params, boolean keepAlive) {
         return new TcpMaster(params, keepAlive);
     }
 
+    /**
+     * <p>createUdpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
     public ModbusMaster createUdpMaster(IpParameters params) {
         return new UdpMaster(params);
     }
 
+    /**
+     * <p>createTcpListener.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
     public ModbusMaster createTcpListener(IpParameters params) {
         return new TcpListener(params);
     }
@@ -68,18 +105,42 @@ public class ModbusFactory {
     //
     // Modbus slaves
     //
+    /**
+     * <p>createRtuSlave.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public ModbusSlaveSet createRtuSlave(SerialPortWrapper wrapper) {
         return new RtuSlave(wrapper);
     }
 
+    /**
+     * <p>createAsciiSlave.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @return a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public ModbusSlaveSet createAsciiSlave(SerialPortWrapper wrapper) {
         return new AsciiSlave(wrapper);
     }
 
+    /**
+     * <p>createTcpSlave.</p>
+     *
+     * @param encapsulated a boolean.
+     * @return a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public ModbusSlaveSet createTcpSlave(boolean encapsulated) {
         return new TcpSlave(encapsulated);
     }
 
+    /**
+     * <p>createUdpSlave.</p>
+     *
+     * @param encapsulated a boolean.
+     * @return a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public ModbusSlaveSet createUdpSlave(boolean encapsulated) {
         return new UdpSlave(encapsulated);
     }
@@ -87,6 +148,17 @@ public class ModbusFactory {
     //
     // Modbus requests
     //
+    /**
+     * <p>createReadRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param range a int.
+     * @param offset a int.
+     * @param length a int.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     * @throws com.serotonin.modbus4j.exception.ModbusIdException if any.
+     */
     public ModbusRequest createReadRequest(int slaveId, int range, int offset, int length)
             throws ModbusTransportException, ModbusIdException {
         ModbusUtils.validateRegisterRange(range);

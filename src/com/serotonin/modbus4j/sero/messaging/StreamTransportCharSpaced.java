@@ -9,25 +9,32 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author Terry Packer
+ * <p>StreamTransportCharSpaced class.</p>
  *
+ * @author Terry Packer
+ * @version 5.0.0
  */
 public class StreamTransportCharSpaced extends StreamTransport{
 
 	private final long charSpacing;
 	
 	/**
-	 * @param in
-	 * @param out
+	 * <p>Constructor for StreamTransportCharSpaced.</p>
+	 *
+	 * @param in a {@link java.io.InputStream} object.
+	 * @param out a {@link java.io.OutputStream} object.
+	 * @param charSpacing a long.
 	 */
 	public StreamTransportCharSpaced(InputStream in, OutputStream out, long charSpacing) {
 		super(in, out);
 		this.charSpacing = charSpacing;
 	}
 
-	/**
-	 * Perform a write, ensure space between chars
-	 */
+    /**
+     * {@inheritDoc}
+     *
+     * Perform a write, ensure space between chars
+     */
 	@Override
     public void write(byte[] data) throws IOException {
 		
@@ -50,6 +57,7 @@ public class StreamTransportCharSpaced extends StreamTransport{
         out.flush();
     }
 
+    /** {@inheritDoc} */
     public void write(byte[] data, int len) throws IOException {
 		try{
 		long waited = 0,writeStart,writeEnd, waitRemaining;

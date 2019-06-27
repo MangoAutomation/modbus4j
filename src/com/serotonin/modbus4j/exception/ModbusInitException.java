@@ -20,21 +20,46 @@
  */
 package com.serotonin.modbus4j.exception;
 
+/**
+ * <p>ModbusInitException class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ModbusInitException extends Exception {
     private static final long serialVersionUID = -1;
 
+    /**
+     * <p>Constructor for ModbusInitException.</p>
+     */
     public ModbusInitException() {
         super();
     }
 
+    /**
+     * <p>Constructor for ModbusInitException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     * @param cause a {@link java.lang.Throwable} object.
+     */
     public ModbusInitException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * <p>Constructor for ModbusInitException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public ModbusInitException(String message) {
         super(message);
     }
 
+    /**
+     * <p>Constructor for ModbusInitException.</p>
+     *
+     * @param cause a {@link java.lang.Throwable} object.
+     */
     public ModbusInitException(Throwable cause) {
         super(cause);
     }

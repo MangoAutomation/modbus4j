@@ -16,11 +16,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
- * Class to Log IO with the option to keep historical files
- * 
- * @author Terry Packer
  *
+ * Class to Log IO with the option to keep historical files
+ *
+ * @author Terry Packer
+ * @version 5.0.0
  */
 public class RollingIOLog extends BaseIOLog{
 	
@@ -32,9 +32,10 @@ public class RollingIOLog extends BaseIOLog{
     protected int currentFileNumber;
     
     /**
-     * 
+     * <p>Constructor for RollingIOLog.</p>
+     *
      * @param baseFilename - The base filename for all logfiles ie. dataLog.log
-     * @param logDirectory
+     * @param logDirectory a {@link java.io.File} object.
      * @param fileSize - in bytes of file before rolling over
      * @param maxFiles - max number to keep in addition to the current log file
      */
@@ -57,6 +58,7 @@ public class RollingIOLog extends BaseIOLog{
     }
  
 
+    /** {@inheritDoc} */
     @Override
     protected void sizeCheck() {
         // Check if the file should be rolled.

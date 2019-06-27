@@ -27,6 +27,12 @@ import com.serotonin.modbus4j.ModbusSlaveSet;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 
+/**
+ * <p>Abstract SerialSlave class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class SerialSlave extends ModbusSlaveSet {
 
 	private final Log LOG = LogFactory.getLog(SerialSlave.class);
@@ -35,10 +41,16 @@ abstract public class SerialSlave extends ModbusSlaveSet {
     private SerialPortWrapper wrapper;
     protected StreamTransport transport;
 
+    /**
+     * <p>Constructor for SerialSlave.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     */
     public SerialSlave(SerialPortWrapper wrapper) {
     	this.wrapper = wrapper;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws ModbusInitException {
         try {
@@ -52,6 +64,7 @@ abstract public class SerialSlave extends ModbusSlaveSet {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
         try {

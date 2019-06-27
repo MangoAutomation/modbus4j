@@ -27,11 +27,23 @@ import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
+/**
+ * <p>AsciiRequestHandler class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class AsciiRequestHandler extends BaseRequestHandler {
+    /**
+     * <p>Constructor for AsciiRequestHandler.</p>
+     *
+     * @param slave a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public AsciiRequestHandler(ModbusSlaveSet slave) {
         super(slave);
     }
 
+    /** {@inheritDoc} */
     public OutgoingResponseMessage handleRequest(IncomingRequestMessage req) throws Exception {
         AsciiMessageRequest asciiRequest = (AsciiMessageRequest) req;
         ModbusRequest request = asciiRequest.getModbusRequest();

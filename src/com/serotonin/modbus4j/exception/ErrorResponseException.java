@@ -23,25 +23,48 @@ package com.serotonin.modbus4j.exception;
 import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 
+/**
+ * <p>ErrorResponseException class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ErrorResponseException extends Exception {
     private static final long serialVersionUID = -1;
 
     private final ModbusRequest originalRequest;
     private final ModbusResponse errorResponse;
 
+    /**
+     * <p>Constructor for ErrorResponseException.</p>
+     *
+     * @param originalRequest a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @param errorResponse a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     public ErrorResponseException(ModbusRequest originalRequest, ModbusResponse errorResponse) {
         this.originalRequest = originalRequest;
         this.errorResponse = errorResponse;
     }
 
+    /**
+     * <p>Getter for the field <code>errorResponse</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     public ModbusResponse getErrorResponse() {
         return errorResponse;
     }
 
+    /**
+     * <p>Getter for the field <code>originalRequest</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     */
     public ModbusRequest getOriginalRequest() {
         return originalRequest;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return errorResponse.getExceptionMessage();

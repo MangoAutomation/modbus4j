@@ -6,18 +6,30 @@ package com.serotonin.modbus4j.sero.log;
 
 import java.io.File;
 
+/**
+ * <p>IOLog class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class IOLog extends BaseIOLog{
     //private static final Log LOG = LogFactory.getLog(IOLog.class);
     private static final int MAX_FILESIZE = 1000000;
     //    private static final int MAX_FILESIZE = 1000;
     private final File backupFile;
 
+    /**
+     * <p>Constructor for IOLog.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     */
     public IOLog(String filename) {
     	super(new File(filename));
         backupFile = new File(filename + ".1");
     }
 
  
+    /** {@inheritDoc} */
     @Override
     protected void sizeCheck() {
         // Check if the file should be rolled.

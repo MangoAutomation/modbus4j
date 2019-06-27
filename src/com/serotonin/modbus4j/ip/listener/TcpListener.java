@@ -55,6 +55,12 @@ import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 import com.serotonin.modbus4j.sero.messaging.Transport;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
+/**
+ * <p>TcpListener class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class TcpListener extends ModbusMaster {
     // Configuration fields.
     private final Log LOG = LogFactory.getLog(TcpListener.class);
@@ -68,6 +74,11 @@ public class TcpListener extends ModbusMaster {
     private ExecutorService executorService;
     private ListenerConnectionHandler handler;
 
+    /**
+     * <p>Constructor for TcpListener.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     */
     public TcpListener(IpParameters params) {
         LOG.debug("Creating TcpListener in port " + params.getPort());
         ipParameters = params;
@@ -75,10 +86,16 @@ public class TcpListener extends ModbusMaster {
         LOG.debug("TcpListener created! Port: " + ipParameters.getPort());
     }
 
+    /**
+     * <p>Getter for the field <code>nextTransactionId</code>.</p>
+     *
+     * @return a short.
+     */
     protected short getNextTransactionId() {
         return nextTransactionId++;
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public void init() throws ModbusInitException {
         LOG.debug("Init TcpListener Port: " + ipParameters.getPort());
@@ -103,6 +120,7 @@ public class TcpListener extends ModbusMaster {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public void destroy() {
         LOG.debug("Destroy TCPListener Port: " + ipParameters.getPort());
@@ -140,6 +158,7 @@ public class TcpListener extends ModbusMaster {
         handler = null;
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException {
 

@@ -21,14 +21,27 @@
 package com.serotonin.modbus4j.code;
 
 /**
+ * <p>RegisterRange class.</p>
+ *
  * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public class RegisterRange {
+    /** Constant <code>COIL_STATUS=1</code> */
     public static final int COIL_STATUS = 1;
+    /** Constant <code>INPUT_STATUS=2</code> */
     public static final int INPUT_STATUS = 2;
+    /** Constant <code>HOLDING_REGISTER=3</code> */
     public static final int HOLDING_REGISTER = 3;
+    /** Constant <code>INPUT_REGISTER=4</code> */
     public static final int INPUT_REGISTER = 4;
 
+    /**
+     * <p>getFrom.</p>
+     *
+     * @param id a int.
+     * @return a int.
+     */
     public static int getFrom(int id) {
         switch (id) {
         case COIL_STATUS:
@@ -43,6 +56,12 @@ public class RegisterRange {
         return -1;
     }
 
+    /**
+     * <p>getTo.</p>
+     *
+     * @param id a int.
+     * @return a int.
+     */
     public static int getTo(int id) {
         switch (id) {
         case COIL_STATUS:
@@ -57,6 +76,12 @@ public class RegisterRange {
         return -1;
     }
 
+    /**
+     * <p>getReadFunctionCode.</p>
+     *
+     * @param id a int.
+     * @return a int.
+     */
     public static int getReadFunctionCode(int id) {
         switch (id) {
         case COIL_STATUS:

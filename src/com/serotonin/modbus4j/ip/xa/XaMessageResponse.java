@@ -26,6 +26,12 @@ import com.serotonin.modbus4j.ip.IpMessageResponse;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>XaMessageResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class XaMessageResponse extends XaMessage implements IpMessageResponse {
     static XaMessageResponse createXaMessageResponse(ByteQueue queue) throws ModbusTransportException {
         // Remove the XA header
@@ -40,10 +46,21 @@ public class XaMessageResponse extends XaMessage implements IpMessageResponse {
         return new XaMessageResponse(response, transactionId);
     }
 
+    /**
+     * <p>Constructor for XaMessageResponse.</p>
+     *
+     * @param modbusResponse a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @param transactionId a int.
+     */
     public XaMessageResponse(ModbusResponse modbusResponse, int transactionId) {
         super(modbusResponse, transactionId);
     }
 
+    /**
+     * <p>getModbusResponse.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     public ModbusResponse getModbusResponse() {
         return (ModbusResponse) modbusMessage;
     }

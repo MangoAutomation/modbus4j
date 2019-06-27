@@ -25,11 +25,18 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteMaskRegisterResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteMaskRegisterResponse extends ModbusResponse {
     private int writeOffset;
     private int andMask;
     private int orMask;
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_MASK_REGISTER;
@@ -46,6 +53,7 @@ public class WriteMaskRegisterResponse extends ModbusResponse {
         this.orMask = orMask;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushShort(queue, writeOffset);
@@ -53,6 +61,7 @@ public class WriteMaskRegisterResponse extends ModbusResponse {
         ModbusUtils.pushShort(queue, orMask);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         writeOffset = ModbusUtils.popUnsignedShort(queue);
@@ -60,14 +69,29 @@ public class WriteMaskRegisterResponse extends ModbusResponse {
         orMask = ModbusUtils.popUnsignedShort(queue);
     }
 
+    /**
+     * <p>Getter for the field <code>writeOffset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getWriteOffset() {
         return writeOffset;
     }
 
+    /**
+     * <p>Getter for the field <code>andMask</code>.</p>
+     *
+     * @return a int.
+     */
     public int getAndMask() {
         return andMask;
     }
 
+    /**
+     * <p>Getter for the field <code>orMask</code>.</p>
+     *
+     * @return a int.
+     */
     public int getOrMask() {
         return orMask;
     }

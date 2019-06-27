@@ -49,6 +49,12 @@ import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 import com.serotonin.modbus4j.sero.messaging.Transport;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
+/**
+ * <p>TcpMaster class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class TcpMaster extends ModbusMaster {
     private static final int RETRY_PAUSE_START = 50;
     private static final int RETRY_PAUSE_MAX = 1000;
@@ -65,6 +71,13 @@ public class TcpMaster extends ModbusMaster {
     private Transport transport;
     private MessageControl conn;
 
+    /**
+     * <p>Constructor for TcpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     * @param autoIncrementTransactionId a boolean.
+     */
     public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId) {
         this.ipParameters = params;
         this.keepAlive = keepAlive;
@@ -72,18 +85,35 @@ public class TcpMaster extends ModbusMaster {
     }
     
     
+    /**
+     * <p>Constructor for TcpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     */
     public TcpMaster(IpParameters params, boolean keepAlive) {
         this(params, keepAlive, true);
     }
 
+    /**
+     * <p>Setter for the field <code>nextTransactionId</code>.</p>
+     *
+     * @param id a short.
+     */
     public void setNextTransactionId(short id) {
         this.nextTransactionId = id;
     }
     
+    /**
+     * <p>Getter for the field <code>nextTransactionId</code>.</p>
+     *
+     * @return a short.
+     */
     protected short getNextTransactionId() {
         return nextTransactionId;
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public void init() throws ModbusInitException {
         try {
@@ -96,12 +126,14 @@ public class TcpMaster extends ModbusMaster {
         initialized = true;
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public void destroy() {
         closeConnection();
         initialized = false;
     }
 
+    /** {@inheritDoc} */
     @Override
     synchronized public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException {
         try {

@@ -25,10 +25,17 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteCoilsResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteCoilsResponse extends ModbusResponse {
     private int startOffset;
     private int numberOfBits;
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_COILS;
@@ -44,22 +51,34 @@ public class WriteCoilsResponse extends ModbusResponse {
         this.numberOfBits = numberOfBits;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushShort(queue, startOffset);
         ModbusUtils.pushShort(queue, numberOfBits);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         startOffset = ModbusUtils.popUnsignedShort(queue);
         numberOfBits = ModbusUtils.popUnsignedShort(queue);
     }
 
+    /**
+     * <p>Getter for the field <code>startOffset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getStartOffset() {
         return startOffset;
     }
 
+    /**
+     * <p>Getter for the field <code>numberOfBits</code>.</p>
+     *
+     * @return a int.
+     */
     public int getNumberOfBits() {
         return numberOfBits;
     }

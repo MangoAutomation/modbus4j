@@ -24,6 +24,17 @@ import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.IncomingResponseMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
+/**
+ * <p>IpMessageResponse interface.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public interface IpMessageResponse extends OutgoingResponseMessage, IncomingResponseMessage {
+    /**
+     * <p>getModbusResponse.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     ModbusResponse getModbusResponse();
 }

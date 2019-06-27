@@ -27,14 +27,26 @@ import com.serotonin.modbus4j.serial.SerialPortWrapper;
 import com.serotonin.modbus4j.serial.SerialSlave;
 import com.serotonin.modbus4j.sero.messaging.MessageControl;
 
+/**
+ * <p>RtuSlave class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class RtuSlave extends SerialSlave {
     // Runtime fields
     private MessageControl conn;
 
+    /**
+     * <p>Constructor for RtuSlave.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     */
     public RtuSlave(SerialPortWrapper wrapper) {
         super(wrapper);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws ModbusInitException {
         super.start();
@@ -54,6 +66,7 @@ public class RtuSlave extends SerialSlave {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
         conn.close();

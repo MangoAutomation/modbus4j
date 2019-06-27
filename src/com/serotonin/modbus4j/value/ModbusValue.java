@@ -25,29 +25,61 @@ import java.math.BigInteger;
 import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.exception.InvalidDataConversionException;
 
+/**
+ * <p>Abstract ModbusValue class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ModbusValue {
     private final DataType type;
     private final Object value;
 
+    /**
+     * <p>Constructor for ModbusValue.</p>
+     *
+     * @param type a {@link com.serotonin.modbus4j.code.DataType} object.
+     * @param value a {@link java.lang.Object} object.
+     */
     public ModbusValue(DataType type, Object value) {
         this.type = type;
         this.value = value;
     }
 
+    /**
+     * <p>Getter for the field <code>type</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.code.DataType} object.
+     */
     public DataType getType() {
         return type;
     }
 
+    /**
+     * <p>Getter for the field <code>value</code>.</p>
+     *
+     * @return a {@link java.lang.Object} object.
+     */
     public Object getValue() {
         return value;
     }
 
+    /**
+     * <p>booleanValue.</p>
+     *
+     * @return a boolean.
+     */
     public boolean booleanValue() {
         if (value instanceof Boolean)
             return ((Boolean) value).booleanValue();
         throw new InvalidDataConversionException("Can't convert " + value.getClass() + " to boolean");
     }
 
+    /**
+     * <p>intValue.</p>
+     *
+     * @return a int.
+     */
     public int intValue() {
         if (value instanceof Integer)
             return ((Integer) value).intValue();
@@ -56,6 +88,11 @@ abstract public class ModbusValue {
         throw new InvalidDataConversionException("Can't convert " + value.getClass() + " to int");
     }
 
+    /**
+     * <p>longValue.</p>
+     *
+     * @return a long.
+     */
     public long longValue() {
         if (value instanceof Long)
             return ((Long) value).longValue();
@@ -66,6 +103,11 @@ abstract public class ModbusValue {
         throw new InvalidDataConversionException("Can't convert " + value.getClass() + " to long");
     }
 
+    /**
+     * <p>bigIntegerValue.</p>
+     *
+     * @return a {@link java.math.BigInteger} object.
+     */
     public BigInteger bigIntegerValue() {
         if (value instanceof BigInteger)
             return (BigInteger) value;
@@ -78,12 +120,22 @@ abstract public class ModbusValue {
         throw new InvalidDataConversionException("Can't convert " + value.getClass() + " to BigInteger");
     }
 
+    /**
+     * <p>floatValue.</p>
+     *
+     * @return a float.
+     */
     public float floatValue() {
         if (value instanceof Float)
             return ((Float) value).floatValue();
         throw new InvalidDataConversionException("Can't convert " + value.getClass() + " to float");
     }
 
+    /**
+     * <p>doubleValue.</p>
+     *
+     * @return a double.
+     */
     public double doubleValue() {
         if (value instanceof Double)
             return ((Double) value).doubleValue();

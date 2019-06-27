@@ -25,6 +25,12 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>ReportSlaveIdResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReportSlaveIdResponse extends ModbusResponse {
     private byte[] data;
 
@@ -37,11 +43,13 @@ public class ReportSlaveIdResponse extends ModbusResponse {
         this.data = data;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.REPORT_SLAVE_ID;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         int numberOfBytes = ModbusUtils.popUnsignedByte(queue);
@@ -52,12 +60,18 @@ public class ReportSlaveIdResponse extends ModbusResponse {
         queue.pop(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushByte(queue, data.length);
         queue.push(data);
     }
 
+    /**
+     * <p>Getter for the field <code>data</code>.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] getData() {
         return data;
     }

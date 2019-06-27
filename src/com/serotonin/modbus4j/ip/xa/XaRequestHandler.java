@@ -27,11 +27,23 @@ import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
+/**
+ * <p>XaRequestHandler class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class XaRequestHandler extends BaseRequestHandler {
+    /**
+     * <p>Constructor for XaRequestHandler.</p>
+     *
+     * @param slave a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public XaRequestHandler(ModbusSlaveSet slave) {
         super(slave);
     }
 
+    /** {@inheritDoc} */
     public OutgoingResponseMessage handleRequest(IncomingRequestMessage req) throws Exception {
         XaMessageRequest tcpRequest = (XaMessageRequest) req;
         ModbusRequest request = tcpRequest.getModbusRequest();

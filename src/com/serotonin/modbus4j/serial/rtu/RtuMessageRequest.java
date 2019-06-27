@@ -29,8 +29,9 @@ import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
  * Handles the RTU enveloping of modbus requests.
- * 
+ *
  * @author mlohbihler
+ * @version 5.0.0
  */
 public class RtuMessageRequest extends RtuMessage implements OutgoingRequestMessage, IncomingRequestMessage {
     static RtuMessageRequest createRtuMessageRequest(ByteQueue queue) throws ModbusTransportException {
@@ -44,15 +45,26 @@ public class RtuMessageRequest extends RtuMessage implements OutgoingRequestMess
         return rtuRequest;
     }
 
+    /**
+     * <p>Constructor for RtuMessageRequest.</p>
+     *
+     * @param modbusRequest a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     */
     public RtuMessageRequest(ModbusRequest modbusRequest) {
         super(modbusRequest);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean expectsResponse() {
         return modbusMessage.getSlaveId() != 0;
     }
 
+    /**
+     * <p>getModbusRequest.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     */
     public ModbusRequest getModbusRequest() {
         return (ModbusRequest) modbusMessage;
     }

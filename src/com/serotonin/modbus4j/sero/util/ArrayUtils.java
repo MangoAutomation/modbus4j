@@ -2,11 +2,31 @@ package com.serotonin.modbus4j.sero.util;
 
 import java.util.List;
 
+/**
+ * <p>ArrayUtils class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ArrayUtils {
+    /**
+     * <p>toHexString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHexString(byte[] bytes) {
         return toHexString(bytes, 0, bytes.length);
     }
 
+    /**
+     * <p>toHexString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @param start a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHexString(byte[] bytes, int start, int len) {
         if (len == 0)
             return "[]";
@@ -21,10 +41,24 @@ public class ArrayUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>toPlainHexString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toPlainHexString(byte[] bytes) {
         return toPlainHexString(bytes, 0, bytes.length);
     }
 
+    /**
+     * <p>toPlainHexString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @param start a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toPlainHexString(byte[] bytes, int start, int len) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < len; i++) {
@@ -36,10 +70,24 @@ public class ArrayUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>toString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toString(byte[] bytes) {
         return toString(bytes, 0, bytes.length);
     }
 
+    /**
+     * <p>toString.</p>
+     *
+     * @param bytes an array of {@link byte} objects.
+     * @param start a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toString(byte[] bytes, int start, int len) {
         if (len == 0)
             return "[]";
@@ -54,10 +102,23 @@ public class ArrayUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>isEmpty.</p>
+     *
+     * @param value an array of {@link int} objects.
+     * @return a boolean.
+     */
     public static boolean isEmpty(int[] value) {
         return value == null || value.length == 0;
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param values an array of {@link java.lang.String} objects.
+     * @param value a {@link java.lang.String} object.
+     * @return a int.
+     */
     public static int indexOf(String[] values, String value) {
         if (values == null)
             return -1;
@@ -70,6 +131,13 @@ public class ArrayUtils {
         return -1;
     }
 
+    /**
+     * <p>containsIgnoreCase.</p>
+     *
+     * @param values an array of {@link java.lang.String} objects.
+     * @param value a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean containsIgnoreCase(String[] values, String value) {
         if (values == null)
             return false;
@@ -82,14 +150,38 @@ public class ArrayUtils {
         return false;
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param src an array of {@link byte} objects.
+     * @param target an array of {@link byte} objects.
+     * @return a int.
+     */
     public static int indexOf(byte[] src, byte[] target) {
         return indexOf(src, 0, src.length, target);
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param src an array of {@link byte} objects.
+     * @param len a int.
+     * @param target an array of {@link byte} objects.
+     * @return a int.
+     */
     public static int indexOf(byte[] src, int len, byte[] target) {
         return indexOf(src, 0, len, target);
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param src an array of {@link byte} objects.
+     * @param start a int.
+     * @param len a int.
+     * @param target an array of {@link byte} objects.
+     * @return a int.
+     */
     public static int indexOf(byte[] src, int start, int len, byte[] target) {
         int pos = start;
         int i;
@@ -119,8 +211,8 @@ public class ArrayUtils {
 
     /**
      * Returns the value of the bits in the given range. Ranges can extend multiple bytes. No range checking is done.
-     * Invalid ranges will result in {@link ArrayIndexOutOfBoundsException}.
-     * 
+     * Invalid ranges will result in {@link java.lang.ArrayIndexOutOfBoundsException}.
+     *
      * @param b
      *            the array of bytes.
      * @param offset
@@ -150,10 +242,26 @@ public class ArrayUtils {
 
     private static int[] bitFromMask = { 0xff, 0x7f, 0x3f, 0x1f, 0xf, 0x7, 0x3, 0x1 };
 
+    /**
+     * <p>bitRangeValue.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param offset a int.
+     * @param length a int.
+     * @return a int.
+     */
     public static int bitRangeValue(byte[] b, int offset, int length) {
         return (int) bitRangeValueLong(b, offset, length);
     }
 
+    /**
+     * <p>byteRangeValueLong.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param offset a int.
+     * @param length a int.
+     * @return a long.
+     */
     public static long byteRangeValueLong(byte[] b, int offset, int length) {
         long result = 0;
 
@@ -165,10 +273,24 @@ public class ArrayUtils {
         return result;
     }
 
+    /**
+     * <p>byteRangeValue.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param offset a int.
+     * @param length a int.
+     * @return a int.
+     */
     public static int byteRangeValue(byte[] b, int offset, int length) {
         return (int) byteRangeValueLong(b, offset, length);
     }
 
+    /**
+     * <p>sum.</p>
+     *
+     * @param a an array of {@link int} objects.
+     * @return a int.
+     */
     public static int sum(int[] a) {
         int sum = 0;
         for (int i = 0; i < a.length; i++)
@@ -176,6 +298,12 @@ public class ArrayUtils {
         return sum;
     }
 
+    /**
+     * <p>toIntArray.</p>
+     *
+     * @param list a {@link java.util.List} object.
+     * @return an array of {@link int} objects.
+     */
     public static int[] toIntArray(List<Integer> list) {
         int[] result = new int[list.size()];
         for (int i = 0; i < result.length; i++)
@@ -183,6 +311,12 @@ public class ArrayUtils {
         return result;
     }
 
+    /**
+     * <p>toDoubleArray.</p>
+     *
+     * @param list a {@link java.util.List} object.
+     * @return an array of {@link double} objects.
+     */
     public static double[] toDoubleArray(List<Double> list) {
         double[] result = new double[list.size()];
         for (int i = 0; i < result.length; i++)
@@ -190,6 +324,13 @@ public class ArrayUtils {
         return result;
     }
 
+    /**
+     * <p>concatenate.</p>
+     *
+     * @param a an array of {@link java.lang.Object} objects.
+     * @param delimiter a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String concatenate(Object[] a, String delimiter) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -203,6 +344,12 @@ public class ArrayUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>shift.</p>
+     *
+     * @param a an array of {@link java.lang.Object} objects.
+     * @param count a int.
+     */
     public static void shift(Object[] a, int count) {
         if (count > 0)
             System.arraycopy(a, 0, a, count, a.length - count);

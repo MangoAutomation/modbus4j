@@ -27,16 +27,31 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteCoilRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteCoilRequest extends ModbusRequest {
     private int writeOffset;
     private boolean writeValue;
 
+    /**
+     * <p>Constructor for WriteCoilRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param writeOffset a int.
+     * @param writeValue a boolean.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public WriteCoilRequest(int slaveId, int writeOffset, boolean writeValue) throws ModbusTransportException {
         super(slaveId);
         this.writeOffset = writeOffset;
         this.writeValue = writeValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void validate(Modbus modbus) throws ModbusTransportException {
         ModbusUtils.validateOffset(writeOffset);
@@ -46,6 +61,7 @@ public class WriteCoilRequest extends ModbusRequest {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeRequest(ByteQueue queue) {
         ModbusUtils.pushShort(queue, writeOffset);
@@ -58,6 +74,7 @@ public class WriteCoilRequest extends ModbusRequest {
         return new WriteCoilResponse(slaveId, writeOffset, writeValue);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_COIL;
@@ -68,6 +85,7 @@ public class WriteCoilRequest extends ModbusRequest {
         return new WriteCoilResponse(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readRequest(ByteQueue queue) {
         writeOffset = ModbusUtils.popUnsignedShort(queue);

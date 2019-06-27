@@ -20,9 +20,20 @@
  */
 package com.serotonin.modbus4j.exception;
 
+/**
+ * <p>IllegalDataTypeException class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class IllegalDataTypeException extends ModbusIdException {
     private static final long serialVersionUID = -1;
 
+    /**
+     * <p>Constructor for IllegalDataTypeException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public IllegalDataTypeException(String message) {
         super(message);
     }

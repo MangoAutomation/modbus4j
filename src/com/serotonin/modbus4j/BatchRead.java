@@ -35,19 +35,20 @@ import com.serotonin.modbus4j.locator.BaseLocator;
 
 /**
  * A class for defining the information required to obtain in a batch.
- * 
+ *
  * The generic parameterization represents the class of the key that will be used to find the results in the BatchRead
  * object. Typically String would be used, but any Object is valid.
- * 
+ *
  * Some modbus devices have non-contiguous sets of values within a single register range. These gaps between values may
  * cause the device to return error responses if a request attempts to read them. In spite of this, because it is
  * generally more efficient to read a set of values with a single request, the batch read by default will assume that no
  * such error responses will be returned. If your batch request results in such errors, it is recommended that you
  * separate the offending request to a separate batch read object, or you can use the "contiguous requests" setting
  * which causes requests to be partitioned into only contiguous sets.
- * 
+ *
  * @author mlohbihler
- * @param <K>
+ * @param <K> - Type of read
+ * @version 5.0.0
  */
 public class BatchRead<K> {
     private final List<KeyedModbusLocator<K>> requestValues = new ArrayList<>();
@@ -82,37 +83,79 @@ public class BatchRead<K> {
      */
     private List<ReadFunctionGroup<K>> functionGroups;
 
+    /**
+     * <p>isContiguousRequests.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isContiguousRequests() {
         return contiguousRequests;
     }
 
+    /**
+     * <p>Setter for the field <code>contiguousRequests</code>.</p>
+     *
+     * @param contiguousRequests a boolean.
+     */
     public void setContiguousRequests(boolean contiguousRequests) {
         this.contiguousRequests = contiguousRequests;
         functionGroups = null;
     }
 
+    /**
+     * <p>isErrorsInResults.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isErrorsInResults() {
         return errorsInResults;
     }
 
+    /**
+     * <p>Setter for the field <code>errorsInResults</code>.</p>
+     *
+     * @param errorsInResults a boolean.
+     */
     public void setErrorsInResults(boolean errorsInResults) {
         this.errorsInResults = errorsInResults;
     }
 
+    /**
+     * <p>isExceptionsInResults.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isExceptionsInResults() {
         return exceptionsInResults;
     }
 
+    /**
+     * <p>Setter for the field <code>exceptionsInResults</code>.</p>
+     *
+     * @param exceptionsInResults a boolean.
+     */
     public void setExceptionsInResults(boolean exceptionsInResults) {
         this.exceptionsInResults = exceptionsInResults;
     }
 
+    /**
+     * <p>getReadFunctionGroups.</p>
+     *
+     * @param master a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     * @return a {@link java.util.List} object.
+     */
     public List<ReadFunctionGroup<K>> getReadFunctionGroups(ModbusMaster master) {
         if (functionGroups == null)
             doPartition(master);
         return functionGroups;
     }
 
+    /**
+     * <p>addLocator.</p>
+     *
+     * @param id a K object.
+     * @param locator a {@link com.serotonin.modbus4j.locator.BaseLocator} object.
+     */
     public void addLocator(K id, BaseLocator<?> locator) {
         addLocator(new KeyedModbusLocator<>(id, locator));
     }
@@ -122,10 +165,20 @@ public class BatchRead<K> {
         functionGroups = null;
     }
 
+    /**
+     * <p>isCancel.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isCancel() {
         return cancel;
     }
 
+    /**
+     * <p>Setter for the field <code>cancel</code>.</p>
+     *
+     * @param cancel a boolean.
+     */
     public void setCancel(boolean cancel) {
         this.cancel = cancel;
     }

@@ -29,6 +29,12 @@ import com.serotonin.modbus4j.sero.messaging.EpollStreamTransport;
 import com.serotonin.modbus4j.sero.messaging.StreamTransport;
 import com.serotonin.modbus4j.sero.messaging.Transport;
 
+/**
+ * <p>Abstract SerialMaster class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class SerialMaster extends ModbusMaster {
 	
 	
@@ -40,10 +46,16 @@ abstract public class SerialMaster extends ModbusMaster {
 
     
     
+    /**
+     * <p>Constructor for SerialMaster.</p>
+     *
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     */
     public SerialMaster(SerialPortWrapper wrapper) {
         this.wrapper = wrapper;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void init() throws ModbusInitException {
         try {
@@ -61,6 +73,9 @@ abstract public class SerialMaster extends ModbusMaster {
         }
     }
 
+    /**
+     * <p>close.</p>
+     */
     public void close() {
         try {
 			wrapper.close();

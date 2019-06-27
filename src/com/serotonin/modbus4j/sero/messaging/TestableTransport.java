@@ -7,14 +7,26 @@ import java.io.OutputStream;
 
 /**
  * Provides synchronization on the input stream read by wrapping it.
- * 
+ *
  * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public class TestableTransport extends StreamTransport {
+    /**
+     * <p>Constructor for TestableTransport.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.OutputStream} object.
+     */
     public TestableTransport(InputStream in, OutputStream out) {
         super(new TestableBufferedInputStream(in), out);
     }
 
+    /**
+     * <p>testInputStream.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void testInputStream() throws IOException {
         ((TestableBufferedInputStream) in).test();
     }

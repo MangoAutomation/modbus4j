@@ -24,7 +24,21 @@ import com.serotonin.modbus4j.ProcessImage;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 
+/**
+ * <p>ReadCoilsRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadCoilsRequest extends ReadBinaryRequest {
+    /**
+     * <p>Constructor for ReadCoilsRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param startOffset a int.
+     * @param numberOfBits a int.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ReadCoilsRequest(int slaveId, int startOffset, int numberOfBits) throws ModbusTransportException {
         super(slaveId, startOffset, numberOfBits);
     }
@@ -33,6 +47,7 @@ public class ReadCoilsRequest extends ReadBinaryRequest {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.READ_COILS;
@@ -43,6 +58,7 @@ public class ReadCoilsRequest extends ReadBinaryRequest {
         return new ReadCoilsResponse(slaveId, getData(processImage));
     }
 
+    /** {@inheritDoc} */
     @Override
     protected boolean getBinary(ProcessImage processImage, int index) throws ModbusTransportException {
         return processImage.getCoil(index);
@@ -53,6 +69,7 @@ public class ReadCoilsRequest extends ReadBinaryRequest {
         return new ReadCoilsResponse(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ReadCoilsRequest [slaveId=" + slaveId + ", getFunctionCode()=" + getFunctionCode() + ", toString()="

@@ -10,6 +10,12 @@ import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.code.RegisterRange;
 import com.serotonin.modbus4j.exception.IllegalDataTypeException;
 
+/**
+ * <p>NumericLocator class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class NumericLocator extends BaseLocator<Number> {
     private static final int[] DATA_TYPES = { //
     DataType.TWO_BYTE_INT_UNSIGNED, //
@@ -46,6 +52,14 @@ public class NumericLocator extends BaseLocator<Number> {
     private final int dataType;
     private RoundingMode roundingMode = RoundingMode.HALF_UP;
 
+    /**
+     * <p>Constructor for NumericLocator.</p>
+     *
+     * @param slaveId a int.
+     * @param range a int.
+     * @param offset a int.
+     * @param dataType a int.
+     */
     public NumericLocator(int slaveId, int range, int offset, int dataType) {
         super(slaveId, range, offset);
         this.dataType = dataType;
@@ -62,25 +76,38 @@ public class NumericLocator extends BaseLocator<Number> {
             throw new IllegalDataTypeException("Invalid data type");
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getDataType() {
         return dataType;
     }
 
+    /**
+     * <p>Getter for the field <code>roundingMode</code>.</p>
+     *
+     * @return a {@link java.math.RoundingMode} object.
+     */
     public RoundingMode getRoundingMode() {
         return roundingMode;
     }
 
+    /**
+     * <p>Setter for the field <code>roundingMode</code>.</p>
+     *
+     * @param roundingMode a {@link java.math.RoundingMode} object.
+     */
     public void setRoundingMode(RoundingMode roundingMode) {
         this.roundingMode = roundingMode;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "NumericLocator(slaveId=" + getSlaveId() + ", range=" + range + ", offset=" + offset + ", dataType="
                 + dataType + ")";
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getRegisterCount() {
         switch (dataType) {
@@ -122,6 +149,7 @@ public class NumericLocator extends BaseLocator<Number> {
         throw new RuntimeException("Unsupported data type: " + dataType);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Number bytesToValueRealOffset(byte[] data, int offset) {
         offset *= 2;
@@ -294,6 +322,7 @@ public class NumericLocator extends BaseLocator<Number> {
         return n;
     }
 
+    /** {@inheritDoc} */
     @Override
     public short[] valueToShorts(Number value) {
         // 2 bytes

@@ -27,16 +27,31 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteRegistersRequest class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteRegistersRequest extends ModbusRequest {
     private int startOffset;
     private byte[] data;
 
+    /**
+     * <p>Constructor for WriteRegistersRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param startOffset a int.
+     * @param sdata an array of {@link short} objects.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public WriteRegistersRequest(int slaveId, int startOffset, short[] sdata) throws ModbusTransportException {
         super(slaveId);
         this.startOffset = startOffset;
         data = convertToBytes(sdata);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void validate(Modbus modbus) throws ModbusTransportException {
         ModbusUtils.validateOffset(startOffset);
@@ -50,6 +65,7 @@ public class WriteRegistersRequest extends ModbusRequest {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeRequest(ByteQueue queue) {
         ModbusUtils.pushShort(queue, startOffset);
@@ -66,6 +82,7 @@ public class WriteRegistersRequest extends ModbusRequest {
         return new WriteRegistersResponse(slaveId, startOffset, sdata.length);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_REGISTERS;
@@ -76,6 +93,7 @@ public class WriteRegistersRequest extends ModbusRequest {
         return new WriteRegistersResponse(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readRequest(ByteQueue queue) {
         startOffset = ModbusUtils.popUnsignedShort(queue);

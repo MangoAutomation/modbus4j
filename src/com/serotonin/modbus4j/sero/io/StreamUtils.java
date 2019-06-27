@@ -22,11 +22,32 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * <p>StreamUtils class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class StreamUtils {
+    /**
+     * <p>transfer.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
+     */
     public static void transfer(InputStream in, OutputStream out) throws IOException {
         transfer(in, out, -1);
     }
 
+    /**
+     * <p>transfer.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.OutputStream} object.
+     * @param limit a long.
+     * @throws java.io.IOException if any.
+     */
     public static void transfer(InputStream in, OutputStream out, long limit) throws IOException {
         byte[] buf = new byte[1024];
         int readcount;
@@ -47,6 +68,13 @@ public class StreamUtils {
         out.flush();
     }
 
+    /**
+     * <p>transfer.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param out a {@link java.nio.channels.SocketChannel} object.
+     * @throws java.io.IOException if any.
+     */
     public static void transfer(InputStream in, SocketChannel out) throws IOException {
         byte[] buf = new byte[1024];
         ByteBuffer bbuf = ByteBuffer.allocate(1024);
@@ -60,10 +88,25 @@ public class StreamUtils {
         }
     }
 
+    /**
+     * <p>transfer.</p>
+     *
+     * @param reader a {@link java.io.Reader} object.
+     * @param writer a {@link java.io.Writer} object.
+     * @throws java.io.IOException if any.
+     */
     public static void transfer(Reader reader, Writer writer) throws IOException {
         transfer(reader, writer, -1);
     }
 
+    /**
+     * <p>transfer.</p>
+     *
+     * @param reader a {@link java.io.Reader} object.
+     * @param writer a {@link java.io.Writer} object.
+     * @param limit a long.
+     * @throws java.io.IOException if any.
+     */
     public static void transfer(Reader reader, Writer writer, long limit) throws IOException {
         char[] buf = new char[1024];
         int readcount;
@@ -84,22 +127,51 @@ public class StreamUtils {
         writer.flush();
     }
 
+    /**
+     * <p>read.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return an array of {@link byte} objects.
+     * @throws java.io.IOException if any.
+     */
     public static byte[] read(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream(in.available());
         transfer(in, out);
         return out.toByteArray();
     }
 
+    /**
+     * <p>read.</p>
+     *
+     * @param reader a {@link java.io.Reader} object.
+     * @return an array of {@link char} objects.
+     * @throws java.io.IOException if any.
+     */
     public static char[] read(Reader reader) throws IOException {
         CharArrayWriter writer = new CharArrayWriter();
         transfer(reader, writer);
         return writer.toCharArray();
     }
 
+    /**
+     * <p>readChar.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a char.
+     * @throws java.io.IOException if any.
+     */
     public static char readChar(InputStream in) throws IOException {
         return (char) in.read();
     }
 
+    /**
+     * <p>readString.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param length a int.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static String readString(InputStream in, int length) throws IOException {
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++)
@@ -107,39 +179,102 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>readByte.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a byte.
+     * @throws java.io.IOException if any.
+     */
     public static byte readByte(InputStream in) throws IOException {
         return (byte) in.read();
     }
 
+    /**
+     * <p>read4ByteSigned.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a int.
+     * @throws java.io.IOException if any.
+     */
     public static int read4ByteSigned(InputStream in) throws IOException {
         return in.read() | (in.read() << 8) | (in.read() << 16) | (in.read() << 24);
     }
 
+    /**
+     * <p>read4ByteUnsigned.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a long.
+     * @throws java.io.IOException if any.
+     */
     public static long read4ByteUnsigned(InputStream in) throws IOException {
         return in.read() | (in.read() << 8) | (in.read() << 16) | (in.read() << 24);
     }
 
+    /**
+     * <p>read2ByteUnsigned.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a int.
+     * @throws java.io.IOException if any.
+     */
     public static int read2ByteUnsigned(InputStream in) throws IOException {
         return in.read() | (in.read() << 8);
     }
 
+    /**
+     * <p>read2ByteSigned.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @return a short.
+     * @throws java.io.IOException if any.
+     */
     public static short read2ByteSigned(InputStream in) throws IOException {
         return (short) (in.read() | (in.read() << 8));
     }
 
+    /**
+     * <p>writeByte.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param b a byte.
+     * @throws java.io.IOException if any.
+     */
     public static void writeByte(OutputStream out, byte b) throws IOException {
         out.write(b);
     }
 
+    /**
+     * <p>writeChar.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param c a char.
+     * @throws java.io.IOException if any.
+     */
     public static void writeChar(OutputStream out, char c) throws IOException {
         out.write((byte) c);
     }
 
+    /**
+     * <p>writeString.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param s a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static void writeString(OutputStream out, String s) throws IOException {
         for (int i = 0; i < s.length(); i++)
             writeChar(out, s.charAt(i));
     }
 
+    /**
+     * <p>write4ByteSigned.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param i a int.
+     * @throws java.io.IOException if any.
+     */
     public static void write4ByteSigned(OutputStream out, int i) throws IOException {
         out.write((byte) (i & 0xFF));
         out.write((byte) ((i >> 8) & 0xFF));
@@ -147,6 +282,13 @@ public class StreamUtils {
         out.write((byte) ((i >> 24) & 0xFF));
     }
 
+    /**
+     * <p>write4ByteUnsigned.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param l a long.
+     * @throws java.io.IOException if any.
+     */
     public static void write4ByteUnsigned(OutputStream out, long l) throws IOException {
         out.write((byte) (l & 0xFF));
         out.write((byte) ((l >> 8) & 0xFF));
@@ -154,20 +296,48 @@ public class StreamUtils {
         out.write((byte) ((l >> 24) & 0xFF));
     }
 
+    /**
+     * <p>write2ByteUnsigned.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param i a int.
+     * @throws java.io.IOException if any.
+     */
     public static void write2ByteUnsigned(OutputStream out, int i) throws IOException {
         out.write((byte) (i & 0xFF));
         out.write((byte) ((i >> 8) & 0xFF));
     }
 
+    /**
+     * <p>write2ByteSigned.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param s a short.
+     * @throws java.io.IOException if any.
+     */
     public static void write2ByteSigned(OutputStream out, short s) throws IOException {
         out.write((byte) (s & 0xFF));
         out.write((byte) ((s >> 8) & 0xFF));
     }
 
+    /**
+     * <p>dumpArray.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpArray(byte[] b) {
         return dumpArray(b, 0, b.length);
     }
 
+    /**
+     * <p>dumpArray.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpArray(byte[] b, int pos, int len) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
@@ -180,10 +350,24 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>dumpMessage.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpMessage(byte[] b) {
         return dumpMessage(b, 0, b.length);
     }
 
+    /**
+     * <p>dumpMessage.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpMessage(byte[] b, int pos, int len) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
@@ -206,10 +390,24 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>dumpArrayHex.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpArrayHex(byte[] b) {
         return dumpArrayHex(b, 0, b.length);
     }
 
+    /**
+     * <p>dumpArrayHex.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpArrayHex(byte[] b, int pos, int len) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
@@ -222,10 +420,24 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>dumpHex.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpHex(byte[] b) {
         return dumpHex(b, 0, b.length);
     }
 
+    /**
+     * <p>dumpHex.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param len a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String dumpHex(byte[] b, int pos, int len) {
         StringBuilder sb = new StringBuilder();
         for (int i = pos; i < len; i++)
@@ -233,10 +445,24 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>readFile.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static String readFile(String filename) throws IOException {
         return readFile(new File(filename));
     }
 
+    /**
+     * <p>readFile.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static String readFile(File file) throws IOException {
         FileReader in = null;
         try {
@@ -251,10 +477,24 @@ public class StreamUtils {
         }
     }
 
+    /**
+     * <p>readLines.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @return a {@link java.util.List} object.
+     * @throws java.io.IOException if any.
+     */
     public static List<String> readLines(String filename) throws IOException {
         return readLines(new File(filename));
     }
 
+    /**
+     * <p>readLines.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @return a {@link java.util.List} object.
+     * @throws java.io.IOException if any.
+     */
     public static List<String> readLines(File file) throws IOException {
         List<String> lines = new ArrayList<String>();
         BufferedReader in = null;
@@ -271,10 +511,24 @@ public class StreamUtils {
         }
     }
 
+    /**
+     * <p>writeFile.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @param content a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static void writeFile(String filename, String content) throws IOException {
         writeFile(new File(filename), content);
     }
 
+    /**
+     * <p>writeFile.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @param content a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
+     */
     public static void writeFile(File file, String content) throws IOException {
         FileWriter out = null;
         try {
@@ -287,6 +541,13 @@ public class StreamUtils {
         }
     }
 
+    /**
+     * <p>readLines.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @param lineHandler a {@link com.serotonin.modbus4j.sero.io.LineHandler} object.
+     * @throws java.io.IOException if any.
+     */
     public static void readLines(String filename, LineHandler lineHandler) throws IOException {
         BufferedReader in = null;
         try {
@@ -302,6 +563,12 @@ public class StreamUtils {
         }
     }
 
+    /**
+     * <p>toHex.</p>
+     *
+     * @param bs an array of {@link byte} objects.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHex(byte[] bs) {
         StringBuilder sb = new StringBuilder(bs.length * 2);
         for (byte b : bs)
@@ -309,22 +576,52 @@ public class StreamUtils {
         return sb.toString();
     }
 
+    /**
+     * <p>toHex.</p>
+     *
+     * @param b a byte.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHex(byte b) {
         return StringUtils.leftPad(Integer.toHexString(b & 0xff), 2, '0');
     }
 
+    /**
+     * <p>toHex.</p>
+     *
+     * @param s a short.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHex(short s) {
         return StringUtils.leftPad(Integer.toHexString(s & 0xffff), 4, '0');
     }
 
+    /**
+     * <p>toHex.</p>
+     *
+     * @param i a int.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHex(int i) {
         return StringUtils.leftPad(Integer.toHexString(i), 8, '0');
     }
 
+    /**
+     * <p>toHex.</p>
+     *
+     * @param l a long.
+     * @return a {@link java.lang.String} object.
+     */
     public static String toHex(long l) {
         return StringUtils.leftPad(Long.toHexString(l), 16, '0');
     }
 
+    /**
+     * <p>fromHex.</p>
+     *
+     * @param s a {@link java.lang.String} object.
+     * @return an array of {@link byte} objects.
+     */
     public static byte[] fromHex(String s) {
         byte[] bs = new byte[s.length() / 2];
         for (int i = 0; i < bs.length; i++)

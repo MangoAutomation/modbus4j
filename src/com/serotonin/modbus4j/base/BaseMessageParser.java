@@ -24,13 +24,25 @@ import com.serotonin.modbus4j.sero.messaging.IncomingMessage;
 import com.serotonin.modbus4j.sero.messaging.MessageParser;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract BaseMessageParser class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class BaseMessageParser implements MessageParser {
     protected final boolean master;
 
+    /**
+     * <p>Constructor for BaseMessageParser.</p>
+     *
+     * @param master a boolean.
+     */
     public BaseMessageParser(boolean master) {
         this.master = master;
     }
 
+    /** {@inheritDoc} */
     @Override
     public IncomingMessage parseMessage(ByteQueue queue) throws Exception {
         try {
@@ -42,5 +54,12 @@ abstract public class BaseMessageParser implements MessageParser {
         }
     }
 
+    /**
+     * <p>parseMessageImpl.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a {@link com.serotonin.modbus4j.sero.messaging.IncomingMessage} object.
+     * @throws java.lang.Exception if any.
+     */
     abstract protected IncomingMessage parseMessageImpl(ByteQueue queue) throws Exception;
 }

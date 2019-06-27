@@ -6,17 +6,31 @@ import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKey;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
+/**
+ * <p>XaWaitingRoomKeyFactory class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class XaWaitingRoomKeyFactory implements WaitingRoomKeyFactory {
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(OutgoingRequestMessage request) {
         return createWaitingRoomKey((XaMessage) request);
     }
 
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(IncomingResponseMessage response) {
         return createWaitingRoomKey((XaMessage) response);
     }
 
+    /**
+     * <p>createWaitingRoomKey.</p>
+     *
+     * @param msg a {@link com.serotonin.modbus4j.ip.xa.XaMessage} object.
+     * @return a {@link com.serotonin.modbus4j.sero.messaging.WaitingRoomKey} object.
+     */
     public WaitingRoomKey createWaitingRoomKey(XaMessage msg) {
         return new XaWaitingRoomKey(msg.getTransactionId(), msg.getModbusMessage());
     }

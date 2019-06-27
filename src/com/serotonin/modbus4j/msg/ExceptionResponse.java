@@ -24,27 +24,41 @@ import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
+ * <p>ExceptionResponse class.</p>
+ *
  * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public class ExceptionResponse extends ModbusResponse {
     private final byte functionCode;
 
+    /**
+     * <p>Constructor for ExceptionResponse.</p>
+     *
+     * @param slaveId a int.
+     * @param functionCode a byte.
+     * @param exceptionCode a byte.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ExceptionResponse(int slaveId, byte functionCode, byte exceptionCode) throws ModbusTransportException {
         super(slaveId);
         this.functionCode = functionCode;
         setException(exceptionCode);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return functionCode;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         // no op
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         // no op

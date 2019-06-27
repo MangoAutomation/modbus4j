@@ -57,6 +57,12 @@ import com.serotonin.modbus4j.sero.messaging.MessageControl;
 import com.serotonin.modbus4j.sero.util.ArrayUtils;
 import com.serotonin.modbus4j.sero.util.ProgressiveTask;
 
+/**
+ * <p>Abstract ModbusMaster class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;
     private int retries = 2;
@@ -66,10 +72,20 @@ abstract public class ModbusMaster extends Modbus {
      */
     protected boolean connected = false;
 
+    /**
+     * <p>isConnected.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isConnected() {
         return connected;
     }
 
+    /**
+     * <p>Setter for the field <code>connected</code>.</p>
+     *
+     * @param connected a boolean.
+     */
     public void setConnected(boolean connected) {
         this.connected = connected;
     }
@@ -92,34 +108,62 @@ abstract public class ModbusMaster extends Modbus {
     private final Map<Integer, SlaveProfile> slaveProfiles = new HashMap<>();
     protected boolean initialized;
 
+    /**
+     * <p>init.</p>
+     *
+     * @throws com.serotonin.modbus4j.exception.ModbusInitException if any.
+     */
     abstract public void init() throws ModbusInitException;
 
+    /**
+     * <p>isInitialized.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isInitialized() {
         return initialized;
     }
 
+    /**
+     * <p>destroy.</p>
+     */
     abstract public void destroy();
 
+    /**
+     * <p>send.</p>
+     *
+     * @param request a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public final ModbusResponse send(ModbusRequest request) throws ModbusTransportException {
         request.validate(this);
         return sendImpl(request);
     }
 
+    /**
+     * <p>sendImpl.</p>
+     *
+     * @param request a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     abstract public ModbusResponse sendImpl(ModbusRequest request) throws ModbusTransportException;
 
     /**
      * Returns a value from the modbus network according to the given locator information. Various data types are
      * allowed to be requested including multi-word types. The determination of the correct request message to send is
      * handled automatically.
-     * 
+     *
      * @param locator
      *            the information required to locate the value in the modbus network.
      * @return an object representing the value found. This will be one of Boolean, Short, Integer, Long, BigInteger,
      *         Float, or Double. See the DataType enumeration for details on which type to expect.
-     * @throws ModbusTransportException
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException
      *             if there was an IO error or other technical failure while sending the message
-     * @throws ErrorResponseException
+     * @throws com.serotonin.modbus4j.exception.ErrorResponseException
      *             if the response returned from the slave was an exception.
+     * @param <T> a T object.
      */
     @SuppressWarnings("unchecked")
     public <T> T getValue(BaseLocator<T> locator) throws ModbusTransportException, ErrorResponseException {
@@ -133,15 +177,16 @@ abstract public class ModbusMaster extends Modbus {
      * Sets the given value in the modbus network according to the given locator information. Various data types are
      * allowed to be set including including multi-word types. The determination of the correct write message to send is
      * handled automatically.
-     * 
+     *
      * @param locator
      *            the information required to locate the value in the modbus network.
-     * @value an object representing the value to be set. This will be one of Boolean, Short, Integer, Long, BigInteger,
+     * @param value an object representing the value to be set. This will be one of Boolean, Short, Integer, Long, BigInteger,
      *        Float, or Double. See the DataType enumeration for details on which type to expect.
-     * @throws ModbusTransportException
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException
      *             if there was an IO error or other technical failure while sending the message
-     * @throws ErrorResponseException
+     * @throws com.serotonin.modbus4j.exception.ErrorResponseException
      *             if the response returned from the slave was an exception.
+     * @param <T> type of locator
      */
     public <T> void setValue(BaseLocator<T> locator, Object value) throws ModbusTransportException,
             ErrorResponseException {
@@ -185,10 +230,12 @@ abstract public class ModbusMaster extends Modbus {
     /**
      * Node scanning. Returns a list of slave nodes that respond to a read exception status request (perhaps with an
      * error, but respond nonetheless).
-     * 
+     *
      * Note: a similar scan could be done for registers in nodes, but, for one thing, it would take some time to run,
      * and in any case the results would not be meaningful since there would be no semantic information accompanying the
      * results.
+     *
+     * @return a {@link java.util.List} object.
      */
     public List<Integer> scanForSlaveNodes() {
         List<Integer> result = new ArrayList<>();
@@ -199,6 +246,12 @@ abstract public class ModbusMaster extends Modbus {
         return result;
     }
 
+    /**
+     * <p>scanForSlaveNodes.</p>
+     *
+     * @param l a {@link com.serotonin.modbus4j.NodeScanListener} object.
+     * @return a {@link com.serotonin.modbus4j.sero.util.ProgressiveTask} object.
+     */
     public ProgressiveTask scanForSlaveNodes(final NodeScanListener l) {
         l.progressUpdate(0);
         ProgressiveTask task = new ProgressiveTask(l) {
@@ -222,6 +275,12 @@ abstract public class ModbusMaster extends Modbus {
         return task;
     }
 
+    /**
+     * <p>testSlaveNode.</p>
+     *
+     * @param node a int.
+     * @return a boolean.
+     */
     public boolean testSlaveNode(int node) {
         try {
             send(new ReadHoldingRegistersRequest(node, 0, 1));
@@ -233,10 +292,20 @@ abstract public class ModbusMaster extends Modbus {
         return true;
     }
 
+    /**
+     * <p>Getter for the field <code>retries</code>.</p>
+     *
+     * @return a int.
+     */
     public int getRetries() {
         return retries;
     }
 
+    /**
+     * <p>Setter for the field <code>retries</code>.</p>
+     *
+     * @param retries a int.
+     */
     public void setRetries(int retries) {
         if (retries < 0)
             this.retries = 0;
@@ -244,10 +313,20 @@ abstract public class ModbusMaster extends Modbus {
             this.retries = retries;
     }
 
+    /**
+     * <p>Getter for the field <code>timeout</code>.</p>
+     *
+     * @return a int.
+     */
     public int getTimeout() {
         return timeout;
     }
 
+    /**
+     * <p>Setter for the field <code>timeout</code>.</p>
+     *
+     * @param timeout a int.
+     */
     public void setTimeout(int timeout) {
         if (timeout < 1)
             this.timeout = 1;
@@ -255,18 +334,38 @@ abstract public class ModbusMaster extends Modbus {
             this.timeout = timeout;
     }
 
+    /**
+     * <p>isMultipleWritesOnly.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isMultipleWritesOnly() {
         return multipleWritesOnly;
     }
 
+    /**
+     * <p>Setter for the field <code>multipleWritesOnly</code>.</p>
+     *
+     * @param multipleWritesOnly a boolean.
+     */
     public void setMultipleWritesOnly(boolean multipleWritesOnly) {
         this.multipleWritesOnly = multipleWritesOnly;
     }
 
+    /**
+     * <p>Getter for the field <code>discardDataDelay</code>.</p>
+     *
+     * @return a int.
+     */
     public int getDiscardDataDelay() {
         return discardDataDelay;
     }
 
+    /**
+     * <p>Setter for the field <code>discardDataDelay</code>.</p>
+     *
+     * @param discardDataDelay a int.
+     */
     public void setDiscardDataDelay(int discardDataDelay) {
         if (discardDataDelay < 0)
             this.discardDataDelay = 0;
@@ -274,24 +373,50 @@ abstract public class ModbusMaster extends Modbus {
             this.discardDataDelay = discardDataDelay;
     }
 
+    /**
+     * <p>Getter for the field <code>ioLog</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.sero.log.BaseIOLog} object.
+     */
     public BaseIOLog getIoLog() {
         return ioLog;
     }
 
+    /**
+     * <p>Setter for the field <code>ioLog</code>.</p>
+     *
+     * @param ioLog a {@link com.serotonin.modbus4j.sero.log.BaseIOLog} object.
+     */
     public void setIoLog(BaseIOLog ioLog) {
         this.ioLog = ioLog;
     }
 
+    /**
+     * <p>Getter for the field <code>ePoll</code>.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper} object.
+     */
     public InputStreamEPollWrapper getePoll() {
         return ePoll;
     }
 
+    /**
+     * <p>Setter for the field <code>ePoll</code>.</p>
+     *
+     * @param ePoll a {@link com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper} object.
+     */
     public void setePoll(InputStreamEPollWrapper ePoll) {
         this.ePoll = ePoll;
     }
 
     /**
      * Useful for sending a number of polling commands at once, or at least in as optimal a batch as possible.
+     *
+     * @param batch a {@link com.serotonin.modbus4j.BatchRead} object.
+     * @return a {@link com.serotonin.modbus4j.BatchResults} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     * @throws com.serotonin.modbus4j.exception.ErrorResponseException if any.
+     * @param <K> type of result
      */
     public <K> BatchResults<K> send(BatchRead<K> batch) throws ModbusTransportException, ErrorResponseException {
         if (!initialized)
@@ -314,6 +439,11 @@ abstract public class ModbusMaster extends Modbus {
     //
     // Protected methods
     //
+    /**
+     * <p>getMessageControl.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.sero.messaging.MessageControl} object.
+     */
     protected MessageControl getMessageControl() {
         MessageControl conn = new MessageControl();
         conn.setRetries(getRetries());
@@ -324,6 +454,11 @@ abstract public class ModbusMaster extends Modbus {
         return conn;
     }
 
+    /**
+     * <p>closeMessageControl.</p>
+     *
+     * @param conn a {@link com.serotonin.modbus4j.sero.messaging.MessageControl} object.
+     */
     protected void closeMessageControl(MessageControl conn) {
         if (conn != null)
             conn.close();

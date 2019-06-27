@@ -28,9 +28,23 @@ import com.serotonin.modbus4j.exception.IllegalFunctionException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract ModbusResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ModbusResponse extends ModbusMessage {
+    /** Constant <code>MAX_FUNCTION_CODE=(byte) 0x80</code> */
     protected static final byte MAX_FUNCTION_CODE = (byte) 0x80;
 
+    /**
+     * <p>createModbusResponse.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public static ModbusResponse createModbusResponse(ByteQueue queue) throws ModbusTransportException {
         int slaveId = ModbusUtils.popUnsignedByte(queue);
         byte functionCode = queue.pop();
@@ -78,10 +92,20 @@ abstract public class ModbusResponse extends ModbusMessage {
         super(slaveId);
     }
 
+    /**
+     * <p>isException.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isException() {
         return exceptionCode != -1;
     }
 
+    /**
+     * <p>getExceptionMessage.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getExceptionMessage() {
         return ExceptionCode.getExceptionMessage(exceptionCode);
     }
@@ -90,10 +114,16 @@ abstract public class ModbusResponse extends ModbusMessage {
         this.exceptionCode = exceptionCode;
     }
 
+    /**
+     * <p>Getter for the field <code>exceptionCode</code>.</p>
+     *
+     * @return a byte.
+     */
     public byte getExceptionCode() {
         return exceptionCode;
     }
 
+    /** {@inheritDoc} */
     @Override
     final protected void writeImpl(ByteQueue queue) {
         if (isException()) {
@@ -106,6 +136,11 @@ abstract public class ModbusResponse extends ModbusMessage {
         }
     }
 
+    /**
+     * <p>writeResponse.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     */
     abstract protected void writeResponse(ByteQueue queue);
 
     void read(ByteQueue queue, boolean isException) {
@@ -115,6 +150,11 @@ abstract public class ModbusResponse extends ModbusMessage {
             readResponse(queue);
     }
 
+    /**
+     * <p>readResponse.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     */
     abstract protected void readResponse(ByteQueue queue);
 
     private static boolean greaterThan(byte b1, byte b2) {
@@ -123,6 +163,12 @@ abstract public class ModbusResponse extends ModbusMessage {
         return i1 > i2;
     }
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.lang.Exception if any.
+     */
     public static void main(String[] args) throws Exception {
         ByteQueue queue = new ByteQueue(new byte[] { 3, 2 });
         ModbusResponse r = createModbusResponse(queue);

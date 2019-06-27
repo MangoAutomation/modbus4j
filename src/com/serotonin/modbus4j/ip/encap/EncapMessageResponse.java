@@ -26,6 +26,12 @@ import com.serotonin.modbus4j.ip.IpMessageResponse;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>EncapMessageResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class EncapMessageResponse extends EncapMessage implements IpMessageResponse {
     static EncapMessageResponse createEncapMessageResponse(ByteQueue queue) throws ModbusTransportException {
         // Create the modbus response.
@@ -38,10 +44,20 @@ public class EncapMessageResponse extends EncapMessage implements IpMessageRespo
         return encapResponse;
     }
 
+    /**
+     * <p>Constructor for EncapMessageResponse.</p>
+     *
+     * @param modbusResponse a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     public EncapMessageResponse(ModbusResponse modbusResponse) {
         super(modbusResponse);
     }
 
+    /**
+     * <p>getModbusResponse.</p>
+     *
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     */
     public ModbusResponse getModbusResponse() {
         return (ModbusResponse) modbusMessage;
     }

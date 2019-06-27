@@ -23,6 +23,12 @@ package com.serotonin.modbus4j.msg;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 
+/**
+ * <p>ReadCoilsResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ReadCoilsResponse extends ReadResponse {
     ReadCoilsResponse(int slaveId, byte[] data) throws ModbusTransportException {
         super(slaveId, data);
@@ -32,11 +38,13 @@ public class ReadCoilsResponse extends ReadResponse {
         super(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.READ_COILS;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "ReadCoilsResponse [exceptionCode=" + exceptionCode + ", slaveId=" + slaveId + ", getFunctionCode()="

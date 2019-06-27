@@ -27,28 +27,42 @@ import com.serotonin.modbus4j.sero.ShouldNeverHappenException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
+ * <p>ExceptionRequest class.</p>
+ *
  * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public class ExceptionRequest extends ModbusRequest {
     private final byte functionCode;
     private final byte exceptionCode;
 
+    /**
+     * <p>Constructor for ExceptionRequest.</p>
+     *
+     * @param slaveId a int.
+     * @param functionCode a byte.
+     * @param exceptionCode a byte.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public ExceptionRequest(int slaveId, byte functionCode, byte exceptionCode) throws ModbusTransportException {
         super(slaveId);
         this.functionCode = functionCode;
         this.exceptionCode = exceptionCode;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void validate(Modbus modbus) {
         // no op
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeRequest(ByteQueue queue) {
         throw new ShouldNeverHappenException("wha");
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readRequest(ByteQueue queue) {
         queue.clear();
@@ -64,11 +78,17 @@ public class ExceptionRequest extends ModbusRequest {
         return getResponseInstance(slaveId);
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return functionCode;
     }
 
+    /**
+     * <p>Getter for the field <code>exceptionCode</code>.</p>
+     *
+     * @return a byte.
+     */
     public byte getExceptionCode() {
         return exceptionCode;
     }

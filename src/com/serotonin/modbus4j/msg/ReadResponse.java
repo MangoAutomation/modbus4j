@@ -25,6 +25,12 @@ import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.io.StreamUtils;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>Abstract ReadResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class ReadResponse extends ModbusResponse {
     private byte[] data;
 
@@ -37,6 +43,7 @@ abstract public class ReadResponse extends ModbusResponse {
         this.data = data;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         int numberOfBytes = ModbusUtils.popUnsignedByte(queue);
@@ -47,24 +54,46 @@ abstract public class ReadResponse extends ModbusResponse {
         queue.pop(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushByte(queue, data.length);
         queue.push(data);
     }
 
+    /**
+     * <p>Getter for the field <code>data</code>.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] getData() {
         return data;
     }
 
+    /**
+     * <p>getShortData.</p>
+     *
+     * @return an array of {@link short} objects.
+     */
     public short[] getShortData() {
         return convertToShorts(data);
     }
 
+    /**
+     * <p>getBooleanData.</p>
+     *
+     * @return an array of {@link boolean} objects.
+     */
     public boolean[] getBooleanData() {
         return convertToBooleans(data);
     }
 
+    /**
+     * <p>toString.</p>
+     *
+     * @param numeric a boolean.
+     * @return a {@link java.lang.String} object.
+     */
     public String toString(boolean numeric) {
         if (data == null)
             return "ReadResponse [null]";

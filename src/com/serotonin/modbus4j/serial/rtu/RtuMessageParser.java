@@ -27,14 +27,21 @@ import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 /**
  * Message parser implementation for RTU encoding. Primary reference for the ordering of CRC bytes. Also provides
  * handling of incomplete messages.
- * 
+ *
  * @author mlohbihler
+ * @version 5.0.0
  */
 public class RtuMessageParser extends BaseMessageParser {
+    /**
+     * <p>Constructor for RtuMessageParser.</p>
+     *
+     * @param master a boolean.
+     */
     public RtuMessageParser(boolean master) {
         super(master);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected IncomingMessage parseMessageImpl(ByteQueue queue) throws Exception {
         if (master)

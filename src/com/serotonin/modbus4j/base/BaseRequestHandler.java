@@ -27,13 +27,31 @@ import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.RequestHandler;
 
+/**
+ * <p>Abstract BaseRequestHandler class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 abstract public class BaseRequestHandler implements RequestHandler {
     protected ModbusSlaveSet slave;
 
+    /**
+     * <p>Constructor for BaseRequestHandler.</p>
+     *
+     * @param slave a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public BaseRequestHandler(ModbusSlaveSet slave) {
         this.slave = slave;
     }
 
+    /**
+     * <p>handleRequestImpl.</p>
+     *
+     * @param request a {@link com.serotonin.modbus4j.msg.ModbusRequest} object.
+     * @return a {@link com.serotonin.modbus4j.msg.ModbusResponse} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     protected ModbusResponse handleRequestImpl(ModbusRequest request) throws ModbusTransportException {
         request.validate(slave);
 

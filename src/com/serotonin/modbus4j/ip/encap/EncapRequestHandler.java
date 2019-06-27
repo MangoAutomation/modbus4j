@@ -27,11 +27,23 @@ import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.sero.messaging.IncomingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.OutgoingResponseMessage;
 
+/**
+ * <p>EncapRequestHandler class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class EncapRequestHandler extends BaseRequestHandler {
+    /**
+     * <p>Constructor for EncapRequestHandler.</p>
+     *
+     * @param slave a {@link com.serotonin.modbus4j.ModbusSlaveSet} object.
+     */
     public EncapRequestHandler(ModbusSlaveSet slave) {
         super(slave);
     }
 
+    /** {@inheritDoc} */
     public OutgoingResponseMessage handleRequest(IncomingRequestMessage req) throws Exception {
         EncapMessageRequest tcpRequest = (EncapMessageRequest) req;
         ModbusRequest request = tcpRequest.getModbusRequest();

@@ -6,17 +6,43 @@ import com.serotonin.modbus4j.code.DataType;
 import com.serotonin.modbus4j.code.RegisterRange;
 import com.serotonin.modbus4j.exception.IllegalDataTypeException;
 
+/**
+ * <p>StringLocator class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class StringLocator extends BaseLocator<String> {
+    /** Constant <code>ASCII</code> */
     public static final Charset ASCII = Charset.forName("ASCII");
 
     private final int dataType;
     private final int registerCount;
     private final Charset charset;
 
+    /**
+     * <p>Constructor for StringLocator.</p>
+     *
+     * @param slaveId a int.
+     * @param range a int.
+     * @param offset a int.
+     * @param dataType a int.
+     * @param registerCount a int.
+     */
     public StringLocator(int slaveId, int range, int offset, int dataType, int registerCount) {
         this(slaveId, range, offset, dataType, registerCount, ASCII);
     }
 
+    /**
+     * <p>Constructor for StringLocator.</p>
+     *
+     * @param slaveId a int.
+     * @param range a int.
+     * @param offset a int.
+     * @param dataType a int.
+     * @param registerCount a int.
+     * @param charset a {@link java.nio.charset.Charset} object.
+     */
     public StringLocator(int slaveId, int range, int offset, int dataType, int registerCount, Charset charset) {
         super(slaveId, range, offset);
         this.dataType = dataType;
@@ -35,22 +61,26 @@ public class StringLocator extends BaseLocator<String> {
             throw new IllegalDataTypeException("Invalid data type");
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getDataType() {
         return dataType;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getRegisterCount() {
         return registerCount;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "StringLocator(slaveId=" + getSlaveId() + ", range=" + range + ", offset=" + offset + ", dataType="
                 + dataType + ", registerCount=" + registerCount + ", charset=" + charset + ")";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String bytesToValueRealOffset(byte[] data, int offset) {
         offset *= 2;
@@ -76,6 +106,7 @@ public class StringLocator extends BaseLocator<String> {
         throw new RuntimeException("Unsupported data type: " + dataType);
     }
 
+    /** {@inheritDoc} */
     @Override
     public short[] valueToShorts(String value) {
         short[] result = new short[registerCount];

@@ -34,6 +34,12 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
+/**
+ * <p>ByteQueue class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ByteQueue implements Cloneable {
     private byte[] queue;
     private int head = -1;
@@ -44,29 +50,59 @@ public class ByteQueue implements Cloneable {
     private int markTail;
     private int markSize;
 
+    /**
+     * <p>Constructor for ByteQueue.</p>
+     */
     public ByteQueue() {
         this(1024);
     }
 
+    /**
+     * <p>Constructor for ByteQueue.</p>
+     *
+     * @param initialLength a int.
+     */
     public ByteQueue(int initialLength) {
         queue = new byte[initialLength];
     }
 
+    /**
+     * <p>Constructor for ByteQueue.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     */
     public ByteQueue(byte[] b) {
         this(b.length);
         push(b, 0, b.length);
     }
 
+    /**
+     * <p>Constructor for ByteQueue.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param length a int.
+     */
     public ByteQueue(byte[] b, int pos, int length) {
         this(length);
         push(b, pos, length);
     }
 
+    /**
+     * <p>Constructor for ByteQueue.</p>
+     *
+     * @param hex a {@link java.lang.String} object.
+     */
     public ByteQueue(String hex) {
         this(hex.length() / 2);
         push(hex);
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param hex a {@link java.lang.String} object.
+     */
     public void push(String hex) {
         if (hex.length() % 2 != 0)
             throw new IllegalArgumentException("Hex string must have an even number of characters");
@@ -76,6 +112,11 @@ public class ByteQueue implements Cloneable {
         push(b, 0, b.length);
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param b a byte.
+     */
     public void push(byte b) {
         if (room() == 0)
             expand();
@@ -88,16 +129,28 @@ public class ByteQueue implements Cloneable {
         size++;
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param i a int.
+     */
     public void push(int i) {
         push((byte) i);
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param l a long.
+     */
     public void push(long l) {
         push((byte) l);
     }
 
     /**
      * Push unsigned 2 bytes.
+     *
+     * @param i a int.
      */
     public void pushU2B(int i) {
         push((byte) (i >> 8));
@@ -106,6 +159,8 @@ public class ByteQueue implements Cloneable {
 
     /**
      * Push unsigned 3 bytes.
+     *
+     * @param i a int.
      */
     public void pushU3B(int i) {
         push((byte) (i >> 16));
@@ -115,6 +170,8 @@ public class ByteQueue implements Cloneable {
 
     /**
      * Push signed 4 bytes.
+     *
+     * @param i a int.
      */
     public void pushS4B(int i) {
         pushInt(i);
@@ -122,6 +179,8 @@ public class ByteQueue implements Cloneable {
 
     /**
      * Push unsigned 4 bytes.
+     *
+     * @param l a long.
      */
     public void pushU4B(long l) {
         push((byte) (l >> 24));
@@ -130,19 +189,39 @@ public class ByteQueue implements Cloneable {
         push((byte) l);
     }
 
+    /**
+     * <p>pushChar.</p>
+     *
+     * @param c a char.
+     */
     public void pushChar(char c) {
         push((byte) (c >> 8));
         push((byte) c);
     }
 
+    /**
+     * <p>pushDouble.</p>
+     *
+     * @param d a double.
+     */
     public void pushDouble(double d) {
         pushLong(Double.doubleToLongBits(d));
     }
 
+    /**
+     * <p>pushFloat.</p>
+     *
+     * @param f a float.
+     */
     public void pushFloat(float f) {
         pushInt(Float.floatToIntBits(f));
     }
 
+    /**
+     * <p>pushInt.</p>
+     *
+     * @param i a int.
+     */
     public void pushInt(int i) {
         push((byte) (i >> 24));
         push((byte) (i >> 16));
@@ -150,6 +229,11 @@ public class ByteQueue implements Cloneable {
         push((byte) i);
     }
 
+    /**
+     * <p>pushLong.</p>
+     *
+     * @param l a long.
+     */
     public void pushLong(long l) {
         push((byte) (l >> 56));
         push((byte) (l >> 48));
@@ -161,11 +245,23 @@ public class ByteQueue implements Cloneable {
         push((byte) l);
     }
 
+    /**
+     * <p>pushShort.</p>
+     *
+     * @param s a short.
+     */
     public void pushShort(short s) {
         push((byte) (s >> 8));
         push((byte) s);
     }
 
+    /**
+     * <p>read.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param length a int.
+     * @throws java.io.IOException if any.
+     */
     public void read(InputStream in, int length) throws IOException {
         if (length == 0)
             return;
@@ -197,10 +293,22 @@ public class ByteQueue implements Cloneable {
         }
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     */
     public void push(byte[] b) {
         push(b, 0, b.length);
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param pos a int.
+     * @param length a int.
+     */
     public void push(byte[] b, int pos, int length) {
         if (length == 0)
             return;
@@ -223,6 +331,11 @@ public class ByteQueue implements Cloneable {
         size += length;
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param source a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     */
     public void push(ByteQueue source) {
         if (source.size == 0)
             return;
@@ -239,12 +352,23 @@ public class ByteQueue implements Cloneable {
             push(source.queue, 0, source.tail);
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param source a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @param len a int.
+     */
     public void push(ByteQueue source, int len) {
         // TODO There is certainly a more elegant way to do this...
         while (len-- > 0)
             push(source.pop());
     }
 
+    /**
+     * <p>push.</p>
+     *
+     * @param source a {@link java.nio.ByteBuffer} object.
+     */
     public void push(ByteBuffer source) {
         int length = source.remaining();
         if (length == 0)
@@ -268,18 +392,29 @@ public class ByteQueue implements Cloneable {
         size += length;
     }
 
+    /**
+     * <p>mark.</p>
+     */
     public void mark() {
         markHead = head;
         markTail = tail;
         markSize = size;
     }
 
+    /**
+     * <p>reset.</p>
+     */
     public void reset() {
         head = markHead;
         tail = markTail;
         size = markSize;
     }
 
+    /**
+     * <p>pop.</p>
+     *
+     * @return a byte.
+     */
     public byte pop() {
         byte retval = queue[head];
 
@@ -295,35 +430,79 @@ public class ByteQueue implements Cloneable {
         return retval;
     }
 
+    /**
+     * <p>popU1B.</p>
+     *
+     * @return a int.
+     */
     public int popU1B() {
         return pop() & 0xff;
     }
 
+    /**
+     * <p>popU2B.</p>
+     *
+     * @return a int.
+     */
     public int popU2B() {
         return ((pop() & 0xff) << 8) | (pop() & 0xff);
     }
 
+    /**
+     * <p>popU3B.</p>
+     *
+     * @return a int.
+     */
     public int popU3B() {
         return ((pop() & 0xff) << 16) | ((pop() & 0xff) << 8) | (pop() & 0xff);
     }
 
+    /**
+     * <p>popS2B.</p>
+     *
+     * @return a short.
+     */
     public short popS2B() {
         return (short) (((pop() & 0xff) << 8) | (pop() & 0xff));
     }
 
+    /**
+     * <p>popS4B.</p>
+     *
+     * @return a int.
+     */
     public int popS4B() {
         return ((pop() & 0xff) << 24) | ((pop() & 0xff) << 16) | ((pop() & 0xff) << 8) | (pop() & 0xff);
     }
 
+    /**
+     * <p>popU4B.</p>
+     *
+     * @return a long.
+     */
     public long popU4B() {
         return ((long) (pop() & 0xff) << 24) | ((long) (pop() & 0xff) << 16) | ((long) (pop() & 0xff) << 8)
                 | (pop() & 0xff);
     }
 
+    /**
+     * <p>pop.</p>
+     *
+     * @param buf an array of {@link byte} objects.
+     * @return a int.
+     */
     public int pop(byte[] buf) {
         return pop(buf, 0, buf.length);
     }
 
+    /**
+     * <p>pop.</p>
+     *
+     * @param buf an array of {@link byte} objects.
+     * @param pos a int.
+     * @param length a int.
+     * @return a int.
+     */
     public int pop(byte[] buf, int pos, int length) {
         length = peek(buf, pos, length);
 
@@ -339,6 +518,12 @@ public class ByteQueue implements Cloneable {
         return length;
     }
 
+    /**
+     * <p>pop.</p>
+     *
+     * @param length a int.
+     * @return a int.
+     */
     public int pop(int length) {
         if (length == 0)
             return 0;
@@ -360,22 +545,47 @@ public class ByteQueue implements Cloneable {
         return length;
     }
 
+    /**
+     * <p>popString.</p>
+     *
+     * @param length a int.
+     * @param charset a {@link java.nio.charset.Charset} object.
+     * @return a {@link java.lang.String} object.
+     */
     public String popString(int length, Charset charset) {
         byte[] b = new byte[length];
         pop(b);
         return new String(b, charset);
     }
 
+    /**
+     * <p>popAll.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] popAll() {
         byte[] data = new byte[size];
         pop(data, 0, data.length);
         return data;
     }
 
+    /**
+     * <p>write.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
+     */
     public void write(OutputStream out) throws IOException {
         write(out, size);
     }
 
+    /**
+     * <p>write.</p>
+     *
+     * @param out a {@link java.io.OutputStream} object.
+     * @param length a int.
+     * @throws java.io.IOException if any.
+     */
     public void write(OutputStream out, int length) throws IOException {
         if (length == 0)
             return;
@@ -403,6 +613,11 @@ public class ByteQueue implements Cloneable {
             head = (head + length) % queue.length;
     }
 
+    /**
+     * <p>tailPop.</p>
+     *
+     * @return a byte.
+     */
     public byte tailPop() {
         if (size == 0)
             throw new ArrayIndexOutOfBoundsException(-1);
@@ -420,6 +635,12 @@ public class ByteQueue implements Cloneable {
         return retval;
     }
 
+    /**
+     * <p>peek.</p>
+     *
+     * @param index a int.
+     * @return a byte.
+     */
     public byte peek(int index) {
         if (index >= size)
             throw new IllegalArgumentException("index " + index + " is >= queue size " + size);
@@ -428,6 +649,13 @@ public class ByteQueue implements Cloneable {
         return queue[index];
     }
 
+    /**
+     * <p>peek.</p>
+     *
+     * @param index a int.
+     * @param length a int.
+     * @return an array of {@link byte} objects.
+     */
     public byte[] peek(int index, int length) {
         byte[] result = new byte[length];
         // TODO: use System.arraycopy instead.
@@ -436,16 +664,35 @@ public class ByteQueue implements Cloneable {
         return result;
     }
 
+    /**
+     * <p>peekAll.</p>
+     *
+     * @return an array of {@link byte} objects.
+     */
     public byte[] peekAll() {
         byte[] data = new byte[size];
         peek(data, 0, data.length);
         return data;
     }
 
+    /**
+     * <p>peek.</p>
+     *
+     * @param buf an array of {@link byte} objects.
+     * @return a int.
+     */
     public int peek(byte[] buf) {
         return peek(buf, 0, buf.length);
     }
 
+    /**
+     * <p>peek.</p>
+     *
+     * @param buf an array of {@link byte} objects.
+     * @param pos a int.
+     * @param length a int.
+     * @return a int.
+     */
     public int peek(byte[] buf, int pos, int length) {
         if (length == 0)
             return 0;
@@ -466,10 +713,23 @@ public class ByteQueue implements Cloneable {
         return length;
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param b a byte.
+     * @return a int.
+     */
     public int indexOf(byte b) {
         return indexOf(b, 0);
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param b a byte.
+     * @param start a int.
+     * @return a int.
+     */
     public int indexOf(byte b, int start) {
         if (start >= size)
             return -1;
@@ -483,10 +743,23 @@ public class ByteQueue implements Cloneable {
         return -1;
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @return a int.
+     */
     public int indexOf(byte[] b) {
         return indexOf(b, 0);
     }
 
+    /**
+     * <p>indexOf.</p>
+     *
+     * @param b an array of {@link byte} objects.
+     * @param start a int.
+     * @return a int.
+     */
     public int indexOf(byte[] b, int start) {
         if (b == null || b.length == 0)
             throw new IllegalArgumentException("cannot search for empty values");
@@ -510,10 +783,18 @@ public class ByteQueue implements Cloneable {
         return -1;
     }
 
+    /**
+     * <p>size.</p>
+     *
+     * @return a int.
+     */
     public int size() {
         return size;
     }
 
+    /**
+     * <p>clear.</p>
+     */
     public void clear() {
         size = 0;
         head = -1;
@@ -544,6 +825,7 @@ public class ByteQueue implements Cloneable {
         queue = newb;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Object clone() {
         try {
@@ -557,6 +839,7 @@ public class ByteQueue implements Cloneable {
         return null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         if (size == 0)
@@ -572,6 +855,11 @@ public class ByteQueue implements Cloneable {
         return sb.toString();
     }
 
+    /**
+     * <p>dumpQueue.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String dumpQueue() {
         StringBuffer sb = new StringBuffer();
 

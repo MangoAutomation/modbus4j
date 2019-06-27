@@ -7,17 +7,31 @@ import com.serotonin.modbus4j.sero.messaging.OutgoingRequestMessage;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKey;
 import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
 
+/**
+ * <p>EncapWaitingRoomKeyFactory class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class EncapWaitingRoomKeyFactory implements WaitingRoomKeyFactory {
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(OutgoingRequestMessage request) {
         return createWaitingRoomKey(((IpMessage) request).getModbusMessage());
     }
 
+    /** {@inheritDoc} */
     @Override
     public WaitingRoomKey createWaitingRoomKey(IncomingResponseMessage response) {
         return createWaitingRoomKey(((IpMessage) response).getModbusMessage());
     }
 
+    /**
+     * <p>createWaitingRoomKey.</p>
+     *
+     * @param msg a {@link com.serotonin.modbus4j.msg.ModbusMessage} object.
+     * @return a {@link com.serotonin.modbus4j.sero.messaging.WaitingRoomKey} object.
+     */
     public WaitingRoomKey createWaitingRoomKey(ModbusMessage msg) {
         return new EncapWaitingRoomKey(msg.getSlaveId(), msg.getFunctionCode());
     }

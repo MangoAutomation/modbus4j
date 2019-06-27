@@ -27,74 +27,167 @@ import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.msg.ModbusMessage;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>ModbusUtils class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ModbusUtils {
+    /** Constant <code>TCP_PORT=502</code> */
     public static final int TCP_PORT = 502;
+    /** Constant <code>IP_PROTOCOL_ID=0</code> */
     public static final int IP_PROTOCOL_ID = 0; // Modbus protocol
 
     //    public static final int MAX_READ_BIT_COUNT = 2000;
     //    public static final int MAX_READ_REGISTER_COUNT = 125;
     //    public static final int MAX_WRITE_REGISTER_COUNT = 120;
 
+    /**
+     * <p>pushByte.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @param value a int.
+     */
     public static void pushByte(ByteQueue queue, int value) {
         queue.push((byte) value);
     }
 
+    /**
+     * <p>pushShort.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @param value a int.
+     */
     public static void pushShort(ByteQueue queue, int value) {
         queue.push((byte) (0xff & (value >> 8)));
         queue.push((byte) (0xff & value));
     }
 
+    /**
+     * <p>popByte.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a int.
+     */
     public static int popByte(ByteQueue queue) {
         return queue.pop();
     }
 
+    /**
+     * <p>popUnsignedByte.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a int.
+     */
     public static int popUnsignedByte(ByteQueue queue) {
         return queue.pop() & 0xff;
     }
 
+    /**
+     * <p>popShort.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a int.
+     */
     public static int popShort(ByteQueue queue) {
         return toShort(queue.pop(), queue.pop());
     }
 
+    /**
+     * <p>popUnsignedShort.</p>
+     *
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @return a int.
+     */
     public static int popUnsignedShort(ByteQueue queue) {
         return ((queue.pop() & 0xff) << 8) | (queue.pop() & 0xff);
     }
 
+    /**
+     * <p>toShort.</p>
+     *
+     * @param b1 a byte.
+     * @param b2 a byte.
+     * @return a short.
+     */
     public static short toShort(byte b1, byte b2) {
         return (short) ((b1 << 8) | (b2 & 0xff));
     }
 
+    /**
+     * <p>toByte.</p>
+     *
+     * @param value a short.
+     * @param first a boolean.
+     * @return a byte.
+     */
     public static byte toByte(short value, boolean first) {
         if (first)
             return (byte) (0xff & (value >> 8));
         return (byte) (0xff & value);
     }
 
+    /**
+     * <p>validateRegisterRange.</p>
+     *
+     * @param range a int.
+     */
     public static void validateRegisterRange(int range) {
         if (RegisterRange.getReadFunctionCode(range) == -1)
             throw new ModbusIdException("Invalid register range: " + range);
     }
 
+    /**
+     * <p>validateSlaveId.</p>
+     *
+     * @param slaveId a int.
+     * @param includeBroadcast a boolean.
+     */
     public static void validateSlaveId(int slaveId, boolean includeBroadcast) {
         if (slaveId < (includeBroadcast ? 0 : 1) /* || slaveId > 240 */)
             throw new IllegalSlaveIdException("Invalid slave id: " + slaveId);
     }
 
+    /**
+     * <p>validateBit.</p>
+     *
+     * @param bit a int.
+     */
     public static void validateBit(int bit) {
         if (bit < 0 || bit > 15)
             throw new ModbusIdException("Invalid bit: " + bit);
     }
 
+    /**
+     * <p>validateOffset.</p>
+     *
+     * @param offset a int.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public static void validateOffset(int offset) throws ModbusTransportException {
         if (offset < 0 || offset > 65535)
             throw new ModbusTransportException("Invalid offset: " + offset);
     }
 
+    /**
+     * <p>validateEndOffset.</p>
+     *
+     * @param offset a int.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public static void validateEndOffset(int offset) throws ModbusTransportException {
         if (offset > 65535)
             throw new ModbusTransportException("Invalid end offset: " + offset);
     }
 
+    /**
+     * <p>checkCRC.</p>
+     *
+     * @param modbusMessage a {@link com.serotonin.modbus4j.msg.ModbusMessage} object.
+     * @param queue a {@link com.serotonin.modbus4j.sero.util.queue.ByteQueue} object.
+     * @throws com.serotonin.modbus4j.exception.ModbusTransportException if any.
+     */
     public static void checkCRC(ModbusMessage modbusMessage, ByteQueue queue) throws ModbusTransportException {
         // Check the CRC
         int calcCrc = calculateCRC(modbusMessage);
@@ -105,6 +198,12 @@ public class ModbusUtils {
                     modbusMessage.getSlaveId());
     }
 
+    /**
+     * <p>calculateCRC.</p>
+     *
+     * @param modbusMessage a {@link com.serotonin.modbus4j.msg.ModbusMessage} object.
+     * @return a int.
+     */
     public static int calculateCRC(ModbusMessage modbusMessage) {
         ByteQueue queue = new ByteQueue();
         modbusMessage.write(queue);

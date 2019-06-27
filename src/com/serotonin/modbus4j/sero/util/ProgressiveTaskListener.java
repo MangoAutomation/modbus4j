@@ -21,12 +21,15 @@
 package com.serotonin.modbus4j.sero.util;
 
 /**
- * @author Matthew Lohbihler
+ * <p>ProgressiveTaskListener interface.</p>
  *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
  */
 public interface ProgressiveTaskListener {
     /**
      * Optionally called occasionally by the task to declare the progress that has been made.
+     *
      * @param progress float between 0 and 1 where 0 is no progress and 1 is completed.
      */
     void progressUpdate(float progress);

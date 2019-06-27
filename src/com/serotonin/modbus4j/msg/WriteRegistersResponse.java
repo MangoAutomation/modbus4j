@@ -25,10 +25,17 @@ import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
+/**
+ * <p>WriteRegistersResponse class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class WriteRegistersResponse extends ModbusResponse {
     private int startOffset;
     private int numberOfRegisters;
 
+    /** {@inheritDoc} */
     @Override
     public byte getFunctionCode() {
         return FunctionCode.WRITE_REGISTERS;
@@ -44,22 +51,34 @@ public class WriteRegistersResponse extends ModbusResponse {
         this.numberOfRegisters = numberOfRegisters;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void writeResponse(ByteQueue queue) {
         ModbusUtils.pushShort(queue, startOffset);
         ModbusUtils.pushShort(queue, numberOfRegisters);
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void readResponse(ByteQueue queue) {
         startOffset = ModbusUtils.popUnsignedShort(queue);
         numberOfRegisters = ModbusUtils.popUnsignedShort(queue);
     }
 
+    /**
+     * <p>Getter for the field <code>startOffset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getStartOffset() {
         return startOffset;
     }
 
+    /**
+     * <p>Getter for the field <code>numberOfRegisters</code>.</p>
+     *
+     * @return a int.
+     */
     public int getNumberOfRegisters() {
         return numberOfRegisters;
     }

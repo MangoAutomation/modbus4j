@@ -11,8 +11,10 @@ import java.io.OutputStream;
 import com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper;
 
 /**
- * @author Terry Packer
+ * <p>EpollStreamTransportCharSpaced class.</p>
  *
+ * @author Terry Packer
+ * @version 5.0.0
  */
 public class EpollStreamTransportCharSpaced extends EpollStreamTransport{
 
@@ -20,9 +22,12 @@ public class EpollStreamTransportCharSpaced extends EpollStreamTransport{
     private final OutputStream out; //Since the subclass has private members
 	
 	/**
-	 * @param in
-	 * @param out
-	 * @param epoll
+	 * <p>Constructor for EpollStreamTransportCharSpaced.</p>
+	 *
+	 * @param in a {@link java.io.InputStream} object.
+	 * @param out a {@link java.io.OutputStream} object.
+	 * @param epoll a {@link com.serotonin.modbus4j.sero.epoll.InputStreamEPollWrapper} object.
+	 * @param charSpacing a long.
 	 */
 	public EpollStreamTransportCharSpaced(InputStream in, OutputStream out,
 			InputStreamEPollWrapper epoll, long charSpacing) {
@@ -31,9 +36,11 @@ public class EpollStreamTransportCharSpaced extends EpollStreamTransport{
 		this.charSpacing = charSpacing;
 	}
 	
-	/**
-	 * Perform a write, ensure space between chars
-	 */
+    /**
+     * {@inheritDoc}
+     *
+     * Perform a write, ensure space between chars
+     */
 	@Override
     public void write(byte[] data) throws IOException {
 		
@@ -56,6 +63,7 @@ public class EpollStreamTransportCharSpaced extends EpollStreamTransport{
         out.flush();
     }
 
+    /** {@inheritDoc} */
     public void write(byte[] data, int len) throws IOException {
 		try{
 		long waited = 0,writeStart,writeEnd, waitRemaining;

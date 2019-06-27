@@ -22,10 +22,22 @@ package com.serotonin.modbus4j.base;
 
 import com.serotonin.modbus4j.code.RegisterRange;
 
+/**
+ * <p>RangeAndOffset class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class RangeAndOffset {
     private int range;
     private int offset;
 
+    /**
+     * <p>Constructor for RangeAndOffset.</p>
+     *
+     * @param range a int.
+     * @param offset a int.
+     */
     public RangeAndOffset(int range, int offset) {
         this.range = range;
         this.offset = offset;
@@ -34,6 +46,8 @@ public class RangeAndOffset {
     /**
      * This constructor provides a best guess at the function and offset the user wants, with the assumption that the
      * offset will never go over 9999.
+     *
+     * @param registerId a int.
      */
     public RangeAndOffset(int registerId) {
         if (registerId < 10000) {
@@ -54,10 +68,20 @@ public class RangeAndOffset {
         }
     }
 
+    /**
+     * <p>Getter for the field <code>range</code>.</p>
+     *
+     * @return a int.
+     */
     public int getRange() {
         return range;
     }
 
+    /**
+     * <p>Getter for the field <code>offset</code>.</p>
+     *
+     * @return a int.
+     */
     public int getOffset() {
         return offset;
     }

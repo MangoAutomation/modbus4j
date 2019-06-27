@@ -20,44 +20,92 @@
  */
 package com.serotonin.modbus4j.exception;
 
+/**
+ * <p>ModbusTransportException class.</p>
+ *
+ * @author Matthew Lohbihler
+ * @version 5.0.0
+ */
 public class ModbusTransportException extends Exception {
     private static final long serialVersionUID = -1;
 
     private final int slaveId;
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     */
     public ModbusTransportException() {
         this.slaveId = -1;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param slaveId a int.
+     */
     public ModbusTransportException(int slaveId) {
         this.slaveId = slaveId;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     * @param cause a {@link java.lang.Throwable} object.
+     * @param slaveId a int.
+     */
     public ModbusTransportException(String message, Throwable cause, int slaveId) {
         super(message, cause);
         this.slaveId = slaveId;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     * @param slaveId a int.
+     */
     public ModbusTransportException(String message, int slaveId) {
         super(message);
         this.slaveId = slaveId;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param message a {@link java.lang.String} object.
+     */
     public ModbusTransportException(String message) {
         super(message);
         this.slaveId = -1;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param cause a {@link java.lang.Throwable} object.
+     */
     public ModbusTransportException(Throwable cause) {
         super(cause);
         this.slaveId = -1;
     }
 
+    /**
+     * <p>Constructor for ModbusTransportException.</p>
+     *
+     * @param cause a {@link java.lang.Throwable} object.
+     * @param slaveId a int.
+     */
     public ModbusTransportException(Throwable cause, int slaveId) {
         super(cause);
         this.slaveId = slaveId;
     }
 
+    /**
+     * <p>Getter for the field <code>slaveId</code>.</p>
+     *
+     * @return a int.
+     */
     public int getSlaveId() {
         return slaveId;
     }
