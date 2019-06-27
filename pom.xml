@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.infiniteautomation</groupId>
     <artifactId>modbus4j</artifactId>
-    <version>3.0.5</version>
+    <version>3.0.5-SNAPSHOT</version>
     <name>Modbus4j Library</name>
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -96,7 +96,7 @@
         <url>https://github.com/infiniteautomation/modbus4j</url>
         <connection>scm:git:https://github.com/infiniteautomation/modbus4j.git</connection>
         <developerConnection>scm:git:[push=]https://github.com/infiniteautomation/modbus4j.git[fetch=]https://github.com/infiniteautomation/modbus4j.git</developerConnection>
-        <tag>v3.0.5</tag>
+        <tag>HEAD</tag>
     </scm>
 	<distributionManagement>
 	   <snapshotRepository>
