@@ -1,5 +1,12 @@
 package com.serotonin.modbus4j.ip.tcp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
@@ -7,11 +14,6 @@ import com.serotonin.modbus4j.msg.ModbusRequest;
 import com.serotonin.modbus4j.msg.ModbusResponse;
 import com.serotonin.modbus4j.serial.rtu.RtuMessageRequest;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.*;
 
 public class RtuOverTcpMaster extends ModbusMaster {
 
@@ -68,16 +70,25 @@ public class RtuOverTcpMaster extends ModbusMaster {
             byteQueue.read(inputStream,inputStream.available());
             return ModbusResponse.createModbusResponse(byteQueue);
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new ModbusTransportException(e);
         }
     }
 
-    public static class Options{
-
-        public boolean keepAlive=false;
-
-        public int waitTime=100;
-
+    public static class Options {
+        private boolean keepAlive = false;
+        private int waitTime = 100;
+        public boolean isKeepAlive() {
+            return keepAlive;
+        }
+        public void setKeepAlive(boolean keepAlive) {
+            this.keepAlive = keepAlive;
+        }
+        public int getWaitTime() {
+            return waitTime;
+        }
+        public void setWaitTime(int waitTime) {
+            this.waitTime = waitTime;
+        }
     }
 
 }
