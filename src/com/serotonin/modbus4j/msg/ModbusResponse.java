@@ -164,6 +164,16 @@ abstract public class ModbusResponse extends ModbusMessage {
     }
 
     /**
+     * check the Response . slaveid if equal request. slaveid
+     * @param request
+     * @throws ModbusTransportException
+     */
+    public void  validateResponse(ModbusRequest request) throws ModbusTransportException {
+        if(getSlaveId()!=request.slaveId)
+        	throw new SlaveIdNotEqual(request.slaveId, getSlaveId());         	
+    }
+    
+    /**
      * <p>main.</p>
      *
      * @param args an array of {@link java.lang.String} objects.
