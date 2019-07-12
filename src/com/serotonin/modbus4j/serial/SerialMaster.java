@@ -48,11 +48,23 @@ abstract public class SerialMaster extends ModbusMaster {
     
     /**
      * <p>Constructor for SerialMaster.</p>
+     * 
+     * Default to validating the slave id in responses
      *
      * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
     public SerialMaster(SerialPortWrapper wrapper) {
+        this(wrapper, true);
+    }
+    
+    /**
+     * <p>Constructor for SerialMaster.</p>
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @param validateResponse - confirm that requested slave id is the same in the response
+     */
+    public SerialMaster(SerialPortWrapper wrapper, boolean validateResponse) {
         this.wrapper = wrapper;
+        this.validateResponse = validateResponse;
     }
 
     /** {@inheritDoc} */

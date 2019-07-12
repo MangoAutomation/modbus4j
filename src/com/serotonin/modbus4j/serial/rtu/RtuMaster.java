@@ -45,13 +45,24 @@ public class RtuMaster extends SerialMaster {
     private MessageControl conn;
     
     /**
-     * For legacy purposes, create RTU Master and
-     * compute the character and message frame spacing
-     *
+     * <p>Constructor for RtuMaster.</p>
+     * 
+     * Default to validating the slave id in responses
+     * 
      * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
-    public RtuMaster(SerialPortWrapper wrapper){
-    	super(wrapper);
+    public RtuMaster(SerialPortWrapper wrapper) {
+        super(wrapper, true);
+    }
+    
+    /**
+     * <p>Constructor for RtuMaster.</p>
+     * 
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @param validateResponse - confirm that requested slave id is the same in the response
+     */
+    public RtuMaster(SerialPortWrapper wrapper, boolean validateResponse) {
+        super(wrapper, validateResponse);
     }
 
     /** {@inheritDoc} */

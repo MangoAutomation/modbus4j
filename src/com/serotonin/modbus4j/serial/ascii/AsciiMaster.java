@@ -43,11 +43,22 @@ public class AsciiMaster extends SerialMaster {
 
     /**
      * <p>Constructor for AsciiMaster.</p>
-     *
+     * 
+     * Default to validating the slave id in responses
+     * 
      * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
     public AsciiMaster(SerialPortWrapper wrapper) {
-        super(wrapper);
+        super(wrapper, true);
+    }
+    
+    /**
+     * 
+     * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
+     * @param validateResponse - confirm that requested slave id is the same in the response
+     */
+    public AsciiMaster(SerialPortWrapper wrapper, boolean validateResponse) {
+        super(wrapper, validateResponse);
     }
 
     /** {@inheritDoc} */

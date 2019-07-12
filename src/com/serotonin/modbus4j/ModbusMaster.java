@@ -66,6 +66,12 @@ import com.serotonin.modbus4j.sero.util.ProgressiveTask;
 abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;
     private int retries = 2;
+    
+    /**
+     * Should we validate the responses:
+     *  - ensure that the requested slave id is what is in the response
+     */
+    protected boolean validateResponse;
 
     /**
      * If connection is established with slave/slaves
@@ -139,7 +145,8 @@ abstract public class ModbusMaster extends Modbus {
     public final ModbusResponse send(ModbusRequest request) throws ModbusTransportException {
         request.validate(this);
 		ModbusResponse modbusResponse = sendImpl(request);
-		modbusResponse.validateResponse(request);
+		if(validateResponse)
+		    modbusResponse.validateResponse(request);
 		return modbusResponse;
     }
 

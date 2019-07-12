@@ -76,6 +76,8 @@ public class TcpListener extends ModbusMaster {
 
     /**
      * <p>Constructor for TcpListener.</p>
+     * 
+     * Will validate response to ensure that slaveId == response slaveId if encapsulated is true
      *
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
      */
@@ -83,7 +85,24 @@ public class TcpListener extends ModbusMaster {
         LOG.debug("Creating TcpListener in port " + params.getPort());
         ipParameters = params;
         connected = false;
-        LOG.debug("TcpListener created! Port: " + ipParameters.getPort());
+        validateResponse = ipParameters.isEncapsulated();
+        if(LOG.isDebugEnabled())
+            LOG.debug("TcpListener created! Port: " + ipParameters.getPort());
+    }
+    
+    /**
+     * Control to validate response to ensure that slaveId == response slaveId
+     * 
+     * @param params
+     * @param validateResponse 
+     */
+    public TcpListener(IpParameters params, boolean validateResponse) {
+        LOG.debug("Creating TcpListener in port " + params.getPort());
+        ipParameters = params;
+        connected = false;
+        this.validateResponse = validateResponse;
+        if(LOG.isDebugEnabled())
+            LOG.debug("TcpListener created! Port: " + ipParameters.getPort());
     }
 
     /**

@@ -73,26 +73,42 @@ public class TcpMaster extends ModbusMaster {
 
     /**
      * <p>Constructor for TcpMaster.</p>
-     *
-     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
-     * @param keepAlive a boolean.
-     * @param autoIncrementTransactionId a boolean.
+     * 
+     * @param params
+     * @param keepAlive
+     * @param autoIncrementTransactionId
+     * @param validateResponse - confirm that requested slave id is the same in the response
      */
-    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId) {
+    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId, boolean validateResponse) {
         this.ipParameters = params;
         this.keepAlive = keepAlive;
         this.autoIncrementTransactionId = autoIncrementTransactionId;
     }
     
+    /**
+     * <p>Constructor for TcpMaster.</p>
+     * Default to not validating the slave id in responses
+     * 
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     * @param autoIncrementTransactionId a boolean.
+     */
+    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId) {
+        this(params, keepAlive, autoIncrementTransactionId, false);
+    }
+    
     
     /**
      * <p>Constructor for TcpMaster.</p>
+     * 
+     * Default to auto increment transaction id
+     * Default to not validating the slave id in responses
      *
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
      * @param keepAlive a boolean.
      */
     public TcpMaster(IpParameters params, boolean keepAlive) {
-        this(params, keepAlive, true);
+        this(params, keepAlive, true, false);
     }
 
     /**

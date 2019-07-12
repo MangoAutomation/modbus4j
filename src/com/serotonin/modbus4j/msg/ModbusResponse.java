@@ -26,6 +26,7 @@ import com.serotonin.modbus4j.code.ExceptionCode;
 import com.serotonin.modbus4j.code.FunctionCode;
 import com.serotonin.modbus4j.exception.IllegalFunctionException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
+import com.serotonin.modbus4j.exception.SlaveIdNotEqual;
 import com.serotonin.modbus4j.sero.util.queue.ByteQueue;
 
 /**
@@ -164,12 +165,12 @@ abstract public class ModbusResponse extends ModbusMessage {
     }
 
     /**
-     * check the Response . slaveid if equal request. slaveid
+     * Ensure that the Response slave id is equal to the requested slave id
      * @param request
      * @throws ModbusTransportException
      */
     public void  validateResponse(ModbusRequest request) throws ModbusTransportException {
-        if(getSlaveId()!=request.slaveId)
+        if(getSlaveId() != request.slaveId)
         	throw new SlaveIdNotEqual(request.slaveId, getSlaveId());         	
     }
     

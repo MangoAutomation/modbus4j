@@ -1,3 +1,6 @@
+*Release notes for 3.0.6*
+* Add ability to validate slave ID in responses.  Defaults to enabled for Ascii, RTU and Encapsulated TCP, disabled for Tcp and Udp
+
 *Release notes for 3.0.4*
 * TcpMaster now allows optionally controlling transaction id.
 * Adding single byte low and high types to read from registers

@@ -61,12 +61,25 @@ public class UdpMaster extends ModbusMaster {
     /**
      * <p>Constructor for UdpMaster.</p>
      *
+     * Default to not validating the slave id in responses
+     * 
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
      */
     public UdpMaster(IpParameters params) {
-        ipParameters = params;
+        this(params, false);
     }
 
+    /**
+     * <p>Constructor for UdpMaster.</p>
+     * 
+     * @param params
+     * @param validateResponse - confirm that requested slave id is the same in the response
+     */
+    public UdpMaster(IpParameters params, boolean validateResponse) {
+        ipParameters = params;
+        this.validateResponse = validateResponse;
+    }
+    
     /**
      * <p>Getter for the field <code>nextTransactionId</code>.</p>
      *
