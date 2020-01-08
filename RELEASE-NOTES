@@ -1,5 +1,6 @@
 *Release notes for 3.0.6*
 * Add ability to validate slave ID in responses.  Defaults to enabled for Ascii, RTU and Encapsulated TCP, disabled for Tcp and Udp
+* Add retry to serial connections if the connection is broken try to re-open the serial port retries number of times
 
 *Release notes for 3.0.4*
 * TcpMaster now allows optionally controlling transaction id.
