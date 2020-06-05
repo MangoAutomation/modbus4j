@@ -5,12 +5,12 @@
  *
  * Copyright (C) 2006-2011 Serotonin Software Technologies Inc. http://serotoninsoftware.com
  * @author Matthew Lohbihler
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -30,18 +30,22 @@ import java.util.Map;
  * @version 5.0.0
  */
 public class BatchResults<K> {
-    protected final Map<K, Object> data = new HashMap<>();
+    private final Map<K, Object> data = new HashMap<>();
 
     /**
      * <p>addResult.</p>
      *
-     * @param key   a K object.
+     * @param key a K object.
      * @param value a {@link java.lang.Object} object.
      */
     public void addResult(K key, Object value) {
         data.put(key, value);
     }
 
+    /**
+     * <p>Add result sets in bulk</p>
+     * @param results Batch results
+     */
     public void addBatchResults(BatchResults<K> results) {
         this.data.putAll(results.data);
     }
@@ -96,9 +100,7 @@ public class BatchResults<K> {
         return (Float) getValue(key);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return data.toString();
