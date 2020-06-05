@@ -5,12 +5,12 @@
  *
  * Copyright (C) 2006-2011 Serotonin Software Technologies Inc. http://serotoninsoftware.com
  * @author Matthew Lohbihler
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,7 +20,8 @@
  */
 package com.serotonin.modbus4j.serial.rtu;
 
-import java.io.IOException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.serotonin.modbus4j.exception.ModbusInitException;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
@@ -40,24 +41,26 @@ import com.serotonin.modbus4j.sero.messaging.StreamTransport;
  * @version 5.0.0
  */
 public class RtuMaster extends SerialMaster {
-	
+
+    private final Log LOG = LogFactory.getLog(RtuMaster.class);
+
     // Runtime fields.
     private MessageControl conn;
-    
+
     /**
      * <p>Constructor for RtuMaster.</p>
-     * 
+     *
      * Default to validating the slave id in responses
-     * 
+     *
      * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      */
     public RtuMaster(SerialPortWrapper wrapper) {
         super(wrapper, true);
     }
-    
+
     /**
      * <p>Constructor for RtuMaster.</p>
-     * 
+     *
      * @param wrapper a {@link com.serotonin.modbus4j.serial.SerialPortWrapper} object.
      * @param validateResponse - confirm that requested slave id is the same in the response
      */
@@ -68,19 +71,26 @@ public class RtuMaster extends SerialMaster {
     /** {@inheritDoc} */
     @Override
     public void init() throws ModbusInitException {
-        super.init();
-
-        RtuMessageParser rtuMessageParser = new RtuMessageParser(true);
-        conn = getMessageControl();
         try {
-            conn.start(transport, rtuMessageParser, null, new SerialWaitingRoomKeyFactory());
-            if (getePoll() == null)
-                ((StreamTransport) transport).start("Modbus RTU master");
+            openConnection(null);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             throw new ModbusInitException(e);
         }
         initialized = true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void openConnection(MessageControl toClose) throws Exception {
+        super.openConnection(toClose);
+
+        RtuMessageParser rtuMessageParser = new RtuMessageParser(true);
+        this.conn = getMessageControl();
+        this.conn.start(transport, rtuMessageParser, null, new SerialWaitingRoomKeyFactory());
+        if (getePoll() == null) {
+            ((StreamTransport) transport).start("Modbus RTU master");
+        }
     }
 
     /** {@inheritDoc} */
@@ -106,13 +116,21 @@ public class RtuMaster extends SerialMaster {
             return rtuResponse.getModbusResponse();
         }
         catch (Exception e) {
-            throw new ModbusTransportException(e, request.getSlaveId());
-        }
-        finally {
-            
+            try {
+                LOG.debug("Connection may have been reset. Attempting to re-open.");
+                openConnection(conn);
+                rtuResponse = (RtuMessageResponse) conn.send(rtuRequest);
+                if (rtuResponse == null)
+                    return null;
+                return rtuResponse.getModbusResponse();
+            }catch(Exception e2) {
+                closeConnection(conn);
+                LOG.debug("Failed to re-connect", e);
+                throw new ModbusTransportException(e2, request.getSlaveId());
+            }
         }
     }
-    
+
     /**
      * RTU Spec:
      * For baud greater than 19200
@@ -130,7 +148,7 @@ public class RtuMaster extends SerialMaster {
             return 1750000l; //Nanoseconds
         }
         else {
-        	float charTime = computeCharacterTime(wrapper);
+            float charTime = computeCharacterTime(wrapper);
             return (long) (charTime * 3.5f);
         }
     }
@@ -152,12 +170,12 @@ public class RtuMaster extends SerialMaster {
             return 750000l; //Nanoseconds
         }
         else {
-        	float charTime = computeCharacterTime(wrapper);
+            float charTime = computeCharacterTime(wrapper);
             return (long) (charTime * 1.5f);
         }
     }
 
-    
+
     /**
      * Compute the time it takes to transmit 1 character with
      * the provided Serial Parameters.
@@ -178,18 +196,18 @@ public class RtuMaster extends SerialMaster {
         //Compute the char size
         float charBits = wrapper.getDataBits();
         switch (wrapper.getStopBits()) {
-        case 1:
-            //Strangely this results in 0 stop bits.. in JSSC code
-            break;
-        case 2:
-            charBits += 2f;
-            break;
-        case 3:
-            //1.5 stop bits
-            charBits += 1.5f;
-            break;
-        default:
-            throw new ShouldNeverHappenException("Unknown stop bit size: " + wrapper.getStopBits());
+            case 1:
+                //Strangely this results in 0 stop bits.. in JSSC code
+                break;
+            case 2:
+                charBits += 2f;
+                break;
+            case 3:
+                //1.5 stop bits
+                charBits += 1.5f;
+                break;
+            default:
+                throw new ShouldNeverHappenException("Unknown stop bit size: " + wrapper.getStopBits());
         }
 
         if (wrapper.getParity() > 0)
