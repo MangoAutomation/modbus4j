@@ -66,6 +66,9 @@ import com.serotonin.modbus4j.sero.util.ProgressiveTask;
 abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;
     private int retries = 2;
+
+    //default linger to -1 (disabled)
+    private int lingerTime = 5;
     
     /**
      * Should we validate the responses:
@@ -595,5 +598,23 @@ abstract public class ModbusMaster extends Modbus {
             slaveProfiles.put(slaveId, sp);
         }
         return sp;
+    }
+
+    /**
+     * <p>Getter for the field <code>linger</code>.</p>
+     *
+     * @return an int.
+     */
+    public int getLingerTime() {
+        return lingerTime;
+    }
+
+    /**
+     * <p>Setter for the field <code>linger</code>.</p>
+     *
+     * @param lingerTime an int.
+     */
+    public void setLingerTime(int lingerTime) {
+        this.lingerTime = lingerTime;
     }
 }

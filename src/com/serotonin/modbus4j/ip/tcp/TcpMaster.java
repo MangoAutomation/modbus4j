@@ -206,7 +206,7 @@ public class TcpMaster extends ModbusMaster {
             return ipResponse.getModbusResponse();
         }
         catch (Exception e) {
-            LOG.debug("Exception: " + e.getMessage() + " " + e.getLocalizedMessage());
+            LOG.debug("Exception: " + e.getClass().getName() + ": " + e.getMessage() + " " + e.getLocalizedMessage());
             if (keepAlive) {
                 LOG.debug("KeepAlive - reconnect!");
                 // The connection may have been reset, so try to reopen it and attempt the message again.
@@ -227,7 +227,7 @@ public class TcpMaster extends ModbusMaster {
                 }
                 catch (Exception e2) {
                     closeConnection();
-                    LOG.debug("Exception: " + e2.getMessage() + " " + e2.getLocalizedMessage());
+                    LOG.debug("Exception: "  + e.getClass().getName() + ": " + e2.getMessage() + " " + e2.getLocalizedMessage());
                     throw new ModbusTransportException(e2, request.getSlaveId());
                 }
             }
@@ -249,40 +249,19 @@ public class TcpMaster extends ModbusMaster {
         // Make sure any existing connection is closed.
         closeConnection();
 
-        // Try 'retries' times to get the socket open.
-        int retries = getRetries();
-        int retryPause = RETRY_PAUSE_START;
-        while (true) {
-            try {
-                socket = new Socket();
-                socket.setSoTimeout(getTimeout());
-                socket.connect(new InetSocketAddress(ipParameters.getHost(), ipParameters.getPort()), getTimeout());
-                if (getePoll() != null)
-                    transport = new EpollStreamTransport(socket.getInputStream(), socket.getOutputStream(), getePoll());
-                else
-                    transport = new StreamTransport(socket.getInputStream(), socket.getOutputStream());
-                break;
-            }
-            catch (IOException e) {
-                closeConnection();
+        int linger = getLingerTime();
 
-                if (retries <= 0)
-                    throw e;
-
-                retries--;
-
-                // Pause for a bit.
-                try {
-                    Thread.sleep(retryPause);
-                }
-                catch (InterruptedException e1) {
-                    // ignore
-                }
-                retryPause *= 2;
-                if (retryPause > RETRY_PAUSE_MAX)
-                    retryPause = RETRY_PAUSE_MAX;
-            }
-        }
+        socket = new Socket();
+        socket.setSoTimeout(getTimeout());
+        if(linger < 0)
+            socket.setSoLinger(false, 0);
+        else
+            socket.setSoLinger(true, linger);
+        socket.connect(new InetSocketAddress(ipParameters.getHost(), ipParameters.getPort()), getTimeout());
+        if (getePoll() != null)
+            transport = new EpollStreamTransport(socket.getInputStream(), socket.getOutputStream(), getePoll());
+        else
+            transport = new StreamTransport(socket.getInputStream(), socket.getOutputStream());
 
         BaseMessageParser ipMessageParser;
         WaitingRoomKeyFactory waitingRoomKeyFactory;
