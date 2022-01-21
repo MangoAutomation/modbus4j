@@ -32,7 +32,7 @@ public class IpParameters {
     private String host;
     private int port = ModbusUtils.TCP_PORT;
     private boolean encapsulated;
-    private int linger = -1;
+    private Integer lingerTime = -1;
     private int maxSkipPolls = 0;
     private float scaleFactor = 1f;
 
@@ -96,14 +96,14 @@ public class IpParameters {
      *
      * @return a int.
      */
-    public int getLinger() { return linger; }
+    public Integer getLingerTime() { return lingerTime; }
 
     /**
      * <p>Setter for the field <code>linger</code>.</p>
      *
-     * @param linger a int.
+     * @param lingerTime a int.
      */
-    public void setLinger(int linger) { this.linger = linger; }
+    public void setLingerTime(Integer lingerTime) { this.lingerTime = lingerTime; }
 
     /**
      * <p>Getter for the field <code>maxSkipPolls</code>.</p>
