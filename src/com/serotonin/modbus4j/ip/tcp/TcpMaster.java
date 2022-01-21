@@ -187,10 +187,13 @@ public class TcpMaster extends ModbusMaster {
 
         // Send the request to get the response.
         IpMessageResponse ipResponse;
-        LOG.debug("Sending on port: " +  ipParameters.getPort());
+        if(LOG.isDebugEnabled()){
+            LOG.debug("Sending on port: " +  ipParameters.getPort());
+        }
         try {
             if(conn == null){
-                LOG.debug("Connection null: " +  ipParameters.getPort());
+                if(LOG.isDebugEnabled())
+                    LOG.debug("Connection null: " +  ipParameters.getPort());
             }
             ipResponse = (IpMessageResponse) conn.send(ipRequest);
             if (ipResponse == null)
@@ -206,12 +209,15 @@ public class TcpMaster extends ModbusMaster {
             return ipResponse.getModbusResponse();
         }
         catch (Exception e) {
-            LOG.debug("Exception: " + e.getClass().getName() + ": " + e.getMessage() + " " + e.getLocalizedMessage());
+            if(LOG.isDebugEnabled())
+                LOG.debug("Exception sending message",e);
             if (keepAlive) {
-                LOG.debug("KeepAlive - reconnect!");
+                if(LOG.isDebugEnabled())
+                    LOG.debug("KeepAlive - reconnect!");
                 // The connection may have been reset, so try to reopen it and attempt the message again.
                 try {
-                    LOG.debug("Modbus4J: Keep-alive connection may have been reset. Attempting to re-open.");
+                    if(LOG.isDebugEnabled())
+                        LOG.debug("Modbus4J: Keep-alive connection may have been reset. Attempting to re-open.");
                     openConnection();
                     ipResponse = (IpMessageResponse) conn.send(ipRequest);
                     if (ipResponse == null)
@@ -227,7 +233,8 @@ public class TcpMaster extends ModbusMaster {
                 }
                 catch (Exception e2) {
                     closeConnection();
-                    LOG.debug("Exception: "  + e.getClass().getName() + ": " + e2.getMessage() + " " + e2.getLocalizedMessage());
+                    if(LOG.isDebugEnabled())
+                        LOG.debug("Exception re-sending message",e);
                     throw new ModbusTransportException(e2, request.getSlaveId());
                 }
             }
