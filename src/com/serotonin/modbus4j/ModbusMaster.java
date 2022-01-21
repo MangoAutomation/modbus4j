@@ -67,9 +67,6 @@ abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;
     private int retries = 2;
 
-    //default linger to -1 (disabled)
-    private int lingerTime = 5;
-    
     /**
      * Should we validate the responses:
      *  - ensure that the requested slave id is what is in the response
@@ -600,21 +597,5 @@ abstract public class ModbusMaster extends Modbus {
         return sp;
     }
 
-    /**
-     * <p>Getter for the field <code>linger</code>.</p>
-     *
-     * @return an int.
-     */
-    public int getLingerTime() {
-        return lingerTime;
-    }
 
-    /**
-     * <p>Setter for the field <code>linger</code>.</p>
-     *
-     * @param lingerTime an int.
-     */
-    public void setLingerTime(int lingerTime) {
-        this.lingerTime = lingerTime;
-    }
 }

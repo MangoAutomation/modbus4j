@@ -56,8 +56,6 @@ import com.serotonin.modbus4j.sero.messaging.WaitingRoomKeyFactory;
  * @version 5.0.0
  */
 public class TcpMaster extends ModbusMaster {
-    private static final int RETRY_PAUSE_START = 50;
-    private static final int RETRY_PAUSE_MAX = 1000;
 
     // Configuration fields.
     private final Log LOG = LogFactory.getLog(TcpMaster.class);
@@ -65,11 +63,13 @@ public class TcpMaster extends ModbusMaster {
     private final IpParameters ipParameters;
     private final boolean keepAlive;
     private final boolean autoIncrementTransactionId;
+    private final Integer lingerTime;
 
     // Runtime fields.
     private Socket socket;
     private Transport transport;
     private MessageControl conn;
+
 
     /**
      * <p>Constructor for TcpMaster.</p>
@@ -78,37 +78,72 @@ public class TcpMaster extends ModbusMaster {
      * @param keepAlive
      * @param autoIncrementTransactionId
      * @param validateResponse - confirm that requested slave id is the same in the response
+     * @param lingerTime The setting only affects socket close.
      */
-    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId, boolean validateResponse) {
+    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId, boolean validateResponse, Integer lingerTime) {
         this.ipParameters = params;
         this.keepAlive = keepAlive;
         this.autoIncrementTransactionId = autoIncrementTransactionId;
+        this.lingerTime = lingerTime;
+    }
+
+    /**
+     * <p>Constructor for TcpMaster.</p>
+     *
+     * Default to lingerTime disabled
+     *
+     * @param params
+     * @param keepAlive
+     * @param autoIncrementTransactionId
+     * @param validateResponse - confirm that requested slave id is the same in the response
+     */
+    public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId, boolean validateResponse) {
+        this(params, keepAlive, autoIncrementTransactionId, validateResponse, -1);
+        //this.ipParameters = params;
+        //this.keepAlive = keepAlive;
+        //this.autoIncrementTransactionId = autoIncrementTransactionId;
     }
 
     /**
      * <p>Constructor for TcpMaster.</p>
      * Default to not validating the slave id in responses
+     * Default to lingerTime disabled
      *
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
      * @param keepAlive a boolean.
      * @param autoIncrementTransactionId a boolean.
      */
     public TcpMaster(IpParameters params, boolean keepAlive, boolean autoIncrementTransactionId) {
-        this(params, keepAlive, autoIncrementTransactionId, false);
+        this(params, keepAlive, autoIncrementTransactionId, false, -1);
     }
-
 
     /**
      * <p>Constructor for TcpMaster.</p>
      *
      * Default to auto increment transaction id
      * Default to not validating the slave id in responses
+     * Default to lingerTime disabled
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     * @param lingerTime an Integer. The setting only affects socket close.
+     */
+    public TcpMaster(IpParameters params, boolean keepAlive,Integer lingerTime) {
+        this(params, keepAlive, true, false, lingerTime);
+    }
+
+    /**
+     * <p>Constructor for TcpMaster.</p>
+     *
+     * Default to auto increment transaction id
+     * Default to not validating the slave id in responses
+     * Default to lingerTime disabled
      *
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
      * @param keepAlive a boolean.
      */
     public TcpMaster(IpParameters params, boolean keepAlive) {
-        this(params, keepAlive, true, false);
+        this(params, keepAlive, true, false,-1);
     }
 
     /**
@@ -256,14 +291,14 @@ public class TcpMaster extends ModbusMaster {
         // Make sure any existing connection is closed.
         closeConnection();
 
-        int linger = getLingerTime();
+        Integer soLinger = getLingerTime();
 
         socket = new Socket();
         socket.setSoTimeout(getTimeout());
-        if(linger < 0)
+        if(soLinger == null || soLinger < 0)//any null or negative will disable SO_Linger
             socket.setSoLinger(false, 0);
         else
-            socket.setSoLinger(true, linger);
+            socket.setSoLinger(true, soLinger);
         socket.connect(new InetSocketAddress(ipParameters.getHost(), ipParameters.getPort()), getTimeout());
         if (getePoll() != null)
             transport = new EpollStreamTransport(socket.getInputStream(), socket.getOutputStream(), getePoll());
@@ -300,4 +335,14 @@ public class TcpMaster extends ModbusMaster {
         conn = null;
         socket = null;
     }
+
+    /**
+     * <p>Getter for the field <code>lingerTime</code>.</p>
+     *
+     * @return an Integer.
+     */
+    public Integer getLingerTime() {
+        return lingerTime;
+    }
+
 }
