@@ -32,6 +32,10 @@ public class IpParameters {
     private String host;
     private int port = ModbusUtils.TCP_PORT;
     private boolean encapsulated;
+    private int linger = -1;
+    private int maxSkipPolls = 0;
+    private float scaleFactor = 1f;
+
 
     /**
      * <p>Getter for the field <code>host</code>.</p>
@@ -86,4 +90,47 @@ public class IpParameters {
     public void setEncapsulated(boolean encapsulated) {
         this.encapsulated = encapsulated;
     }
+
+    /**
+     * <p>Getter for the field <code>linger</code>.</p>
+     *
+     * @return a int.
+     */
+    public int getLinger() { return linger; }
+
+    /**
+     * <p>Setter for the field <code>linger</code>.</p>
+     *
+     * @param linger a int.
+     */
+    public void setLinger(int linger) { this.linger = linger; }
+
+    /**
+     * <p>Getter for the field <code>maxSkipPolls</code>.</p>
+     *
+     * @return a int.
+     */
+    public int getMaxSkipPolls() { return maxSkipPolls; }
+
+    /**
+     * <p>Setter for the field <code>maxSkipPolls</code>.</p>
+     *
+     * @param maxSkipPolls a int.
+     */
+    public void setMaxSkipPolls(int maxSkipPolls) { this.maxSkipPolls = maxSkipPolls; }
+
+    /**
+     * <p>Getter for the field <code>scaleFactor</code>.</p>
+     *
+     * @return a int.
+     */
+    public float getScaleFactor() { return scaleFactor; }
+
+    /**
+     * <p>Setter for the field <code>scaleFactor</code>.</p>
+     *
+     * @param scaleFactor a int.
+     */
+    public void setScaleFactor(float scaleFactor) { this.scaleFactor = scaleFactor; }
+
 }
