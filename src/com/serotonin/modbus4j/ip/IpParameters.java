@@ -33,8 +33,6 @@ public class IpParameters {
     private int port = ModbusUtils.TCP_PORT;
     private boolean encapsulated;
     private Integer lingerTime = -1;
-    private int maxSkipPolls = 0;
-    private float scaleFactor = 1f;
 
 
     /**
@@ -105,32 +103,6 @@ public class IpParameters {
      */
     public void setLingerTime(Integer lingerTime) { this.lingerTime = lingerTime; }
 
-    /**
-     * <p>Getter for the field <code>maxSkipPolls</code>.</p>
-     *
-     * @return a int.
-     */
-    public int getMaxSkipPolls() { return maxSkipPolls; }
 
-    /**
-     * <p>Setter for the field <code>maxSkipPolls</code>.</p>
-     *
-     * @param maxSkipPolls a int.
-     */
-    public void setMaxSkipPolls(int maxSkipPolls) { this.maxSkipPolls = maxSkipPolls; }
-
-    /**
-     * <p>Getter for the field <code>scaleFactor</code>.</p>
-     *
-     * @return a int.
-     */
-    public float getScaleFactor() { return scaleFactor; }
-
-    /**
-     * <p>Setter for the field <code>scaleFactor</code>.</p>
-     *
-     * @param scaleFactor a int.
-     */
-    public void setScaleFactor(float scaleFactor) { this.scaleFactor = scaleFactor; }
 
 }
