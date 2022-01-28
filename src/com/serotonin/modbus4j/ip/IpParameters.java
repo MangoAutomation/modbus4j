@@ -32,6 +32,8 @@ public class IpParameters {
     private String host;
     private int port = ModbusUtils.TCP_PORT;
     private boolean encapsulated;
+    private Integer lingerTime = -1;
+
 
     /**
      * <p>Getter for the field <code>host</code>.</p>
@@ -86,4 +88,21 @@ public class IpParameters {
     public void setEncapsulated(boolean encapsulated) {
         this.encapsulated = encapsulated;
     }
+
+    /**
+     * <p>Getter for the field <code>linger</code>.</p>
+     *
+     * @return a int.
+     */
+    public Integer getLingerTime() { return lingerTime; }
+
+    /**
+     * <p>Setter for the field <code>linger</code>.</p>
+     *
+     * @param lingerTime a int.
+     */
+    public void setLingerTime(Integer lingerTime) { this.lingerTime = lingerTime; }
+
+
+
 }

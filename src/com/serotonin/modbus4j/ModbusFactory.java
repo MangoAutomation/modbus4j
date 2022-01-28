@@ -83,6 +83,18 @@ public class ModbusFactory {
     }
 
     /**
+     * <p>createTcpMaster.</p>
+     *
+     * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.
+     * @param keepAlive a boolean.
+     * @param lingerTime an Integer.
+     * @return a {@link com.serotonin.modbus4j.ModbusMaster} object.
+     */
+    public ModbusMaster createTcpMaster(IpParameters params, boolean keepAlive, Integer lingerTime) {
+        return new TcpMaster(params, keepAlive,lingerTime);
+    }
+
+    /**
      * <p>createUdpMaster.</p>
      *
      * @param params a {@link com.serotonin.modbus4j.ip.IpParameters} object.

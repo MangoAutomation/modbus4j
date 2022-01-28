@@ -66,7 +66,7 @@ import com.serotonin.modbus4j.sero.util.ProgressiveTask;
 abstract public class ModbusMaster extends Modbus {
     private int timeout = 500;
     private int retries = 2;
-    
+
     /**
      * Should we validate the responses:
      *  - ensure that the requested slave id is what is in the response
@@ -596,4 +596,6 @@ abstract public class ModbusMaster extends Modbus {
         }
         return sp;
     }
+
+
 }

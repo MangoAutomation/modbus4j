@@ -1,3 +1,11 @@
+*Release notes for 3.1.0*
+* Remove the retries on openConnection()
+* Add the lingerTime to one of the constructors on TcpMaster and set it into the socket connection.
+* The lingerTime will be an Integer representing seconds and any negative or null value will disable it.
+* SO_LINGER will be set in the socket connection and will only affect on close connection
+* Factory method added to account for lingerTime
+* Remove the no longer used RETRY_PAUSE_ fields from TcpMaster
+
 *Release notes for 3.0.6*
 * Add ability to validate slave ID in responses.  Defaults to enabled for Ascii, RTU and Encapsulated TCP, disabled for Tcp and Udp
 * Add retry to serial connections if the connection is broken try to re-open the serial port retries number of times
