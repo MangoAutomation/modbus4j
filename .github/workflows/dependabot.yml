@@ -1,0 +1,22 @@
+name: GitHub Security Alerts for Jira
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  syncSecurityAlerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Sync security alerts to Jira issues"
+        uses: reload/github-security-jira@v1.x
+        env:
+          GH_SECURITY_TOKEN: ${{ secrets.GH_SECURITY_TOKEN }}
+          JIRA_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_HOST: https://radixiot.atlassian.net
+          JIRA_USER: ${{ secrets.JIRA_API_EMAIL }}
+          JIRA_ISSUE_TYPE: Security
+          JIRA_ISSUE_LABELS: Dependabot
+          JIRA_PROJECT: RAD
+          JIRA_WATCHERS: benjamin.perez@radixiot.com
