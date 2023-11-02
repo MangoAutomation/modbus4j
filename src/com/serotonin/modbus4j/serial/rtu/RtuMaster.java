@@ -117,7 +117,7 @@ public class RtuMaster extends SerialMaster {
         }
         catch (Exception e) {
             try {
-                LOG.debug("Connection may have been reset. Attempting to re-open.");
+                LOG.debug("Connection may have been reset. Attempting to re-open.", e);
                 openConnection(conn);
                 rtuResponse = (RtuMessageResponse) conn.send(rtuRequest);
                 if (rtuResponse == null)
@@ -125,7 +125,7 @@ public class RtuMaster extends SerialMaster {
                 return rtuResponse.getModbusResponse();
             }catch(Exception e2) {
                 closeConnection(conn);
-                LOG.debug("Failed to re-connect", e);
+                LOG.debug("Failed to re-connect", e2);
                 throw new ModbusTransportException(e2, request.getSlaveId());
             }
         }
