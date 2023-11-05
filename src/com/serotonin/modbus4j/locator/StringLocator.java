@@ -100,7 +100,7 @@ public class StringLocator extends BaseLocator<String> {
 
             if (nullPos == -1)
                 return new String(data, offset, length, charset);
-            return new String(data, offset, nullPos, charset);
+            return new String(data, offset, nullPos-offset, charset);
         }
 
         throw new RuntimeException("Unsupported data type: " + dataType);
