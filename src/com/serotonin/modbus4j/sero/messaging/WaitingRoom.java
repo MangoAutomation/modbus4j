@@ -22,6 +22,10 @@ class WaitingRoom {
         this.keyFactory = keyFactory;
     }
 
+    public Boolean hasWait()
+    {
+        return !waitHere.isEmpty();
+    }
     /**
      * The request message should be sent AFTER entering the waiting room so that the (vanishingly small) chance of a
      * response being returned before the thread is waiting for it is eliminated.

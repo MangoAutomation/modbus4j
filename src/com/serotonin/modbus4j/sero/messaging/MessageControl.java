@@ -250,6 +250,10 @@ public class MessageControl implements DataConsumer {
      * Incoming data from the transport. Single-threaded.
      */
     public void data(byte[] b, int len) {
+        if(!waitingRoom.hasWait())
+        {
+            return;
+        }
         if (DEBUG)
             System.out.println("MessagingConnection.read: " + StreamUtils.dumpHex(b, 0, len));
         if (ioLog != null)
