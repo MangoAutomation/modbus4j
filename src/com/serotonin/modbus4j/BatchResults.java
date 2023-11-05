@@ -43,6 +43,14 @@ public class BatchResults<K> {
     }
 
     /**
+     * <p>Add result sets in bulk</p>
+     * @param results Batch results
+     */
+    public void addBatchResults(BatchResults<K> results) {
+        this.data.putAll(results.data);
+    }
+
+    /**
      * <p>getValue.</p>
      *
      * @param key a K object.
