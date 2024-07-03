@@ -105,7 +105,7 @@ public class InputStreamListener implements Runnable {
                 }
                 catch (IOException e) {
                     consumer.handleIOException(e);
-                    if (StringUtils.equals(e.getMessage(), "Stream closed."))
+                    if (StringUtils.equals(e.getMessage(), "Stream Closed"))
                         break;
                     if (StringUtils.contains(e.getMessage(), "nativeavailable"))
                         break;
